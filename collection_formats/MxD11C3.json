@@ -1,0 +1,84 @@
+{
+  "description" : "Collection format for selected bands from the MODIS MxD11C3 (Aqua and Terra) monthly LST data",
+  "tags" : ["MODIS", "LST"],
+  "pattern" : ".*\\.hdf.*",
+  "subdatasets" : true,
+  "images" : {
+    "pattern" : "HDF4_EOS:EOS_GRID:\"(.+)\\.hdf.*"
+  },
+  "datetime" : {
+    "pattern" : ".*M[OY]D11C3\\.A(.{7})[^/]*",
+    "format" : "%Y%j"
+  },
+  "bands" : {
+    "LST_Day_CMG" : {
+      "pattern" : ".+LST_Day_CMG",
+      "unit" : "Kelvin",
+      "scale": 0.02,
+      "nodata": 0
+    },
+    "QC_Day" : {
+      "pattern" : ".+QC_Day"
+    },
+    "Day_view_time" : {
+      "pattern" : ".+Day_view_time",
+      "scale" : 0.2,
+      "unit" : "Hours"
+  },
+      "Day_view_angle" : {
+      "pattern" : ".+Day_view_angle",
+      "unit" : "Degree"
+  },
+      "Clear_sky_days" : {
+      "pattern" : ".+Clear_sky_days"
+  },
+      "LST_Night_CMG" : {
+      "pattern" : ".+LST_Night_CMG",
+      "scale" : 0.02,
+      "unit" : "Kelvin"
+  },
+      "QC_Night" : {
+      "pattern" : ".+QC_Night"
+  },
+      "Night_view_time" : {
+      "pattern" : ".+Night_view_time",
+      "scale" : 0.2,
+      "unit" : "Hours"
+  },
+      "Night_view_angl" : {
+      "pattern" : ".+Night_view_angl",
+      "unit" : "Degree"
+  },
+      "Clear_sky_nights" : {
+      "pattern" : ".+Clear_sky_nights"
+  },
+      "Emis_20" : {
+      "pattern" : ".+Emis_20",
+      "scale" : 0.002
+  },
+      "Emis_22" : {
+      "pattern" : ".+Emis_22",
+      "scale" : 0.002
+  },
+      "Emis_23" : {
+      "pattern" : ".+Emis_23",
+      "scale" : 0.002
+  },
+      "Emis_29" : {
+      "pattern" : ".+Emis_29",
+      "scale" : 0.002
+  },
+      "Emis_31" : {
+      "pattern" : ".+Emis_31",
+      "scale" : 0.002
+  },
+      "Emis_32" : {
+      "pattern" : ".+Emis_32",
+      "scale" : 0.002
+  },
+      "Percent_land_in_grid" : {
+      "pattern" : ".+Percent_land_in_grid",
+      "unit" : "Percent"
+  }
+ }
+}

@@ -1,0 +1,30 @@
+---
+title: ""
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: true
+editor_options:
+  chunk_output_type: console
+bibliography: ../report/references.bib
+csl: ../report/elsevier-harvard.csl
+---
+
+```{r setup, include=FALSE}
+source("../code/workflowr-utils.R")
+```
+
+```{r read-intro, include=FALSE}
+read_lines("../report/04-results.Rmd") %>%
+  str_replace_all("\\\\\\\\textit\\{(.*?)\\}", "\\*\\1\\*") %>% # latex to markdown
+  str_replace_all("\\\\\\\\textbf\\{(.*?)\\}", "\\*\\*\\1\\*\\*") %>% # latex to markdown
+  str_replace_all('\\\\\\\\makecell\\[cc\\]\\{(.*?\\")\\}', '\\1') %>% # remove latex cells in tables
+  #str_replace_all("\\_[(.*?)]{1,3}\\_", "\\*\\*\\1\\*\\*") %>% # markdown underscores to asteriks
+  #str_replace_all("__(.*?)__", "\\*\\1\\*") %>% # markdown underscores to asteriks
+  str_replace_all("\\\\.*?\\{landscape\\}", "") %>% # remove landscape pages
+  str_replace_all("####", "##") -> chunk
+```
+
+`r knitr::knit(text = chunk)`
+
+# References

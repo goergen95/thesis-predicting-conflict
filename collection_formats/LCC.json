@@ -1,0 +1,34 @@
+{
+  "description" : "Collection format LCC extract",
+  "pattern" : ".+\\.tif",
+  "images" : {
+    "pattern" : ".*(.{1}_.{4})\\.tif"
+  },
+  "datetime" : {
+    "pattern" : ".*.{1}_(.{4})\\.tif",
+    "format" : "%Y"
+  },
+  "bands": {
+    "cropland" : {
+      "pattern" : ".+cropland+.*\\.tif"
+    },
+    "bare" : {
+      "pattern" : ".+bare+.*\\.tif"
+    },
+    "grassland" : {
+      "pattern" : ".+grassland+.*\\.tif"
+    },
+    "shrubland" : {
+      "pattern" : ".+shrubland+.*\\.tif"
+    },
+    "urban" : {
+      "pattern" : ".+builtup+.*\\.tif"
+    },
+    "forest" : {
+      "pattern" : ".+forest+.*\\.tif"
+    },
+    "water" : {
+      "pattern" : ".+water+.*\\.tif"
+    }
+  }
+}

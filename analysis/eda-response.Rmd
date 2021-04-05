@@ -1,0 +1,586 @@
+---
+title: "Response Variable"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: true
+editor_options:
+  chunk_output_type: console
+bibliography: ../report/references.bib
+csl: ../report/elsevier-harvard.csl
+---
+
+
+```{r setup, include = FALSE}
+source("../code/workflowr-utils.R")
+```
+
+# Units of analysis
+
+Two different units of analysis are tested against their capability
+to capture environmental processes contributing to the occurrences of
+violent conflict. The first unit of analysis represents NUTS-3 Level
+of administrative units over the African continent.
+
+```{r read-adm}
+adm = st_read("../data/vector/states_mask.gpkg", quiet = T)
+adm = adm[,c("adm1_code", "adm1_code", "name", "name_de", "name_en", "type_en",
+             "latitude", "longitude", "sov_a3", "adm0_a3", "geonunit")]
+adm
+```
+
+As we can see from above output, we end up with 847 features in total covering
+the African continent. Let's plot a map which's color is based on the country
+a certain polygon belongs to. The results should look quite familiar:
+
+```{r plot-adm}
+
+adm %<>%
+  mutate(area = st_area(geom))
+
+adm %>%
+  group_by(sov_a3) %>%
+  summarise(geom = st_union(geom), area = sum(area)) %>%
+  st_centroid() -> adm_point
+
+tmap_options(max.categories = 50)
+
+tm_shape(adm) +
+  tm_polygons("sov_a3", border.col = "white", lwd = .5) +
+  tm_shape(adm_point) +
+  tm_text("sov_a3", size = "area") +
+  tm_legend(show = FALSE)
+
+```
+
+In comparison to administrative units we test the capability of sub-basin watersheds
+to capture the pattern of violent conflicts. The selection of the appropriate
+level was mainly driven to obtain a comparable number of units in order to not 
+include a bias by diverging sizes. Thus the fifth level of the Hydrosheds datasets
+was chosen.
+
+```{r read-basins}
+bas = st_read("../data/vector/basins_mask.gpkg", quiet = TRUE)
+bas
+```
+The total number of units is 1013 which is roughly comparable to the number of
+administrative units. On a map we get a less familiar pattern of the African 
+continent, however, we can distinguish between the main watersheds.
+
+```{r plot-bas}
+bas_group = st_read("../data/raw/hydrosheds/hybas_af_lev03_v1c.shp", quiet = TRUE)
+bas_group %<>% 
+  mutate(HYBAS_ID = as.factor(HYBAS_ID))
+
+bas %<>%
+  mutate(area = st_area(geom))
+
+tm_shape(bas_group) +
+  tm_polygons("HYBAS_ID", lwd = 0) +
+  tm_shape(bas) +
+  tm_borders("white", lwd = .3) +
+  tm_legend(show = FALSE)
+```
+
+The next plot shows a comparison of the distribution of area size between the 
+two different units of analysis. The average area size of the sub-basin watersheds
+is slightly higher compared to the administrative units. However, for both
+types of units the majority of individuals lie in a comparable range. For administrative
+units there are both more small as well as very large units. Overall, the size
+of the units remains comparable between the two. 
+
+```{r comp-area}
+
+data = data.frame(group = c(rep("ADM", nrow(adm)), rep("BAS", nrow(bas))), 
+                  area = c(as.numeric(adm$area / 1000000), as.numeric(bas$area / 1000000)))
+
+ggplot(data) +
+  geom_boxplot(aes(y=area, group=group, fill=group)) +
+  labs(fill = "unit of analysis", y="Area [km²]") +
+  theme_classic() +
+  scale_y_continuous(labels = scales::comma) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+```
+
+# Conflict data
+
+We use data from the Upsala conflict data program to retrieve the response variable
+for this project. The database is an event database, meaning that every reported
+violent conflict with at least one death is included as an single event associated
+with information on involved actors, time and location as well as estimated deaths
+by party involved. Since the data is mainly collected automatically sometimes
+inaccuracies concerning the exact location or the number of deaths are introduced.
+However, the data creators include information on the accuracy and thus the reliablity
+for each logged event.
+We downloaded the database for the African continent and filtered it to events 
+occurring between 2000 and 2019 and additionally only included events for which
+the quality of the geographic localization was at least accurate on the sub-national
+level and the accuracy of the time was at least on a monthly scale.
+Additionally, the data is provided with three different classes of conflict which
+were extracted as well. These are state-based violence, non-state violence and 
+one-sided violence.
+
+```{r load-response}
+load("../data/raw/ged/ged201.RData")
+ged201$date_start = as.Date(ged201$date_start, "%Y/%m/%d")
+ged201 = st_as_sf(ged201, coords =  c("longitude", "latitude"), crs = "EPSG:4326")
+ged201 = ged201[which(st_intersects(st_union(adm), ged201, sparse = FALSE)), ]
+
+ged201 %>%
+  as_tibble() %>%
+  mutate(date_start =  as.Date(date_start, "%Y/%m/%d")) %>%
+  filter(date_start > as.Date("1999-12-31"), 
+         where_prec %in% c(1,2,3),
+         date_prec != 5) %>%
+  select(type_of_violence, date_start, starts_with("deaths_"), country, geometry) -> response_raw
+response_raw
+```
+In total we obtained 86,377 distinct events coupled with the filtering explained above.
+The diagram below indicates the distribution of these events over the time period
+on a monthly scale.
+
+
+```{r response-dist}
+response_raw %>%
+  mutate(month = zoo::as.yearmon(date_start),
+         type_of_violence = factor(type_of_violence, labels = c("state-based", "non-state", "one-sided"))) %>%
+  group_by(month, type_of_violence) %>%
+  summarise(count = n()) %>%
+  complete(month, type_of_violence, fill = list(count = 0)) -> data 
+
+ggplot(data) +
+  geom_bar(aes(y=count, x=month, fill = type_of_violence), stat = "identity") +
+  theme_classic() +
+  labs(y="Number of events", x="Time", fill="Type of violence") +
+  theme(legend.position="bottom")
+```
+We can assume an increasing trend in the number of events over the time period. Also,
+the percentage of non-state violence increases over time, mainly to the cost of one-sided 
+violence. We also can observe some kind of seasonal cycle in the number of conflicts.
+In order to verify these assumptions we can conduct a decomposition of the time-series.
+We firstly do so for the total number of events and then we conduct the same analysis
+by type.
+
+```{r dec-all}
+response_raw %>%
+  mutate(month = zoo::as.yearmon(date_start),
+         type_of_violence = factor(type_of_violence, labels = c("state-based", "non-state", "one-sided"))) %>%
+  group_by(month) %>%
+  summarise(count = n())  -> ts_data
+ts_data = ts(ts_data$count, start = c(2000,1), frequency = 12)
+dec = decompose(ts_data)
+
+data = data.frame(obsv = as.numeric(dec$x),
+                  seasonal = as.numeric(dec$seasonal),
+                  trend =  as.numeric(dec$trend),
+                  random = as.numeric(dec$random),
+                  date = seq(as.Date("2000-01-01"), as.Date("2019-12-31"), by = "month"))
+
+data %>%
+  as_tibble() %>%
+  gather(component, value, -date) %>%
+  mutate(component = factor(component, levels = c("obsv", "trend", "seasonal", "random"))) %>%
+  ggplot() +
+  geom_line(aes(x=date, y=value), color = "royalblue3") +
+  facet_wrap(~component, nrow = 4, scales = "free_y") +
+  theme_classic() +
+  labs(y = "Value", x = "Time")
+
+```
+Concerning the decomposition of all types of violence combined we observe an 
+unsteady trend pattern from 2000 to 2010, but a substantial increase afterwards. 
+In 2014 the trend stabilizes at a high level. The seasonality of the data is quite 
+strong, with a peak in January and a period with low occurrences between August 
+and December.
+
+```{r dec-type}
+response_raw %>%
+  mutate(month = zoo::as.yearmon(date_start),
+         type_of_violence = factor(type_of_violence, labels = c("state-based", "non-state", "one-sided"))) %>%
+  group_by(month, type_of_violence) %>%
+  summarise(count = n()) %>%
+  complete(month, type_of_violence, fill = list(count = 0))-> ts_data2
+
+dec_types = lapply(c("state-based", "non-state", "one-sided"), function(x){
+  ts_data2 %>%
+    filter(type_of_violence == x) %>%
+    pull(count) %>%
+    ts(start = c(2000,1), frequency = 12) %>%
+    decompose() 
+})
+
+names(dec_types) = c("state-based", "non-state", "one-sided")
+
+plt_data = lapply(c("state-based", "non-state", "one-sided"), function(x){
+  tmp  = dec_types[[x]]
+  tmp = data.frame(type = x,
+                   obsv = as.numeric(tmp$x),
+                   seasonal = as.numeric(tmp$seasonal),
+                   trend =  as.numeric(tmp$trend),
+                   random = as.numeric(tmp$random),
+                   date = seq(as.Date("2000-01-01"), as.Date("2019-12-31"), by = "month"))
+  tmp
+})
+
+plt_data = do.call(rbind, plt_data)
+
+plt_data %>%
+  as_tibble() %>%
+  gather(component, value, -type, -date) %>%
+  mutate(component = factor(component, levels = c("obsv", "trend", "seasonal", "random")),
+         type = factor(type, levels = c("state-based", "non-state", "one-sided"))) %>%
+  ggplot() +
+  geom_line(aes(x=date, y=value, color=type)) +
+  facet_wrap(~component, nrow = 4, scales = "free_y") +
+  theme_classic() +
+  labs(y = "Value", x = "Time", color = "Type of violence") +
+  theme(legend.position="bottom")
+
+```
+
+When we analyse the decomposition based on types of conflicts, we see that state-based
+violence is dominating the overall pattern. By far the most conflicts belong to that
+class and the seasonal and trend pattern of all classes combined mainly mirrors 
+the dynamic found for state-based violence. 
+The patterns for non-state and one-sided violence are quite distinct from the
+former class, however, the two are very much alike. The seasonal pattern shows
+that the lowest number of conflicts are found from September through December while
+the peak number of conflicts is found in January. Concerning the trend, one-sided
+violence overall is rather stable over the time period. After 2005 there is a steady
+increase in non-state violence which increases substantially in slope with the year 2017.
+
+Aside from the count of events, we can analyze the number of casualties which were
+suffered when the events occurred. As pointed out before, the casualties are ordered
+by participating groups and additionally deaths of civilians and unknown deaths are
+included in the database. Here we will focus on the total number of deaths, irrespective
+of the group affiliation.
+
+```{r deaths-hist}
+response_raw %>%
+  mutate(month = zoo::as.yearmon(date_start),
+         type_of_violence = factor(type_of_violence, labels = c("state-based", "non-state", "one-sided"))) %>%
+  group_by(month, type_of_violence) %>%
+  summarise(deaths = sum(deaths_civilians, deaths_a, deaths_b, deaths_unknown)) %>%
+  complete(month, type_of_violence, fill = list(deaths = 0))-> deaths_dat
+
+deaths_dat %>%
+  group_by(month) %>%
+  #summarise(deaths = sum(deaths)) %>%
+  ggplot() +
+  geom_histogram(aes(x=deaths, group = type_of_violence, color = type_of_violence, fill = type_of_violence), 
+                 alpha=0.5, position="stack", binwidth = 50)+
+  theme_classic() +
+  labs(y="Count", x="Number of casualties", color = "Type of violence", fill = "Type of violence") +
+  theme(legend.position = "bottom")
+
+```
+
+The histogram of the number of casualties reveals that one-sided and state-based 
+violence generally are associated with numbers of casualties
+below 1000. State-based violence on the other hand clearly is the most frequent
+violence class with casualties higher 1000.
+
+```{r deaths-ts}
+deaths_dat %>%
+  ggplot() +
+  geom_bar(aes(y=deaths, x=month, fill = type_of_violence), stat = "identity") +
+  theme_classic() +
+  labs(y="Number of casulties", x="Time", fill="Type of violence") +
+  theme(legend.position="bottom")
+```
+Concerning the dynamic of casualties over time, we can observe relatively high
+numbers of casualties at the beginning of the time series with a low episode around
+from 2005 to 2010. Starting with 2011, the casualties seem to increase and the
+number of casualties reaches its highest level of the complete time series between
+2014 and 2015. There is a small decrease towards the year 2018.
+
+```{r deaths-dec}
+deaths_dat %>%
+  group_by(month) %>%
+  summarise(deaths = sum(deaths)) %>%
+  pull(deaths) %>%
+  ts(start = c(2000,1), frequency = 12) %>%
+  decompose() -> dec
+
+data = data.frame(obsv = as.numeric(dec$x),
+                  seasonal = as.numeric(dec$seasonal),
+                  trend =  as.numeric(dec$trend),
+                  random = as.numeric(dec$random),
+                  date = seq(as.Date("2000-01-01"), as.Date("2019-12-31"), by = "month"))
+
+data %>%
+  as_tibble() %>%
+  gather(component, value, -date) %>%
+  mutate(component = factor(component, levels = c("obsv", "trend", "seasonal", "random"))) %>%
+  ggplot() +
+  geom_line(aes(x=date, y=value), color = "royalblue3") +
+  facet_wrap(~component, nrow = 4, scales = "free_y") +
+  theme_classic() +
+  labs(y = "Value", x = "Time")
+```
+
+The general trend irrespective of the violent type shows a flat dynamic from
+2005 to 2010. After that year the slope of the frend increases substantially resulting
+in the highest peak between 2014 and 2015 which remains on a relativly high level
+even towards 2018. The seasonality of casualties is quite similar to the total number of 
+events, namely with a bimodal peak in March and May. The month with the lowest
+numbers of casualties is November.
+
+
+```{r deaths-dec-type}
+deaths_dec = lapply(c("state-based", "non-state", "one-sided"), function(x){
+  deaths_dat %>%
+    filter(type_of_violence == x) %>%
+    pull(deaths) %>%
+    ts(start = c(2000,1), frequency = 12) %>%
+    decompose() 
+})
+
+names(deaths_dec) = c("state-based", "non-state", "one-sided")
+
+plt_data = lapply(c("state-based", "non-state", "one-sided"), function(x){
+  tmp  = deaths_dec[[x]]
+  tmp = data.frame(type = x,
+                   obsv = as.numeric(tmp$x),
+                   seasonal = as.numeric(tmp$seasonal),
+                   trend =  as.numeric(tmp$trend),
+                   random = as.numeric(tmp$random),
+                   date = seq(as.Date("2000-01-01"), as.Date("2019-12-31"), by = "month"))
+  tmp
+})
+
+plt_data = do.call(rbind, plt_data)
+
+plt_data %>%
+  as_tibble() %>%
+  gather(component, value, -type, -date) %>%
+  mutate(component = factor(component, levels = c("obsv", "trend", "seasonal", "random")),
+         type = factor(type, levels = c("state-based", "non-state", "one-sided"))) %>%
+  ggplot() +
+  geom_line(aes(x=date, y=value, color=type)) +
+  facet_wrap(~component, nrow = 4, scales = "free_y") +
+  theme_classic() +
+  labs(y = "Value", x = "Time", color = "Type of violence") +
+  theme(legend.position="bottom")
+```
+Unsurprisingly, the general time-series is dominated by the signal of state-based violence
+as well.
+However, the seasonality of casualties for the different types of violence are more 
+alike than compared to the total number of events. The local peak during the years
+2008 to 2009 is not observed in non-state and one-sided violence. The same is true
+for non-state violence where there is no substantial increase in casualties in 2014.
+The increase is observed with one-sided violence, however, the trend flips shortly
+after 2015 showing a greater stability than compared with state-based violence.
+
+# Combining response with units of analysis
+
+Until now the analysis of violent conflict took a perspective on the African
+continent as a whole. Since the overall aim of this project is to establish a 
+machine learning model to predict violent conflict for smaller spatial units, 
+a spatio-temporal aggregation of the conflict data is needed. 
+To achieve this, in the first step we declare a spatio-temporal objects based 
+on the spatial information of the units of analysis. We will need the package 
+`spacetime` for this.
+
+```{r st-units}
+library(spacetime)
+date_vec = seq(as.Date("2000-01-01"), as.Date("2019-12-31"), by = "month")
+
+adm_st = STF(as_Spatial(adm), date_vec)
+bas_st = STF(as_Spatial(bas), date_vec)
+str(bas_st@time)
+```
+
+As evident from the above output these objects now contain a time slot where 
+the information on the time dimension is stored. We specified a monthly resolution
+from January 2000 to December 2019. 
+The next step is to aggregate the conflict data based on their location in space
+and time and add the data to the objects declared above. Note, that we are aggregating
+the total sum of deaths irrespective of the classification but we want to keep
+information on the type of violence. Therefor the raw data is in need for some
+restructuring.
+
+
+```{r st-aggregate, eval=FALSE}
+response_raw %>% 
+  mutate(deaths = deaths_civilians + deaths_a + deaths_b + deaths_unknown) %>%
+  select(type_of_violence, date_start, deaths, geometry) -> agg_data 
+classes = c("sb", "ns", "os", "all")
+
+for(i in 1:4){ # loop through types of conflict + all types
+  print(i)
+  if(i != 4){ # filter if appropriate
+    points = as_Spatial(st_as_sf(agg_data[agg_data$type_of_violence == i, ]))
+  } else { # else take all conflicts
+    points = as_Spatial(st_as_sf(agg_data)) 
+  }
+  # declaration of a space-time data frame
+  points_st = STIDF(points, points$date_start, data = data.frame(casualties = points$deaths))
+  # aggregate the sum of deahts
+  res_adm = aggregate(points_st, adm_st, sum, na.rm = T)
+  saveRDS(res_adm, paste0("../data/vector/ged/st_adm_", classes[i],".rds"))
+  rm(res_adm)
+  gc()
+  print("Done with ADM.")
+  res_bas = aggregate(points_st, bas_st, sum, na.rm = T)
+  saveRDS(res_bas, paste0("../data/vector/ged/st_bas_", classes[i],".rds"))
+  rm(res_bas)
+  gc()
+  print("Done with BAS.")
+}
+```
+
+## Read and write to GPKG.
+
+```{r eval=FALSE}
+bas_data = list.files("../data/vector/ged/", pattern ="bas", full.names = T)
+adm_data = list.files("../data/vector/ged/", pattern ="adm", full.names = T)
+
+for(x in bas_data){
+  object = readRDS(x)
+  object@data[is.na(object@data)] = 0 # set NA to 0 for no conflict
+  object = as(object, "Spatial")
+  object = st_as_sf(object)
+  st_crs(object) = st_crs(4326)
+  type = str_remove(str_split(basename(x), "_")[[1]][3], ".rds")
+  names(object)[1:(ncol(object)-1)] = format(as.Date(names(object)[1:(ncol(object)-1)]), "%b-%Y")
+  st_write(object, paste0("../data/vector/response_", type, "_basins.gpkg"), delete_dsn = T)
+}
+
+for(x in adm_data){
+  object = readRDS(x)
+  object@data[is.na(object@data)] = 0 # set NA to 0 for no conflict
+  object = as(object, "Spatial")
+  object = st_as_sf(object)
+  st_crs(object) = st_crs(4326)
+  type = str_remove(str_split(basename(x), "_")[[1]][3], ".rds")
+  names(object)[1:(ncol(object)-1)] = format(as.Date(names(object)[1:(ncol(object)-1)]), "%b-%Y")
+  st_write(object, paste0("../data/vector/response_", type, "_states.gpkg"), delete_dsn = T)
+}
+```
+
+```{r}
+files = list.files("../data/vector/", pattern = "response", full.names = T)
+
+results = list()
+for(i in c("basins", "states")){
+  tmp_files  = files[grep(i, files)]
+  levels = sapply(tmp_files, function(x) str_split(basename(x), "_")[[1]][2], USE.NAMES = F)
+  data = do.call(rbind, lapply(1:length(tmp_files), function(x){
+    tmp_files[x] %>%
+      st_read(quiet=T) %>%
+      st_drop_geometry %>%
+      mutate(id = 1:n()) %>%
+      gather("time", "value", -id) %>%
+      mutate(type = levels[x])
+  })
+  )
+  results[[i]] = data
+}
+
+```
+
+## Unbalanced Data set
+
+```{r}
+results$basins %>%
+  as_tibble() %>%
+  mutate(conflict = if_else(value>0, "yes", "no")) %>%
+  count(conflict) -> n_bas
+
+results$states %>%
+  as_tibble() %>%
+  mutate(conflict = if_else(value>0, "yes", "no")) %>%
+  count(conflict) -> n_adm
+
+dat = data.frame(unit = c("states", "basins"), perc = c(n_adm$n[n_adm$conflict=="yes"]/n_adm$n[n_adm$conflict=="no"]*100,
+                                                        n_bas$n[n_bas$conflict=="yes"]/n_bas$n[n_bas$conflict=="no"]*100))
+
+ggplot(dat) +
+  geom_bar(aes(x=unit, y=perc, fill=unit), color = "white", stat="identity", width = .5) +
+  theme_classic() +
+  labs(x="", y="Percentage of conflict district-months", fill="Unit of analysis")
+```
+```{r}
+results$basins$unit = "basin"
+results$states$unit = "states"
+
+data = as_tibble(do.call(rbind, results))
+
+data %>%
+  #filter(type == "all") %>%
+  mutate(conflict = if_else(value>0, "yes", "no")) %>%
+  group_by(id, unit, type) %>%
+  summarise(conflict = sum(conflict == "yes"), deaths = sum(value)) %>%
+  ggplot() +
+  geom_point(aes(x=conflict, y=deaths, color=unit), alpha=.4) +
+  facet_wrap(~type) +
+  theme_classic() +
+  labs(y="Number of casualties", x="Number of district-months with conflict",
+       color="Unit of analysis")
+```
+
+```{r}
+data %>%
+  #filter(type == "all") %>%
+  mutate(conflict = if_else(value>0, "yes", "no")) %>%
+  group_by(unit, type, time) %>%
+  summarise(conflict = sum(conflict == "yes"), deaths = sum(value)) %>%
+  ggplot() +
+  geom_line(aes(x=time, y=conflict, color=unit, group=unit), alpha=.6) +
+  facet_wrap(~type) +
+  theme_classic() +
+  labs(y="Number of districts with conflict", x="Time",
+       color="Unit of analysis") +
+  theme(axis.ticks.x=element_blank(),
+        axis.text.x=element_blank())
+```
+
+# Spatial Pattern
+
+
+```{r}
+data %>%
+  #filter(type == "all") %>%
+  mutate(conflict = if_else(value>0, "yes", "no")) %>%
+  group_by(id, unit, type) %>%
+  summarise(conflict = sum(conflict == "yes"), deaths = sum(value)) %>%
+  ungroup() %>%
+  group_split(unit) -> g_data
+names(g_data) = c("basin", "states")
+
+adm$id = 1:nrow(adm)
+bas$id = 1:nrow(bas)
+
+adm = left_join(adm, g_data$states)
+bas = left_join(bas, g_data$basin)
+
+```
+
+```{r map-adm-deaths}
+tm_shape(adm) +
+  tm_polygons(col = "deaths", palette = "-RdYlBu", breaks = c(0,10,50,100,500,1000,2000,4000,6000,8000,10000,+Inf), border.col = "gray", lwd = .5) +
+  tm_facets("type")
+```
+```{r map-adm-conficts}
+tm_shape(adm) +
+  tm_polygons(col = "conflict", palette = "-RdYlBu", breaks = c(0,5,10,25,50,75,100,150,+Inf), border.col = "gray", lwd = .5) +
+  tm_facets("type")
+```
+
+
+```{r map-bas-deaths}
+tm_shape(bas) +
+  tm_polygons(col = "deaths", palette = "-RdYlBu", breaks = c(0,10,50,100,500,1000,2000,4000,6000,8000,10000,+Inf), border.col = "gray", lwd = .5) +
+  tm_facets("type")
+```
+
+
+```{r map-bas-conficts}
+tm_shape(bas) +
+  tm_polygons(col = "conflict", palette = "-RdYlBu", breaks = c(0,5,10,25,50,75,100,150,+Inf), border.col = "gray", lwd = .5) +
+  tm_facets("type")
+```

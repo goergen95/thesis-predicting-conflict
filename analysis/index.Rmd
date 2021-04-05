@@ -1,0 +1,17 @@
+---
+title: "Home"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r echo=FALSE, results='asis'}
+library(stringr)
+lines = readLines("../README.md")
+lines = str_replace_all(lines, "assets/", "../assets/")
+lines = str_replace_all(lines, "LICENSE.md", "license.html")
+cat(lines, sep = "\n")
+```

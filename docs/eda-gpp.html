@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Gross Primary Productivity</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">masterthesis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    EDA
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="eda-response.html">Response Variable</a>
+    </li>
+    <li>
+      <a href="eda-anom.html">Precipitation Anomalies</a>
+    </li>
+    <li>
+      <a href="eda-dep.html">Dependency Ratio</a>
+    </li>
+    <li>
+      <a href="eda-et.html">Evapotranspiration</a>
+    </li>
+    <li>
+      <a href="eda-gdp.html">Gross Domestic Product</a>
+    </li>
+    <li>
+      <a href="eda-gpp.html">Gross Primary Productivity</a>
+    </li>
+    <li>
+      <a href="eda-lst.html">Land Surface Temperature</a>
+    </li>
+    <li>
+      <a href="eda-lvstk.html">Livestock</a>
+    </li>
+    <li>
+      <a href="eda-pop.html">Population</a>
+    </li>
+    <li>
+      <a href="eda-prec.html">Precipitation</a>
+    </li>
+    <li>
+      <a href="eda-spi.html">Standardized Precipitation Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-spei.html">Standardized Precipitation-Evapotranspiration Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-tri.html">Terrain Roudgeddness Index (TRI)</a>
+    </li>
+    <li>
+      <a href="eda-trt.html">Travel Time</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Thesis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="thesis-intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="thesis-data.html">Data</a>
+    </li>
+    <li>
+      <a href="thesis-methods.html">Methods</a>
+    </li>
+    <li>
+      <a href="thesis-results.html">Results</a>
+    </li>
+    <li>
+      <a href="thesis-discussion.html">Discussion</a>
+    </li>
+    <li>
+      <a href="thesis-conclusion.html">Conclusion</a>
+    </li>
+    <li>
+      <a href="thesis-appendix.html">Appendix</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Gross Primary Productivity</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks">
+Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-03-24
+</p>
+<p>
+<strong>Checks:</strong>
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+5
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>thesis/analysis/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version
+1.6.2). The <em>Checks</em> tab describes the
+reproducibility checks that were applied when the results were created.
+The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Environment:</strong> empty
+</a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global
+environment can affect the analysis in your R Markdown file in unknown ways.
+For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210321code">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Seed:</strong> <code>set.seed(20210321)</code>
+</a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210321code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210321)</code> was run prior to running the code in the R Markdown file.
+Setting a seed ensures that any results that rely on randomness,
+e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Session information:</strong> recorded
+</a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is
+critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Cache:</strong> none
+</a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident
+that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>File paths:</strong> relative
+</a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project
+makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongnoversioncontrol">
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<strong>Repository version:</strong> no version control
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongnoversioncontrol" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Tracking code development and connecting the code version to the results is
+critical for reproducibility. To start using Git, open the Terminal and type
+<code>git init</code> in your project directory.</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+This project is not being versioned with Git. To obtain the full
+reproducibility benefits of using workflowr, please see
+<code>?wflow_start</code>.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="loading-the-data" class="section level1">
+<h1><span class="header-section-number">1</span> Loading the data</h1>
+<pre class="r"><code>files = list.files(&quot;../data/vector/extraction/&quot;, pattern = &quot;_GPP&quot;, full.names = T)
+
+data = lapply(files, function(x){
+  filename = str_split(basename(x), &quot;_&quot;)[[1]]
+  if(length(filename) == 3){
+    unit = filename[1]
+    buffer = as.numeric(filename[2])
+    var = str_remove(filename[3], &quot;.gpkg&quot;)
+  } else {
+    unit = filename[1]
+    buffer = 0
+    var =  str_remove(filename[2], &quot;.gpkg&quot;)
+  }
+  
+  layers = ogrListLayers(x)
+  layers = layers[grep(&quot;attr_&quot;, layers)]
+  data = do.call(cbind, lapply(layers, function(l){
+    tmp = st_read(x, layer = l, quiet = TRUE)
+    names(tmp) = l
+    tmp
+  }))
+  
+  data$id = 1:nrow(data)
+  data %&gt;%
+    as_tibble() %&gt;%
+    mutate(unit = unit, buffer = buffer, var = var) %&gt;%
+    gather(&quot;time&quot;, &quot;value&quot;, -id, -unit, -buffer, -var) %&gt;%
+    mutate(time = str_remove(time, &quot;attr_&quot;))
+})
+
+data = do.call(rbind, data)
+str(data)</code></pre>
+<pre><code>tibble [1,785,600 × 6] (S3: tbl_df/tbl/data.frame)
+ $ id    : int [1:1785600] 1 2 3 4 5 6 7 8 9 10 ...
+ $ unit  : chr [1:1785600] &quot;basins&quot; &quot;basins&quot; &quot;basins&quot; &quot;basins&quot; ...
+ $ buffer: num [1:1785600] 100 100 100 100 100 100 100 100 100 100 ...
+ $ var   : chr [1:1785600] &quot;GPP&quot; &quot;GPP&quot; &quot;GPP&quot; &quot;GPP&quot; ...
+ $ time  : chr [1:1785600] &quot;2000-06&quot; &quot;2000-06&quot; &quot;2000-06&quot; &quot;2000-06&quot; ...
+ $ value : num [1:1785600] 384.2 4.85 4.87 5.2 6.96 ...</code></pre>
+</div>
+<div id="missing-values" class="section level1">
+<h1><span class="header-section-number">2</span> Missing Values</h1>
+<pre class="r"><code>data %&gt;%
+  group_by(unit, buffer) %&gt;%
+  summarise(N = n(), isna = sum(is.na(value)), isnotna = sum(!is.na(value)), perc = sum(is.na(value)) / n() * 100)</code></pre>
+<pre><code># A tibble: 8 x 6
+# Groups:   unit [2]
+  unit   buffer      N  isna isnotna   perc
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;int&gt; &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;
+1 basins      0 243120 39360  203760 16.2  
+2 basins     50 243120 22800  220320  9.38 
+3 basins    100 243120 15840  227280  6.52 
+4 basins    200 243120  6480  236640  2.67 
+5 states      0 203280   480  202800  0.236
+6 states     50 203280   240  203040  0.118
+7 states    100 203280     0  203280  0    
+8 states    200 203280     0  203280  0    </code></pre>
+</div>
+<div id="time-series" class="section level1">
+<h1><span class="header-section-number">3</span> Time Series</h1>
+<pre class="r"><code>data %&gt;%
+  filter(buffer==0) %&gt;%
+  mutate(time = as.Date(paste0(time, &quot;-01&quot;))) %&gt;%
+  group_by(time, unit) %&gt;%
+  summarise(value = mean(value, na.rm = T)) %&gt;%
+  ggplot() +
+  geom_line(aes(x=time, y=value, color = unit)) +
+  theme_classic() +
+  labs(y=&quot;Precipitation [mm]&quot;, x = &quot;Time&quot;, color = &quot;Unit of Analysis&quot;)</code></pre>
+<p><img src="figure/eda-gpp.Rmd/time-series-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="seasonal-decompositon" class="section level1">
+<h1><span class="header-section-number">4</span> Seasonal decompositon</h1>
+<pre class="r"><code>data %&gt;%
+  filter(unit == &quot;basins&quot;, buffer == 0) %&gt;%
+  mutate(time = as.Date(paste0(time, &quot;-01&quot;))) %&gt;%
+  group_by(time) %&gt;%
+  summarise(value = mean(value, na.rm = T)) %&gt;% 
+  pull(value) %&gt;%
+  ts(start = c(2000,1), frequency = 12) %&gt;%
+  decompose() -&gt; dec_basins
+
+data %&gt;%
+  filter(unit == &quot;states&quot;, buffer == 0) %&gt;%
+  mutate(time = as.Date(paste0(time, &quot;-01&quot;))) %&gt;%
+  group_by(time) %&gt;%
+  summarise(value = mean(value, na.rm = T)) %&gt;% 
+  pull(value) %&gt;%
+  ts(start = c(2000,1), frequency = 12) %&gt;%
+  decompose() -&gt; dec_states
+dec_data = list(basins = dec_basins, states = dec_states)
+
+dec_data = lapply(c(&quot;basins&quot;, &quot;states&quot;), function(x){
+  tmp = dec_data[[x]]
+  data.frame(type = x,
+             obsv = as.numeric(tmp$x),
+             seasonal = as.numeric(tmp$seasonal),
+             trend =  as.numeric(tmp$trend),
+             random = as.numeric(tmp$random),
+             date = seq(as.Date(&quot;2000-01-01&quot;), as.Date(&quot;2019-12-31&quot;), by = &quot;month&quot;))
+  
+})
+
+dec_data = do.call(rbind, dec_data)
+
+dec_data %&gt;%
+  as_tibble() %&gt;%
+  gather(component, value, -type, -date) %&gt;%
+  mutate(component = factor(component, levels = c(&quot;obsv&quot;, &quot;trend&quot;, &quot;seasonal&quot;, &quot;random&quot;))) %&gt;%
+  ggplot() +
+  geom_line(aes(x=date, y=value, color=type)) +
+  facet_wrap(~component, nrow = 4, scales = &quot;free_y&quot;) +
+  theme_classic() +
+  labs(y = &quot;Precipitation [mm]&quot;, x = &quot;Time&quot;, color = &quot;Unit of Analysis&quot;) +
+  theme(legend.position=&quot;bottom&quot;)</code></pre>
+<p><img src="figure/eda-gpp.Rmd/decompositon-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="auto-correlation-analysis" class="section level1">
+<h1><span class="header-section-number">5</span> Auto-correlation Analysis</h1>
+<pre class="r"><code>data %&gt;%
+  filter( buffer == 0) %&gt;%
+  mutate(time = as.Date(paste0(time, &quot;-01&quot;))) %&gt;%
+  group_by(unit, time) %&gt;%
+  summarise(value = mean(value, na.rm = T)) %&gt;%
+  spread(key = unit, value = value) -&gt; acf_data</code></pre>
+<div id="states" class="section level2">
+<h2><span class="header-section-number">5.1</span> States</h2>
+<pre class="r"><code>acf(acf_data$states, lag.max = 24, na.action = na.pass)</code></pre>
+<p><img src="figure/eda-gpp.Rmd/acf-states-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="basins" class="section level2">
+<h2><span class="header-section-number">5.2</span> Basins</h2>
+<pre class="r"><code>acf(acf_data$basins, lag.max = 24, na.action = na.pass)</code></pre>
+<p><img src="figure/eda-gpp.Rmd/acf-basins-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="spatial-pattern" class="section level1">
+<h1><span class="header-section-number">6</span> Spatial Pattern</h1>
+<pre class="r"><code>poly_bas = st_read(&quot;../data/vector/basins_mask.gpkg&quot;, quiet = T)
+crs &lt;- st_crs(&quot;EPSG:3857&quot;)
+poly_bas &lt;- st_transform(poly_bas, crs)
+poly_bas &lt;- st_simplify(poly_bas, dTolerance = 1000, preserveTopology = T)
+poly_bas$id = 1:nrow(poly_bas)
+poly_adm = st_read(&quot;../data/vector/states_mask.gpkg&quot;, quiet = T)
+poly_adm &lt;- st_transform(poly_adm, crs)
+poly_adm &lt;- st_simplify(poly_adm, dTolerance = 1500, preserveTopology = T)
+poly_adm$id = 1:nrow(poly_adm)
+
+
+
+data %&gt;%
+  filter(buffer == 0) %&gt;%
+  mutate(time = as.Date(paste0(time, &quot;-01&quot;)),
+         month = month(time)) %&gt;%
+  group_by(unit, id, month) %&gt;%
+  summarise(obsv = sum(is.na(value))) -&gt; obs_data
+
+
+data %&gt;%
+  filter(buffer == 0) %&gt;%
+  mutate(time = as.Date(paste0(time, &quot;-01&quot;)),
+         month = month(time)) %&gt;%
+  group_by(unit, id, month) %&gt;%
+  summarise(value = mean(value, na.rm = T)) -&gt; sum_data
+
+poly_adm = left_join(poly_adm, filter(sum_data, unit == &quot;states&quot;))
+poly_bas = left_join(poly_bas, filter(sum_data, unit == &quot;basins&quot;))
+poly_adm = left_join(poly_adm, filter(obs_data, unit == &quot;states&quot;))
+poly_bas = left_join(poly_bas, filter(obs_data, unit == &quot;basins&quot;))</code></pre>
+<div id="administrative-units-by-month" class="section level2">
+<h2><span class="header-section-number">6.1</span> Administrative Units by month</h2>
+<div id="number-of-missing-observations" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> Number of missing observations</h3>
+<pre class="r"><code>tm_shape(poly_adm) +
+  tm_polygons(&quot;obsv&quot;, palette = &quot;-RdBu&quot;, border.col = &quot;white&quot;, lwd = .5) +
+  tm_facets(&quot;month&quot;)</code></pre>
+<p><img src="figure/eda-gpp.Rmd/map-states-obsv-1.png" width="672" style="display: block; margin: auto;" />
+### Precipitation map</p>
+<pre class="r"><code>tm_shape(poly_adm) +
+  tm_polygons(col = &quot;value&quot;, palette = &quot;-RdYlBu&quot;, style = &quot;equal&quot;, border.col = &quot;white&quot;, lwd = .5) +
+  tm_facets(&quot;month&quot;)</code></pre>
+<p><img src="figure/eda-gpp.Rmd/map-states-value-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="sub-basin-watersheds-by-month" class="section level2">
+<h2><span class="header-section-number">6.2</span> Sub-basin watersheds by month</h2>
+<div id="number-of-missing-observations-1" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> Number of missing observations</h3>
+<pre class="r"><code>tm_shape(poly_bas) +
+  tm_polygons(&quot;obsv&quot;, palette = &quot;-RdBu&quot;, border.col = &quot;white&quot;, lwd = .5) +
+  tm_facets(&quot;month&quot;)</code></pre>
+<p><img src="figure/eda-gpp.Rmd/map-basins-obsv-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="precipitation-map" class="section level3">
+<h3><span class="header-section-number">6.2.2</span> Precipitation map</h3>
+<pre class="r"><code>tm_shape(poly_bas) +
+   tm_polygons(col = &quot;value&quot;, palette = &quot;-RdYlBu&quot;, style = &quot;equal&quot;, border.col = &quot;white&quot;, lwd = .5) +
+  tm_facets(&quot;month&quot;)</code></pre>
+<p><img src="figure/eda-gpp.Rmd/map-basins-value-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="refs">
+
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.3 (2020-02-29)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Debian GNU/Linux 10 (buster)
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.3.5.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] lubridate_1.7.9.2  rgdal_1.5-18       countrycode_1.2.0  welchADF_0.3.2    
+ [5] rstatix_0.6.0      ggpubr_0.4.0       scales_1.1.1       RColorBrewer_1.1-2
+ [9] latex2exp_0.4.0    cubelyr_1.0.0      gridExtra_2.3      ggtext_0.1.1      
+[13] magrittr_2.0.1     tmap_3.2           sf_0.9-7           raster_3.4-5      
+[17] sp_1.4-4           forcats_0.5.0      stringr_1.4.0      purrr_0.3.4       
+[21] readr_1.4.0        tidyr_1.1.2        tibble_3.0.6       tidyverse_1.3.0   
+[25] huwiwidown_0.0.1   kableExtra_1.3.1   knitr_1.31         rmarkdown_2.7.3   
+[29] bookdown_0.21      ggplot2_3.3.3      dplyr_1.0.2        devtools_2.3.2    
+[33] usethis_2.0.0     
+
+loaded via a namespace (and not attached):
+  [1] readxl_1.3.1       backports_1.2.0    workflowr_1.6.2   
+  [4] lwgeom_0.2-5       splines_3.6.3      crosstalk_1.1.0.1 
+  [7] leaflet_2.0.3      digest_0.6.27      htmltools_0.5.1.1 
+ [10] fansi_0.4.2        memoise_1.1.0      openxlsx_4.2.3    
+ [13] remotes_2.2.0      modelr_0.1.8       prettyunits_1.1.1 
+ [16] colorspace_2.0-0   rvest_0.3.6        haven_2.3.1       
+ [19] xfun_0.21          leafem_0.1.3       callr_3.5.1       
+ [22] crayon_1.4.0       jsonlite_1.7.2     lme4_1.1-26       
+ [25] glue_1.4.2         stars_0.4-3        gtable_0.3.0      
+ [28] webshot_0.5.2      car_3.0-10         pkgbuild_1.2.0    
+ [31] abind_1.4-5        DBI_1.1.0          Rcpp_1.0.5        
+ [34] viridisLite_0.3.0  gridtext_0.1.4     units_0.6-7       
+ [37] foreign_0.8-71     htmlwidgets_1.5.3  httr_1.4.2        
+ [40] ellipsis_0.3.1     farver_2.0.3       pkgconfig_2.0.3   
+ [43] XML_3.99-0.3       dbplyr_2.0.0       utf8_1.1.4        
+ [46] labeling_0.4.2     tidyselect_1.1.0   rlang_0.4.10      
+ [49] later_1.1.0.1      tmaptools_3.1      munsell_0.5.0     
+ [52] cellranger_1.1.0   tools_3.6.3        cli_2.3.0         
+ [55] generics_0.1.0     broom_0.7.2        evaluate_0.14     
+ [58] yaml_2.2.1         processx_3.4.5     leafsync_0.1.0    
+ [61] fs_1.5.0           zip_2.1.1          nlme_3.1-150      
+ [64] xml2_1.3.2         compiler_3.6.3     rstudioapi_0.13   
+ [67] curl_4.3           png_0.1-7          e1071_1.7-4       
+ [70] testthat_3.0.1     ggsignif_0.6.0     reprex_0.3.0      
+ [73] statmod_1.4.35     stringi_1.5.3      highr_0.8         
+ [76] ps_1.5.0           desc_1.2.0         lattice_0.20-41   
+ [79] Matrix_1.2-18      nloptr_1.2.2.2     classInt_0.4-3    
+ [82] vctrs_0.3.6        pillar_1.4.7       lifecycle_0.2.0   
+ [85] data.table_1.13.2  httpuv_1.5.5       R6_2.5.0          
+ [88] promises_1.1.1     KernSmooth_2.23-18 rio_0.5.16        
+ [91] sessioninfo_1.1.1  codetools_0.2-16   dichromat_2.0-0   
+ [94] boot_1.3-25        MASS_7.3-53        assertthat_0.2.1  
+ [97] pkgload_1.1.0      rprojroot_2.0.2    withr_2.4.1       
+[100] parallel_3.6.3     hms_1.0.0          grid_3.6.3        
+[103] minqa_1.2.4        class_7.3-17       carData_3.0-4     
+[106] git2r_0.27.1       base64enc_0.1-3   </code></pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

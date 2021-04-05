@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>thesis-intro.utf8</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">masterthesis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    EDA
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="eda-response.html">Response Variable</a>
+    </li>
+    <li>
+      <a href="eda-anom.html">Precipitation Anomalies</a>
+    </li>
+    <li>
+      <a href="eda-dep.html">Dependency Ratio</a>
+    </li>
+    <li>
+      <a href="eda-et.html">Evapotranspiration</a>
+    </li>
+    <li>
+      <a href="eda-gdp.html">Gross Domestic Product</a>
+    </li>
+    <li>
+      <a href="eda-gpp.html">Gross Primary Productivity</a>
+    </li>
+    <li>
+      <a href="eda-lst.html">Land Surface Temperature</a>
+    </li>
+    <li>
+      <a href="eda-lvstk.html">Livestock</a>
+    </li>
+    <li>
+      <a href="eda-pop.html">Population</a>
+    </li>
+    <li>
+      <a href="eda-prec.html">Precipitation</a>
+    </li>
+    <li>
+      <a href="eda-spi.html">Standardized Precipitation Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-spei.html">Standardized Precipitation-Evapotranspiration Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-tri.html">Terrain Roudgeddness Index (TRI)</a>
+    </li>
+    <li>
+      <a href="eda-trt.html">Travel Time</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Thesis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="thesis-intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="thesis-data.html">Data</a>
+    </li>
+    <li>
+      <a href="thesis-methods.html">Methods</a>
+    </li>
+    <li>
+      <a href="thesis-results.html">Results</a>
+    </li>
+    <li>
+      <a href="thesis-discussion.html">Discussion</a>
+    </li>
+    <li>
+      <a href="thesis-conclusion.html">Conclusion</a>
+    </li>
+    <li>
+      <a href="thesis-appendix.html">Appendix</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks">
+Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-03-24
+</p>
+<p>
+<strong>Checks:</strong>
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+5
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>thesis/analysis/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version
+1.6.2). The <em>Checks</em> tab describes the
+reproducibility checks that were applied when the results were created.
+The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Environment:</strong> empty
+</a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global
+environment can affect the analysis in your R Markdown file in unknown ways.
+For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210321code">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Seed:</strong> <code>set.seed(20210321)</code>
+</a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210321code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210321)</code> was run prior to running the code in the R Markdown file.
+Setting a seed ensures that any results that rely on randomness,
+e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Session information:</strong> recorded
+</a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is
+critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Cache:</strong> none
+</a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident
+that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>File paths:</strong> relative
+</a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project
+makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongnoversioncontrol">
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<strong>Repository version:</strong> no version control
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongnoversioncontrol" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Tracking code development and connecting the code version to the results is
+critical for reproducibility. To start using Git, open the Terminal and type
+<code>git init</code> in your project directory.</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+This project is not being versioned with Git. To obtain the full
+reproducibility benefits of using workflowr, please see
+<code>?wflow_start</code>.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<div id="background." class="section level2">
+<h2><span class="header-section-number">1.1</span> Background.</h2>
+<p>While the world has seen only limited numbers of international conflicts in the
+21st century, civil war is on the rise (Figure <a href="#fig:01-intro-conflicts">1.1</a>).
+These conflicts not only are associated with increasing numbers of casualties,
+but they also threaten the social fabric of societies through migration pressure,
+especially towards the urban centers <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Brzoska</span> and <span class="smallcaps">Fröhlich</span></span>, <span style="font-variant:normal;">2016</span>; <span style="font-variant:normal;"><span class="smallcaps">Owain</span> and <span class="smallcaps">Maslin</span></span>, <span style="font-variant:normal;">2018</span>; <span style="font-variant:normal;"><span class="smallcaps">Reuveny</span></span>, <span style="font-variant:normal;">2007</span>)</span></span>,
+and put material assets such as infrastructure, agricultural production,
+and natural forests at risk <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Adelaja</span> and <span class="smallcaps">George</span></span>, <span style="font-variant:normal;">2019</span>; <span style="font-variant:normal;"><span class="smallcaps">Buhaug</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2015</span>; <span style="font-variant:normal;"><span class="smallcaps">Eklund</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017</span>; <span style="font-variant:normal;"><span class="smallcaps">Jones</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017</span>; <span style="font-variant:normal;"><span class="smallcaps">Koren</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>.
+The scientific literature has successfully revealed a multitude of pathways
+violent conflict, directly and indirectly, impacts socio-economic indicators.
+It is commonly agreed that violent conflict is a primary factor impeding sustainable
+development due to the vigorous impacts on people’s livelihoods <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Gates</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2012</span>)</span></span>.
+However, the field is complex, with many interdependent relationships. Posing the
+question of causality, especially for the relationship between the natural environment
+and conflict, produced heterogeneous and even contradicting empirical results over
+the last decades <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Ward</span> and <span class="smallcaps">Bakke</span></span>, <span style="font-variant:normal;">2005</span>)</span></span>. Methodologically, the scientific community has
+been focused on using various degrees of derivatives of simple linear regression
+models to construct theory-based causal models to explain the occurrence, duration,
+and intensity of violent conflict in relation to natural and socio-economic covariates.
+Very often, these models proved less valuable for actually predicting violent
+conflict into the yet unseen future. Some researchers have attributed this
+shortcoming to the strategy of fitting the parameters of causal models <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Colaresi</span> and <span class="smallcaps">Mahmood</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>.
+Most studies fit their parameters and evaluate the model <em>in-sample</em>, meaning that
+the complete data set is used during both stages,
+model building and evaluation. While this has the clear advantage of explaining
+why something has happened within the spatiotemporal domain of a given study,
+extrapolating these findings to other space-time locations or even to the future
+of the domain itself led to discouraging results. These shortcomings in accurately
+predicting the occurrence of violent conflict have not been unrecognized by the
+general public <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Ward</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2010</span>)</span></span>. Especially for political decision-makers, accurate
+predictions into the future and information on how they can act to prevent conflict
+are of utmost importance. This led to increasing criticism on the usability of
+research findings because they were neither suited to predict violence outbreaks
+nor did they inform decision-makers on how to act to achieve a more peaceful future.</p>
+<pre class="r"><code>load(&quot;../data/raw/ged/ged201.RData&quot;)
+
+custom_match = c(&quot;Yemen&quot;)
+names(custom_match) = &quot;Yemen (North Yemen)&quot;
+
+ged201 %&gt;%
+  mutate(
+    continent = countrycode(sourcevar = .$country,
+              origin = &quot;country.name&quot;,
+              destination = &quot;continent&quot;,
+              custom_match = custom_match)
+    ) %&gt;%
+  filter(continent == &quot;Africa&quot;) -&gt; ged_africa
+
+ged_africa %&gt;%
+  dplyr::select(year, type_of_violence, starts_with(&quot;deaths&quot;)) %&gt;%
+  mutate(total_deaths = sum(3:4)) %&gt;%
+  dplyr::select(-starts_with(&quot;deaths&quot;)) %&gt;%
+  group_by(year, type_of_violence) %&gt;%
+  summarise(total_deaths = sum(total_deaths)) %&gt;%
+  ungroup %&gt;%
+  arrange(year, type_of_violence) %&gt;%
+  mutate(type_of_violence = factor(type_of_violence, 
+                                   levels = c(3:1), 
+                                   labels = rev(c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;))),
+         year = as.Date(paste(&quot;01-01-&quot;, year, sep = &quot;&quot;), format = &quot;%d-%m-%Y&quot;)) %&gt;%
+  ggplot() +
+  geom_bar(aes(x=year, y=total_deaths, fill=type_of_violence), stat = &quot;identity&quot;, position=&quot;stack&quot;, alpha=.6) +
+  geom_smooth(aes(x=year,y=total_deaths), color = &quot;#1B9E77&quot;,  method = &quot;lm&quot;, se=F) +
+  scale_fill_manual(values = RColorBrewer::brewer.pal(n=4, name = &quot;Dark2&quot;)[4:2]) +
+  scale_x_date(labels = date_format(&quot;%Y&quot;), breaks = as.Date(c(&quot;1989-01-01&quot;, &quot;2000-01-01&quot;, &quot;2010-01-01&quot;, &quot;2019-01-01&quot;))) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_classic() +
+  labs(y= &quot;Number of deaths&quot;, x = &quot;Year&quot;, fill = &quot;Type of violence&quot;)+
+  theme(legend.position = &quot;bottom&quot;,
+        legend.key.size = unit(0.4, &quot;cm&quot;),
+        legend.text = element_text(size = 9),
+        legend.title = element_text(size=10),
+        axis.text = element_text(size = 7),
+        axis.title=element_text(size=10)) -&gt; plot_out
+
+plot_output(plot_out)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:01-intro-conflicts"></span>
+<div id="htmlwidget-ca59a1f98bcc76184ed8" style="width:672px;height:288px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ca59a1f98bcc76184ed8">{"x":{"data":[{"orientation":"v","width":[328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5],"base":[4949,6412,4473,5908,7812,8183,6090,4053,4347,7623,6258,6027,3899,6027,4914,5565,3346,3584,4879,4865,5509,5089,8127,8421,8288,9695,8939,10339,11249,14266,13468],"x":[6940,7305,7670,8035,8401,8766,9131,9496,9862,10227,10592,10957,11323,11688,12053,12418,12784,13149,13514,13879,14245,14610,14975,15340,15706,16071,16436,16801,17167,17532,17897],"y":[875,2674,1806,1974,2702,13419,2415,3157,2618,3661,3003,2205,1519,2779,2604,2450,2387,1932,2072,1960,4270,1162,2898,2737,3241,5726,6216,4375,5565,5418,6552],"text":["year: 1989-01-01<br />total_deaths:   875<br />type_of_violence: one-sided","year: 1990-01-01<br />total_deaths:  2674<br />type_of_violence: one-sided","year: 1991-01-01<br />total_deaths:  1806<br />type_of_violence: one-sided","year: 1992-01-01<br />total_deaths:  1974<br />type_of_violence: one-sided","year: 1993-01-01<br />total_deaths:  2702<br />type_of_violence: one-sided","year: 1994-01-01<br />total_deaths: 13419<br />type_of_violence: one-sided","year: 1995-01-01<br />total_deaths:  2415<br />type_of_violence: one-sided","year: 1996-01-01<br />total_deaths:  3157<br />type_of_violence: one-sided","year: 1997-01-01<br />total_deaths:  2618<br />type_of_violence: one-sided","year: 1998-01-01<br />total_deaths:  3661<br />type_of_violence: one-sided","year: 1999-01-01<br />total_deaths:  3003<br />type_of_violence: one-sided","year: 2000-01-01<br />total_deaths:  2205<br />type_of_violence: one-sided","year: 2001-01-01<br />total_deaths:  1519<br />type_of_violence: one-sided","year: 2002-01-01<br />total_deaths:  2779<br />type_of_violence: one-sided","year: 2003-01-01<br />total_deaths:  2604<br />type_of_violence: one-sided","year: 2004-01-01<br />total_deaths:  2450<br />type_of_violence: one-sided","year: 2005-01-01<br />total_deaths:  2387<br />type_of_violence: one-sided","year: 2006-01-01<br />total_deaths:  1932<br />type_of_violence: one-sided","year: 2007-01-01<br />total_deaths:  2072<br />type_of_violence: one-sided","year: 2008-01-01<br />total_deaths:  1960<br />type_of_violence: one-sided","year: 2009-01-01<br />total_deaths:  4270<br />type_of_violence: one-sided","year: 2010-01-01<br />total_deaths:  1162<br />type_of_violence: one-sided","year: 2011-01-01<br />total_deaths:  2898<br />type_of_violence: one-sided","year: 2012-01-01<br />total_deaths:  2737<br />type_of_violence: one-sided","year: 2013-01-01<br />total_deaths:  3241<br />type_of_violence: one-sided","year: 2014-01-01<br />total_deaths:  5726<br />type_of_violence: one-sided","year: 2015-01-01<br />total_deaths:  6216<br />type_of_violence: one-sided","year: 2016-01-01<br />total_deaths:  4375<br />type_of_violence: one-sided","year: 2017-01-01<br />total_deaths:  5565<br />type_of_violence: one-sided","year: 2018-01-01<br />total_deaths:  5418<br />type_of_violence: one-sided","year: 2019-01-01<br />total_deaths:  6552<br />type_of_violence: one-sided"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(231,41,138,0.6)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"one-sided","legendgroup":"one-sided","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5],"base":[3500,3556,1575,2044,4263,6139,5264,3031,3647,6846,5383,5054,3262,4655,3668,4319,2576,2667,4277,3745,4382,3822,6664,6874,6265,6293,6769,8288,7966,9506,10535],"x":[6940,7305,7670,8035,8401,8766,9131,9496,9862,10227,10592,10957,11323,11688,12053,12418,12784,13149,13514,13879,14245,14610,14975,15340,15706,16071,16436,16801,17167,17532,17897],"y":[1449,2856,2898,3864,3549,2044,826,1022,700,777,875,973,637,1372,1246,1246,770,917,602,1120,1127,1267,1463,1547,2023,3402,2170,2051,3283,4760,2933],"text":["year: 1989-01-01<br />total_deaths:  1449<br />type_of_violence: non-state","year: 1990-01-01<br />total_deaths:  2856<br />type_of_violence: non-state","year: 1991-01-01<br />total_deaths:  2898<br />type_of_violence: non-state","year: 1992-01-01<br />total_deaths:  3864<br />type_of_violence: non-state","year: 1993-01-01<br />total_deaths:  3549<br />type_of_violence: non-state","year: 1994-01-01<br />total_deaths:  2044<br />type_of_violence: non-state","year: 1995-01-01<br />total_deaths:   826<br />type_of_violence: non-state","year: 1996-01-01<br />total_deaths:  1022<br />type_of_violence: non-state","year: 1997-01-01<br />total_deaths:   700<br />type_of_violence: non-state","year: 1998-01-01<br />total_deaths:   777<br />type_of_violence: non-state","year: 1999-01-01<br />total_deaths:   875<br />type_of_violence: non-state","year: 2000-01-01<br />total_deaths:   973<br />type_of_violence: non-state","year: 2001-01-01<br />total_deaths:   637<br />type_of_violence: non-state","year: 2002-01-01<br />total_deaths:  1372<br />type_of_violence: non-state","year: 2003-01-01<br />total_deaths:  1246<br />type_of_violence: non-state","year: 2004-01-01<br />total_deaths:  1246<br />type_of_violence: non-state","year: 2005-01-01<br />total_deaths:   770<br />type_of_violence: non-state","year: 2006-01-01<br />total_deaths:   917<br />type_of_violence: non-state","year: 2007-01-01<br />total_deaths:   602<br />type_of_violence: non-state","year: 2008-01-01<br />total_deaths:  1120<br />type_of_violence: non-state","year: 2009-01-01<br />total_deaths:  1127<br />type_of_violence: non-state","year: 2010-01-01<br />total_deaths:  1267<br />type_of_violence: non-state","year: 2011-01-01<br />total_deaths:  1463<br />type_of_violence: non-state","year: 2012-01-01<br />total_deaths:  1547<br />type_of_violence: non-state","year: 2013-01-01<br />total_deaths:  2023<br />type_of_violence: non-state","year: 2014-01-01<br />total_deaths:  3402<br />type_of_violence: non-state","year: 2015-01-01<br />total_deaths:  2170<br />type_of_violence: non-state","year: 2016-01-01<br />total_deaths:  2051<br />type_of_violence: non-state","year: 2017-01-01<br />total_deaths:  3283<br />type_of_violence: non-state","year: 2018-01-01<br />total_deaths:  4760<br />type_of_violence: non-state","year: 2019-01-01<br />total_deaths:  2933<br />type_of_violence: non-state"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(117,112,179,0.6)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"non-state","legendgroup":"non-state","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[6940,7305,7670,8035,8401,8766,9131,9496,9862,10227,10592,10957,11323,11688,12053,12418,12784,13149,13514,13879,14245,14610,14975,15340,15706,16071,16436,16801,17167,17532,17897],"y":[3500,3556,1575,2044,4263,6139,5264,3031,3647,6846,5383,5054,3262,4655,3668,4319,2576,2667,4277,3745,4382,3822,6664,6874,6265,6293,6769,8288,7966,9506,10535],"text":["year: 1989-01-01<br />total_deaths:  3500<br />type_of_violence: state-based","year: 1990-01-01<br />total_deaths:  3556<br />type_of_violence: state-based","year: 1991-01-01<br />total_deaths:  1575<br />type_of_violence: state-based","year: 1992-01-01<br />total_deaths:  2044<br />type_of_violence: state-based","year: 1993-01-01<br />total_deaths:  4263<br />type_of_violence: state-based","year: 1994-01-01<br />total_deaths:  6139<br />type_of_violence: state-based","year: 1995-01-01<br />total_deaths:  5264<br />type_of_violence: state-based","year: 1996-01-01<br />total_deaths:  3031<br />type_of_violence: state-based","year: 1997-01-01<br />total_deaths:  3647<br />type_of_violence: state-based","year: 1998-01-01<br />total_deaths:  6846<br />type_of_violence: state-based","year: 1999-01-01<br />total_deaths:  5383<br />type_of_violence: state-based","year: 2000-01-01<br />total_deaths:  5054<br />type_of_violence: state-based","year: 2001-01-01<br />total_deaths:  3262<br />type_of_violence: state-based","year: 2002-01-01<br />total_deaths:  4655<br />type_of_violence: state-based","year: 2003-01-01<br />total_deaths:  3668<br />type_of_violence: state-based","year: 2004-01-01<br />total_deaths:  4319<br />type_of_violence: state-based","year: 2005-01-01<br />total_deaths:  2576<br />type_of_violence: state-based","year: 2006-01-01<br />total_deaths:  2667<br />type_of_violence: state-based","year: 2007-01-01<br />total_deaths:  4277<br />type_of_violence: state-based","year: 2008-01-01<br />total_deaths:  3745<br />type_of_violence: state-based","year: 2009-01-01<br />total_deaths:  4382<br />type_of_violence: state-based","year: 2010-01-01<br />total_deaths:  3822<br />type_of_violence: state-based","year: 2011-01-01<br />total_deaths:  6664<br />type_of_violence: state-based","year: 2012-01-01<br />total_deaths:  6874<br />type_of_violence: state-based","year: 2013-01-01<br />total_deaths:  6265<br />type_of_violence: state-based","year: 2014-01-01<br />total_deaths:  6293<br />type_of_violence: state-based","year: 2015-01-01<br />total_deaths:  6769<br />type_of_violence: state-based","year: 2016-01-01<br />total_deaths:  8288<br />type_of_violence: state-based","year: 2017-01-01<br />total_deaths:  7966<br />type_of_violence: state-based","year: 2018-01-01<br />total_deaths:  9506<br />type_of_violence: state-based","year: 2019-01-01<br />total_deaths: 10535<br />type_of_violence: state-based"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(217,95,2,0.6)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"state-based","legendgroup":"state-based","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6940,7078.69620253165,7217.39240506329,7356.08860759494,7494.78481012658,7633.48101265823,7772.17721518987,7910.87341772152,8049.56962025316,8188.26582278481,8326.96202531646,8465.6582278481,8604.35443037975,8743.05063291139,8881.74683544304,9020.44303797468,9159.13924050633,9297.83544303797,9436.53164556962,9575.22784810127,9713.92405063291,9852.62025316456,9991.3164556962,10130.0126582278,10268.7088607595,10407.4050632911,10546.1012658228,10684.7974683544,10823.4936708861,10962.1898734177,11100.8860759494,11239.582278481,11378.2784810127,11516.9746835443,11655.6708860759,11794.3670886076,11933.0632911392,12071.7594936709,12210.4556962025,12349.1518987342,12487.8481012658,12626.5443037975,12765.2405063291,12903.9367088608,13042.6329113924,13181.3291139241,13320.0253164557,13458.7215189873,13597.417721519,13736.1139240506,13874.8101265823,14013.5063291139,14152.2025316456,14290.8987341772,14429.5949367089,14568.2911392405,14706.9873417722,14845.6835443038,14984.3797468354,15123.0759493671,15261.7721518987,15400.4683544304,15539.164556962,15677.8607594937,15816.5569620253,15955.253164557,16093.9493670886,16232.6455696203,16371.3417721519,16510.0379746835,16648.7341772152,16787.4303797468,16926.1265822785,17064.8227848101,17203.5189873418,17342.2151898734,17480.9113924051,17619.6075949367,17758.3037974684,17897],"y":[2180.50057009615,2212.13030781529,2243.76004553443,2275.38978325357,2307.01952097271,2338.64925869185,2370.27899641099,2401.90873413013,2433.53847184927,2465.16820956841,2496.79794728755,2528.42768500669,2560.05742272583,2591.68716044497,2623.31689816411,2654.94663588325,2686.57637360239,2718.20611132153,2749.83584904067,2781.46558675981,2813.09532447895,2844.72506219809,2876.35479991723,2907.98453763637,2939.61427535551,2971.24401307465,3002.87375079379,3034.50348851293,3066.13322623207,3097.76296395121,3129.39270167035,3161.02243938949,3192.65217710863,3224.28191482777,3255.91165254692,3287.54139026606,3319.1711279852,3350.80086570434,3382.43060342348,3414.06034114262,3445.69007886176,3477.3198165809,3508.94955430004,3540.57929201918,3572.20902973832,3603.83876745746,3635.4685051766,3667.09824289574,3698.72798061488,3730.35771833402,3761.98745605316,3793.6171937723,3825.24693149144,3856.87666921058,3888.50640692972,3920.13614464886,3951.765882368,3983.39562008714,4015.02535780628,4046.65509552542,4078.28483324456,4109.9145709637,4141.54430868284,4173.17404640198,4204.80378412112,4236.43352184026,4268.06325955941,4299.69299727855,4331.32273499769,4362.95247271683,4394.58221043597,4426.21194815511,4457.84168587425,4489.47142359339,4521.10116131253,4552.73089903167,4584.36063675081,4615.99037446995,4647.62011218909,4679.24984990823],"text":["year:  6940.000<br />total_deaths: 2180.501","year:  7078.696<br />total_deaths: 2212.130","year:  7217.392<br />total_deaths: 2243.760","year:  7356.089<br />total_deaths: 2275.390","year:  7494.785<br />total_deaths: 2307.020","year:  7633.481<br />total_deaths: 2338.649","year:  7772.177<br />total_deaths: 2370.279","year:  7910.873<br />total_deaths: 2401.909","year:  8049.570<br />total_deaths: 2433.538","year:  8188.266<br />total_deaths: 2465.168","year:  8326.962<br />total_deaths: 2496.798","year:  8465.658<br />total_deaths: 2528.428","year:  8604.354<br />total_deaths: 2560.057","year:  8743.051<br />total_deaths: 2591.687","year:  8881.747<br />total_deaths: 2623.317","year:  9020.443<br />total_deaths: 2654.947","year:  9159.139<br />total_deaths: 2686.576","year:  9297.835<br />total_deaths: 2718.206","year:  9436.532<br />total_deaths: 2749.836","year:  9575.228<br />total_deaths: 2781.466","year:  9713.924<br />total_deaths: 2813.095","year:  9852.620<br />total_deaths: 2844.725","year:  9991.316<br />total_deaths: 2876.355","year: 10130.013<br />total_deaths: 2907.985","year: 10268.709<br />total_deaths: 2939.614","year: 10407.405<br />total_deaths: 2971.244","year: 10546.101<br />total_deaths: 3002.874","year: 10684.797<br />total_deaths: 3034.503","year: 10823.494<br />total_deaths: 3066.133","year: 10962.190<br />total_deaths: 3097.763","year: 11100.886<br />total_deaths: 3129.393","year: 11239.582<br />total_deaths: 3161.022","year: 11378.278<br />total_deaths: 3192.652","year: 11516.975<br />total_deaths: 3224.282","year: 11655.671<br />total_deaths: 3255.912","year: 11794.367<br />total_deaths: 3287.541","year: 11933.063<br />total_deaths: 3319.171","year: 12071.759<br />total_deaths: 3350.801","year: 12210.456<br />total_deaths: 3382.431","year: 12349.152<br />total_deaths: 3414.060","year: 12487.848<br />total_deaths: 3445.690","year: 12626.544<br />total_deaths: 3477.320","year: 12765.241<br />total_deaths: 3508.950","year: 12903.937<br />total_deaths: 3540.579","year: 13042.633<br />total_deaths: 3572.209","year: 13181.329<br />total_deaths: 3603.839","year: 13320.025<br />total_deaths: 3635.469","year: 13458.722<br />total_deaths: 3667.098","year: 13597.418<br />total_deaths: 3698.728","year: 13736.114<br />total_deaths: 3730.358","year: 13874.810<br />total_deaths: 3761.987","year: 14013.506<br />total_deaths: 3793.617","year: 14152.203<br />total_deaths: 3825.247","year: 14290.899<br />total_deaths: 3856.877","year: 14429.595<br />total_deaths: 3888.506","year: 14568.291<br />total_deaths: 3920.136","year: 14706.987<br />total_deaths: 3951.766","year: 14845.684<br />total_deaths: 3983.396","year: 14984.380<br />total_deaths: 4015.025","year: 15123.076<br />total_deaths: 4046.655","year: 15261.772<br />total_deaths: 4078.285","year: 15400.468<br />total_deaths: 4109.915","year: 15539.165<br />total_deaths: 4141.544","year: 15677.861<br />total_deaths: 4173.174","year: 15816.557<br />total_deaths: 4204.804","year: 15955.253<br />total_deaths: 4236.434","year: 16093.949<br />total_deaths: 4268.063","year: 16232.646<br />total_deaths: 4299.693","year: 16371.342<br />total_deaths: 4331.323","year: 16510.038<br />total_deaths: 4362.952","year: 16648.734<br />total_deaths: 4394.582","year: 16787.430<br />total_deaths: 4426.212","year: 16926.127<br />total_deaths: 4457.842","year: 17064.823<br />total_deaths: 4489.471","year: 17203.519<br />total_deaths: 4521.101","year: 17342.215<br />total_deaths: 4552.731","year: 17480.911<br />total_deaths: 4584.361","year: 17619.608<br />total_deaths: 4615.990","year: 17758.304<br />total_deaths: 4647.620","year: 17897.000<br />total_deaths: 4679.250"],"type":"scatter","mode":"lines","name":"fitted values","line":{"width":3.77952755905512,"color":"rgba(27,158,119,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":33.0471841704718,"r":7.30593607305936,"b":43.2821364328214,"l":52.1378165213782},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[6211.475,18625.525],"tickmode":"array","ticktext":["1989","2000","2010","2019"],"tickvals":[6940,10957,14610,17897],"categoryorder":"array","categoryarray":["1989","2000","2010","2019"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":9.29846409298464},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":13.2835201328352}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1080.1,22682.1],"tickmode":"array","ticktext":["0","5,000","10,000","15,000","20,000"],"tickvals":[0,5000,10000,15000,20000],"categoryorder":"array","categoryarray":["0","5,000","10,000","15,000","20,000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":9.29846409298464},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Number of deaths","font":{"color":"rgba(0,0,0,1)","family":"","size":13.2835201328352}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.9551681195517},"y":-0.1,"orientation":"h","xanchor":"center","x":0.5},"annotations":[{"text":"Type of violence","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":13.2835201328352},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"da2733f3ac":{"x":{},"y":{},"fill":{},"type":"bar"},"da50c139ee":{"x":{},"y":{}}},"cur_data":"da2733f3ac","visdat":{"da2733f3ac":["function (y) ","x"],"da50c139ee":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Figure 1.1: Total number of conflict casualties in Africa 1989-2019. The green line indicates the linear trend for the conflict classes combined.
+</p>
+</div>
+</div>
+<div id="recent-developments." class="section level2">
+<h2><span class="header-section-number">1.2</span> Recent Developments.</h2>
+<p>Today, massive amounts of data are collected in near-realtime. Due to recent
+advances in computational power it is now possible to apply computational intensive
+tools to analyze this data. These developments have led to a shift in the
+peace and conflict research community to use newly available research opportunities
+for more robust conflict prediction. A first adaptation to the shortcomings of causal models
+was a shift towards <em>out-of-sample</em> evaluation for prediction models <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Ward</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2010</span>, 2013)</span></span>.
+In short, this can be summarized in the observation that a variable is
+useful that accurately predicts, not necessarily that one that has a lower
+p-value. This approach to conflict prediction was born out of the necessity to
+change the community’s standpoint towards causal models because they failed to predict more
+often than not. The question arose about the value of a conflict theory when the
+theoretically grounded selection of significant variables <em>does not</em> lead to useful
+predictions. In this context, it has been noted that establishing models for
+prediction itself can inform theory building <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Ward</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2010</span>)</span></span>. A model that accurately predicts
+will at least carry some information on the data generating process that can be
+integrated during the practice of theory building. The second adaptation is in
+the use of more sophisticated models that possibly capture non-linear
+relationships better. The conflict research community has seen an increase in the use of
+machine learning models like Random Forest <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Muchlinski</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2016</span>; <span style="font-variant:normal;"><span class="smallcaps">Perry</span></span>, <span style="font-variant:normal;">2013</span>)</span></span> as well as
+Deep Learning (DL) techniques <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Beck</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2000</span>; <span style="font-variant:normal;"><span class="smallcaps">Schellens</span> and <span class="smallcaps">Belyazid</span></span>, <span style="font-variant:normal;">2020</span>)</span></span> to more accurately predict,
+both in space and time, the occurrence of violent conflict. A third shift has
+primarily materialized on the left side of the equation. Recent technological
+advances allowed for the nearly fully automated coding of event data on violence.
+Examples are the Armed Conflict Location &amp; Event Data Project (ACLED) <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Raleigh</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2010</span>)</span></span>,
+the Upsala Conflict Data Program (UCDP) <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Pettersson</span> and <span class="smallcaps">Öberg</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>, and the Global Database of
+Events, Language, and Tone (GDELT) <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">GDELT</span></span>, <span style="font-variant:normal;">2021</span>)</span></span>, which automatically filter global
+news feeds for the occurrences of events of interest.
+Human intervention is mainly restricted to quality control, delivering previously
+unseen information richness on spatially and temporally disaggregated levels in
+near-realtime. Conflict research has not yet fully integrated increased data streams
+on the right side of the equation. Most studies still rely on highly aggregated
+predictors based on country-years while other research fields, such as different
+earth sciences, saw an tremendous increase in the availability of data mainly driven
+by advances of remote sensing technology.
+Only a few conflict prediction studies make use of disaggregated data sets on the
+sub-national level and higher temporal resolution. In principle, this can be explained due to the
+difficulties associated with a spatial-continuous mapping of socio-economic variables.
+The PRIO-GRID is one example to overcome this limitation using statistical methods
+to distribute survey data in space <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Tollefsen</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2012</span>)</span></span>. Other projects also showed
+promising results in mapping demographic data sets into regularly spaced grids
+worldwide <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">WorldPop</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>. For natural resources, however, many analysis-ready
+data sets with high spatiotemporal resolution are already available, and more are yet
+to come, e.g., through the European Copernicus Program <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">European Union</span></span>, <span style="font-variant:normal;">2021</span>)</span></span>.</p>
+</div>
+<div id="environmental-causes-of-conflict." class="section level2">
+<h2><span class="header-section-number">1.3</span> Environmental Causes of Conflict.</h2>
+<p>Whether environmental change can be a driver of violent
+conflict has been asked since the 1990s. Homer-Dixon presented his famous pie
+metaphor differentiating between three dimensions of environmental scarcity based
+on several qualitative case studies in the early 1990s <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Homer-Dixon</span></span>, <span style="font-variant:normal;">1995</span>, 1994, 1991)</span></span>. The
+general size of the pie from which each individual within a society gets a share
+is determined by the availability of natural resources. Decreasing the availability
+or quality of a resource will consequently decrease the overall size of the pie.
+Increasing population numbers or changes in the consumption pattern can lead to
+a reduced share available per capita. Moreover, discriminatory distributional
+policies can reduce the share an individual or social group receives in relation
+to others leading to, e.g., the marginalization of specific linguistic, religious,
+or ethnic populations. These dimensions of environmental scarcity can be observed
+in various combinations, eventually increasing the overall conflict risk.</p>
+<div style="page-break-after: always;"></div>
+<p>However, as <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Sachs</span> and <span style="font-variant:normal;">Warner</span></span> <span class="smallcaps">(<span style="font-variant:normal;">1995</span>)</span></span> showed, the abundance of natural resources does not
+prevent conflicts from arising. On the contrary, based on empirical evidence, they
+showed that resource-rich countries were more likely to experience
+conflict and impeded economic development than resource-poor countries.
+For countries with the most available natural resources the
+risk of experiencing conflicts was again reduced to a low level. These findings were
+coined as the <em>resource curse</em> and inspired their own research line, mostly
+supporting the original findings <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Alexeev</span> and <span class="smallcaps">Conrad</span></span>, <span style="font-variant:normal;">2009</span>; <span style="font-variant:normal;"><span class="smallcaps">Antonakakis</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2015</span>; <span style="font-variant:normal;"><span class="smallcaps">Bjorvatn</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2012</span>; <span style="font-variant:normal;"><span class="smallcaps">Boschini</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2013</span>)</span></span>.
+Early on, it was noted that a high level of non-linearity is associated with the
+analyzed processes. Focusing explicitly on rebellions and
+insurgencies, <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Collier</span></span> <span class="smallcaps">(<span style="font-variant:normal;">1998</span>)</span></span> showed that an econometric model including the opportunity
+costs of rebellions could explain observed occurrences. However, they
+conclude that the relationship between the covariates and the conflict outcome
+might be non-monotonic. For example, very high rates of ethnic fractionalization
+do not necessarily increase the conflict risk. Instead, fractionalization into
+two similarly sized groups shows the highest increase. In another study, they showed
+that African countries show a greater baseline risk for conflict compared to other
+world regions due to their economic structure. But the ethnic composition primarily
+acts as an reduction factor of conflict risk <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Collier</span> and <span class="smallcaps">Hoeffler</span></span>, <span style="font-variant:normal;">2002</span>)</span></span>.</p>
+<p>In the context of increasing awareness of the consequences of climate change and
+its challenges for sustainable development, it is surprising to see
+only a few attempts to link environmental change to violent conflict during the
+last decade. In most of the studies, natural resources are proxied by primary commodity exports
+<span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Collier</span> and <span class="smallcaps">Hoeffler</span></span>, <span style="font-variant:normal;">2004</span>; <span style="font-variant:normal;"><span class="smallcaps">Fearon</span> and <span class="smallcaps">Laitin</span></span>, <span style="font-variant:normal;">2003</span>; <span style="font-variant:normal;"><span class="smallcaps">Muchlinski</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2016</span>)</span></span>. More recent attempts emphasize
+capturing non-linearities between predictor variables and the outcome,
+but a systematic analysis of environmental predictors is mostly absent. <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Hegre</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2019</span>)</span></span> produce an
+early-warning system for violence using model ensemble forecasts based on different
+spatial aggregation units. Natural resources in terms of different land cover
+classes and the distance to diamond and oil extraction sides are only
+included for one of the aggregation units and not systematically analyzed.
+<span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Schutte</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2017</span>)</span></span> presents an innovative approach based on modeling conflicts
+as point processes on the African continent. However, natural resource variables
+are restricted to accessibility and land cover data and not systematically analyzed.
+<span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Witmer</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2017</span>)</span></span> set out to estimate the long-term dynamics of subnational conflict (2015-2065)
+based on different climate scenarios. While their model explicitly analyzes the
+impact of precipitation and temperature changes, long-term scenario simulations,
+due to their nature, do not serve well as early-warning systems for decision-makers
+to prevent conflict. <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Halkia</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2020</span>)</span></span> presented the
+Global Conflict Risk Index (GCRI), a tool used by the European Union for conflict
+prediction. It is based on a simple logistic regression model, nonetheless
+achieves remarkable accuracy results. However, variables related to natural
+resources are included under the label of economic variables. They are limited
+to indices on food security and water stress as well as raw oil production.
+Even though not peer-reviewed, the World Resource Institute (WRI)
+published a technical note reporting on their efforts for a violent conflict
+forecasting tool <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Kuzma</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>. By using a Random Forest model and incorporating
+several environmental variables concerned with food production and water
+availability, they produce promising results for the African continent, the
+Middle East and parts of Asia. They include an analysis of variable importance
+which only indicates as relevant a few of the environmental predictors.
+<span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Schellens</span> and <span style="font-variant:normal;">Belyazid</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2020</span>)</span></span> analyze the role of natural resources in violent
+conflict prediction through modern machine learning techniques. They compare
+a standard logistic regression model versus two types of neural networks and
+a Random Forest model. They particularly test model performance on different sets
+of predictors. One of these sets includes natural resources conceptualized as
+agricultural production, forest area, primary commodity exports of non-renewable
+resources, water access, withdrawal, and available reserves, as well as resource
+rents. Their results indicate an improvement of the Random Forest model when
+natural resource variables are included. However, the analysis of the neural networks
+remains rather shallow because only basic network architectures were considered.</p>
+</div>
+<div id="research-question." class="section level2">
+<h2><span class="header-section-number">1.4</span> Research Question.</h2>
+<p>The outlined review of the literature leads to the main research question of this
+thesis, namely if a modern deep learning framework and the vast availability of
+open geodata can positively impact the task of spatiotemporal conflict detection.
+Note that detection and prediction will be used interchangeably in this thesis.
+Continuing with a brief definition of the two basic concepts, open geodata can be
+defined as freely available and usable data related to some information of space.
+Very commonly, it is based on remote sensing imagery. Remote sensing enables the
+collection of spatiotemporal comprehensive measurements. In principle,
+it works by measuring the spectral reflectance of the Earth’s surface in different
+bands across the electromagnetic spectrum <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">De Jong</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2007</span>)</span></span>. Through physically
+informed transformation models, the original spectral reflectance values can be
+translated into measurements of physical variables, e.g., evapotranspiration from
+the canopy or biomass production of the vegetation cover. Also, land cover can
+be mapped regularly, informing, e.g., dynamics of deforestation or the extension
+of agricultural farmland. There are many agencies, research institutions, and
+companies that provide a wide range of so-called <em>value-added</em> remote sensing
+products, a lot of them at zero cost <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Radočaj</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>. On the other hand, DL is
+a subcomponent of machine learning, often focusing on solving supervised
+classification and regression problems by using neural networks
+<span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">LeCun</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2015</span>)</span></span>. These networks consist of varying numbers and architectures of
+<em>hidden layers</em>, mapping a specified input to the desired output through non-linear
+transformations of the data values. They are supervised because the outcome
+of specific observations is known, and a model is tasked with optimizing its
+parameters towards lowering the prediction error. The model performance is
+evaluated based on an <em>out-of-sample</em> validation set. A suitable parametrization
+of the model is equivalent to its generalization potential to unseen data and
+consequently will yield high-performance metrics on the validation set.</p>
+<p>In the context of conflict prediction, DL methods seem promising to deliver
+accurate predictions in both the temporal and the spatial domain <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Emmert-Streib</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.
+The occurrence of conflict is a highly complex process, with many interdependent variables
+from the social, economic, and environmental dimensions of human reality. DL could
+indicate a way to yield accurate conflict predictions despite this complexity.
+Additionally, the availability of spatial and temporal comprehensive data sets
+mainly based on remote sensing technology allows gathering predictor variables suited for
+conflict prediction in a time and cost-efficient manner. For the presents study’s
+design, two theoretical grounded assumptions are of particular relevance. First,
+it is assumed that linkages between environmental variables and conflict are not
+necessarily observed <em>in-situ</em> nor <em>instantaneously</em>. The first aspect of this
+assumption means that environmental processes in one location might impact the
+conflict risk at yet a distinct but related location. For example, a bad harvest,
+e.g., through an extensive drought, might aggravate conflict risk in a neighboring
+urban center due to increased food prices. The same increase in conflict risk is
+not necessarily observed in the rural areas where the root cause, i.e., the
+extensive drought, took place. The second aspect emphasizes that the problem at
+hand is one of a time series. For example, deforestation might not instantaneously
+negatively impact the livelihoods of the communities. However, ongoing deforestation
+in the long term can lead to increased soil erosion, undermining the basis of rural
+livelihoods and eventually increase conflict risk. Second, environmental change
+does not stop at national borders. Put differently, administrative boundaries
+rarely follow natural borders, e.g., in the case of a river course separating
+two nation-states. If environmental dynamics are the subject of analysis, this
+could mean that administrative districts are not necessarily the optimal choice
+to study these dynamics. The interdependence between environmental change and
+the risk of conflict might be better depicted on a different scale, e.g., by
+aggregating variables based on watersheds.</p>
+<p>Guided by these assumptions, a workflow is set up to test for two distinct hypotheses.
+These are:</p>
+<ul>
+<li><p>H1: <em>Environmental predictors increase the performance of deep learning models
+for the conflict prediction task over models based solely on the conflict history and structural variables.</em></p></li>
+<li><p>H2: <em>Aggregating predictor and response variables on the basis of sub-basin
+watersheds delivers better predictive performance than aggregating on sub-national
+administrative districts.</em></p></li>
+</ul>
+</div>
+<div id="general-methodology." class="section level2">
+<h2><span class="header-section-number">1.5</span> General Methodology.</h2>
+<p>To test for these hypotheses, the study’s design is presented in detail in the
+following section. Briefly, (i) several socio-economic and environmental
+variables available in spatially explicit formats are collected and aggregated for
+sub-national administrative districts and sub-basin watersheds, (ii) spatial
+buffers around these districts are used to account for processes occurring in a
+district’s larger spatial neighborhood, (iii) DL models are trained on different predictor
+sets consisting of the conflict history, structural, and environmental variables
+to solve the conflict prediction statistically formulated as a time series problem,
+(iv) model performances are evaluated on an <em>out-of-sample</em> validation set and
+cross-checked with a logistic regression baseline, (v) performance results are comprehensibly
+reported for all model configurations for different classes of violent conflict,
+allowing for an analysis of variance in the predictive performance to obtain
+statistical significant indications in relation to the hypotheses.</p>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1><span class="header-section-number">2</span> References</h1>
+<div id="refs">
+<div id="ref-adelaja2019">
+<p><span class="smallcaps">Adelaja, A., George, J.</span>, 2019. Effects of conflict on agriculture: Evidence from the Boko Haram insurgency. World Development 117, 184–195. <a href="https://doi.org/10.1016/j.worlddev.2019.01.010">https://doi.org/10.1016/j.worlddev.2019.01.010</a></p>
+</div>
+<div id="ref-alexeev2009">
+<p><span class="smallcaps">Alexeev, M., Conrad, R.</span>, 2009. The Elusive Curse of Oil. The Review of Economics and Statistics 91, 586–598. <a href="https://doi.org/10.1162/rest.91.3.586">https://doi.org/10.1162/rest.91.3.586</a></p>
+</div>
+<div id="ref-antonakakis2015">
+<p><span class="smallcaps">Antonakakis, N., Cunado, J., Filis, G., Perez de Gracia, F.</span>, 2015. The Resource Curse Hypothesis Revisited: Evidence from a Panel VAR. MPRA Paper, University Library of Munich. Germany.</p>
+</div>
+<div id="ref-beck2000">
+<p><span class="smallcaps">Beck, N., King, G., Zeng, L.</span>, 2000. Improving Quantitative Studies of International Conflict: A Conjecture. American Political Science Review 94, 21–35. <a href="https://doi.org/10.1017/S0003055400220078">https://doi.org/10.1017/S0003055400220078</a></p>
+</div>
+<div id="ref-bjorvatn2012">
+<p><span class="smallcaps">Bjorvatn, K., Farzanegan, M.R., Schneider, F.</span>, 2012. Resource Curse and Power Balance: Evidence from Oil-Rich Countries. World Development 40, 1308–1316. <a href="https://doi.org/10.1016/j.worlddev.2012.03.003">https://doi.org/10.1016/j.worlddev.2012.03.003</a></p>
+</div>
+<div id="ref-boschini2013">
+<p><span class="smallcaps">Boschini, A., Pettersson, J., Roine, J.</span>, 2013. The Resource Curse and its Potential Reversal. World Development 43, 19–41. <a href="https://doi.org/10.1016/j.worlddev.2012.10.007">https://doi.org/10.1016/j.worlddev.2012.10.007</a></p>
+</div>
+<div id="ref-brzoska2016">
+<p><span class="smallcaps">Brzoska, M., Fröhlich, C.</span>, 2016. Climate change, migration and violent conflict: Vulnerabilities, pathways and adaptation strategies. Migration and Development 5, 190–210. <a href="https://doi.org/10.1080/21632324.2015.1022973">https://doi.org/10.1080/21632324.2015.1022973</a></p>
+</div>
+<div id="ref-buhaug2015">
+<p><span class="smallcaps">Buhaug, H., Benjaminsen, T.A., Sjaastad, E., Theisen, O.M.</span>, 2015. Climate variability, food production shocks, and violent conflict in Sub-Saharan Africa. Environmental Research Letters 10, 125015. <a href="https://doi.org/10.1088/1748-9326/10/12/125015">https://doi.org/10.1088/1748-9326/10/12/125015</a></p>
+</div>
+<div id="ref-colaresi2017">
+<p><span class="smallcaps">Colaresi, M., Mahmood, Z.</span>, 2017. Do the robot: Lessons from machine learning to improve conflict forecasting. Journal of Peace Research 54, 193–214. <a href="https://doi.org/10.1177/0022343316682065">https://doi.org/10.1177/0022343316682065</a></p>
+</div>
+<div id="ref-collier1998">
+<p><span class="smallcaps">Collier, P.</span>, 1998. On economic causes of civil war. Oxford Economic Papers 50, 563–573. <a href="https://doi.org/10.1093/oep/50.4.563">https://doi.org/10.1093/oep/50.4.563</a></p>
+</div>
+<div id="ref-collier2004">
+<p><span class="smallcaps">Collier, P., Hoeffler, A.</span>, 2004. Greed and grievance in civil war 56, 563–595. <a href="https://doi.org/10.1093/oep/gpf064">https://doi.org/10.1093/oep/gpf064</a></p>
+</div>
+<div id="ref-collier2002">
+<p><span class="smallcaps">Collier, P., Hoeffler, A.</span>, 2002. On the Incidence of Civil War in Africa. Journal of Conflict Resolution 46, 13–28. <a href="https://doi.org/10.1177/0022002702046001002">https://doi.org/10.1177/0022002702046001002</a></p>
+</div>
+<div id="ref-dejong2007">
+<p><span class="smallcaps">De Jong, S., Meer, F., Clevers, J.</span>, 2007. Basics of Remote Sensing, in: de Jong, S.M., van der Meer, F.D. (Eds.), Remote Sensing Image Analysis: Including the Spatial Domain, Remote Sensing and Digital Image Processing. Springer Netherlands, pp. 1–15. <a href="https://doi.org/10.1007/978-1-4020-2560-0_1">https://doi.org/10.1007/978-1-4020-2560-0_1</a></p>
+</div>
+<div id="ref-eklund2017">
+<p><span class="smallcaps">Eklund, L., Degerald, M., Brandt, M., Prishchepov, A.V., ö, P.P.</span>, 2017. How conflict affects land use: Agricultural activity in areas seized by the Islamic State. Environmental Research Letters 12, 054004. <a href="https://doi.org/10.1088/1748-9326/aa673a">https://doi.org/10.1088/1748-9326/aa673a</a></p>
+</div>
+<div id="ref-emmert2020">
+<p><span class="smallcaps">Emmert-Streib, F., Yang, Z., Feng, H., Tripathi, S., Dehmer, M.</span>, 2020. An Introductory Review of Deep Learning for Prediction Models With Big Data. Frontiers in Artificial Intelligence 3. <a href="https://doi.org/10.3389/frai.2020.00004">https://doi.org/10.3389/frai.2020.00004</a></p>
+</div>
+<div id="ref-europeanunion2021">
+<p><span class="smallcaps">European Union</span>, 2021. Copernicus programme [WWW Document]. URL <a href="https://www.copernicus.eu">https://www.copernicus.eu</a></p>
+</div>
+<div id="ref-fearon2003">
+<p><span class="smallcaps">Fearon, J.D., Laitin, D.D.</span>, 2003. Ethnicity, Insurgency, and Civil War. American Political Science Review 97, 75–90. <a href="https://doi.org/10.1017/S0003055403000534">https://doi.org/10.1017/S0003055403000534</a></p>
+</div>
+<div id="ref-gates2012">
+<p><span class="smallcaps">Gates, S., Hegre, H., Nygåard, H.M., Strand, H.</span>, 2012. Development Consequences of Armed Conflict. World Development 40, 1713–1722. <a href="https://doi.org/10.1016/j.worlddev.2012.04.031">https://doi.org/10.1016/j.worlddev.2012.04.031</a></p>
+</div>
+<div id="ref-gdelt2021">
+<p><span class="smallcaps">GDELT</span>, 2021. The GDELT Project [WWW Document]. URL <a href="https://www.gdeltproject.org/">https://www.gdeltproject.org/</a></p>
+</div>
+<div id="ref-halkia2020a">
+<p><span class="smallcaps">Halkia, M., Ferri, S., Schellens, M.K., Papazoglou, M., Thomakos, D.</span>, 2020. The Global Conflict Risk Index: A quantitative tool for policy support on conflict prevention. Progress in Disaster Science 6, 100069. <a href="https://doi.org/10.1016/j.pdisas.2020.100069">https://doi.org/10.1016/j.pdisas.2020.100069</a></p>
+</div>
+<div id="ref-hegre2019">
+<p><span class="smallcaps">Hegre, H., Allansson, M., Basedau, M., Colaresi, M., Croicu, M., Fjelde, H., Hoyles, F., Hultman, L., Högbladh, S., Jansen, R., Mouhleb, N., Muhammad, S.A., Nilsson, D., Nygård, H.M., Olafsdottir, G., Petrova, K., Randahl, D., Rød, E.G., Schneider, G., von Uexkull, N., Vestby, J.</span>, 2019. ViEWS: A political violence early-warning system. Journal of Peace Research 56, 155–174. <a href="https://doi.org/10.1177/0022343319823860">https://doi.org/10.1177/0022343319823860</a></p>
+</div>
+<div id="ref-homerdixon1995">
+<p><span class="smallcaps">Homer-Dixon, T.F.</span>, 1995. The Ingenuity Gap: Can Poor Countries Adapt to Resource Scarcity? Population and Development Review 21, 587–612. <a href="https://doi.org/10.2307/2137751">https://doi.org/10.2307/2137751</a></p>
+</div>
+<div id="ref-homerdixon1994">
+<p><span class="smallcaps">Homer-Dixon, T.F.</span>, 1994. Environmental Scarcities and Violent Conflict: Evidence from Cases. International Security 19, 5. <a href="https://doi.org/10.2307/2539147">https://doi.org/10.2307/2539147</a></p>
+</div>
+<div id="ref-homerdixon1991">
+<p><span class="smallcaps">Homer-Dixon, T.F.</span>, 1991. On the Threshold: Environmental Changes as Causes of Acute Conflict. International Security 16, 76–116. <a href="https://doi.org/10.2307/2539061">https://doi.org/10.2307/2539061</a></p>
+</div>
+<div id="ref-jones2017">
+<p><span class="smallcaps">Jones, B.T., Mattiacci, E., Braumoeller, B.F.</span>, 2017. Food scarcity and state vulnerability: Unpacking the link between climate variability and violent unrest. Journal of Peace Research 54, 335–350. <a href="https://doi.org/10.1177/0022343316684662">https://doi.org/10.1177/0022343316684662</a></p>
+</div>
+<div id="ref-koren2018">
+<p><span class="smallcaps">Koren, O.</span>, 2018. Food Abundance and Violent Conflict in Africa. American Journal of Agricultural Economics 100, 981–1006. <a href="https://doi.org/10.1093/ajae/aax106">https://doi.org/10.1093/ajae/aax106</a></p>
+</div>
+<div id="ref-kuzma2020">
+<p><span class="smallcaps">Kuzma, S., Kerins, P., Saccoccia, E., Whiteside, C., Roos, H., Iceland, C.</span>, 2020. Leveraging Water Data in a Machine Learning-Based Model for Forecasting Violent Conflict. Technical note. [WWW Document]. URL <a href="https://www.wri.org/publication/leveraging-water-data">https://www.wri.org/publication/leveraging-water-data</a></p>
+</div>
+<div id="ref-lecun2015">
+<p><span class="smallcaps">LeCun, Y., Bengio, Y., Hinton, G.</span>, 2015. Deep learning. Nature 521, 436–444. <a href="https://doi.org/10.1038/nature14539">https://doi.org/10.1038/nature14539</a></p>
+</div>
+<div id="ref-muchlinski2016">
+<p><span class="smallcaps">Muchlinski, D., Siroky, D., He, J., Kocher, M.</span>, 2016. Comparing Random Forest with Logistic Regression for Predicting Class-Imbalanced Civil War Onset Data. Political Analysis 24, 87–103. <a href="https://doi.org/10.1093/pan/mpv024">https://doi.org/10.1093/pan/mpv024</a></p>
+</div>
+<div id="ref-owain2018">
+<p><span class="smallcaps">Owain, E.L., Maslin, M.A.</span>, 2018. Assessing the relative contribution of economic, political and environmental factors on past conflict and the displacement of people in East Africa. Palgrave Communications 4, 47. <a href="https://doi.org/10.1057/s41599-018-0096-6">https://doi.org/10.1057/s41599-018-0096-6</a></p>
+</div>
+<div id="ref-perry2013">
+<p><span class="smallcaps">Perry, C.</span>, 2013. Machine Learning and Conflict Prediction: A Use Case. Stability: International Journal of Security and Development 2, Art. 56. <a href="https://doi.org/10.5334/sta.cr">https://doi.org/10.5334/sta.cr</a></p>
+</div>
+<div id="ref-pettersson2020">
+<p><span class="smallcaps">Pettersson, T., Öberg, M.</span>, 2020. Organized violence, 1989–2019. Journal of Peace Research 57, 597–613. <a href="https://doi.org/10.1177/0022343320934986">https://doi.org/10.1177/0022343320934986</a></p>
+</div>
+<div id="ref-radocaj2020">
+<p><span class="smallcaps">Radočaj, D., š, J.O., Juriši’c, M., Gašparovi’c, M.</span>, 2020. Global Open Data Remote Sensing Satellite Missions for Land Monitoring and Conservation: A Review. Land 9, 402. <a href="https://doi.org/10.3390/land9110402">https://doi.org/10.3390/land9110402</a></p>
+</div>
+<div id="ref-raleigh2010a">
+<p><span class="smallcaps">Raleigh, C., Linke, A., Hegre, H., Karlsen, J.</span>, 2010. Introducing ACLED: An Armed Conflict Location and Event Dataset. Journal of Peace Research 47, 651–660.</p>
+</div>
+<div id="ref-reuveny2007">
+<p><span class="smallcaps">Reuveny, R.</span>, 2007. Climate change-induced migration and violent conflict. Political Geography 26, 656–673. <a href="https://doi.org/10.1016/j.polgeo.2007.05.001">https://doi.org/10.1016/j.polgeo.2007.05.001</a></p>
+</div>
+<div id="ref-sachs1995">
+<p><span class="smallcaps">Sachs, J.D., Warner, A.M.</span>, 1995. Natural Resource Abundance and Economic Growth. National Bureau of Economic Research. <a href="https://doi.org/10.3386/w5398">https://doi.org/10.3386/w5398</a></p>
+</div>
+<div id="ref-schellens2020">
+<p><span class="smallcaps">Schellens, M.K., Belyazid, S.</span>, 2020. Revisiting the Contested Role of Natural Resources in Violent Conflict Risk through Machine Learning. Sustainability 12, 6574. <a href="https://doi.org/10.3390/su12166574">https://doi.org/10.3390/su12166574</a></p>
+</div>
+<div id="ref-schutte2017">
+<p><span class="smallcaps">Schutte, S.</span>, 2017. Regions at Risk: Predicting Conflict Zones in African Insurgencies. Political Science Research and Methods 5, 447–465. <a href="https://doi.org/10.1017/psrm.2015.84">https://doi.org/10.1017/psrm.2015.84</a></p>
+</div>
+<div id="ref-tollefsen2012">
+<p><span class="smallcaps">Tollefsen, A.F., Strand, H., Buhaug, H.</span>, 2012. PRIO-GRID: A unified spatial data structure. Journal of Peace Research 49, 363–374. <a href="https://doi.org/10.1177/0022343311431287">https://doi.org/10.1177/0022343311431287</a></p>
+</div>
+<div id="ref-ward2005a">
+<p><span class="smallcaps">Ward, M.D., Bakke, K.</span>, 2005. Predicting Civil Conflicts: On the Utility of Empirical Research, in: Proccedings of the Conference on Disaggregating the Study of Civil War and Transnational Violence. University of California. San Diego, Usa. p. 22.</p>
+</div>
+<div id="ref-ward2010">
+<p><span class="smallcaps">Ward, M.D., Greenhill, B.D., Bakke, K.M.</span>, 2010. The perils of policy by p-value: Predicting civil conflicts. Journal of Peace Research 47, 363–375. <a href="https://doi.org/10.1177/0022343309356491">https://doi.org/10.1177/0022343309356491</a></p>
+</div>
+<div id="ref-ward2013">
+<p><span class="smallcaps">Ward, M.D., Metternich, N.W., Dorff, C.L., Gallop, M., Hollenbach, F.M., Schultz, A., Weschle, S.</span>, 2013. Learning from the Past and Stepping into the Future: Toward a New Generation of Conflict Prediction. International Studies Review 15, 473–490. <a href="https://doi.org/10.1111/misr.12072">https://doi.org/10.1111/misr.12072</a></p>
+</div>
+<div id="ref-witmer2017">
+<p><span class="smallcaps">Witmer, F.D., Linke, A.M., O’Loughlin, J., Gettelman, A., Laing, A.</span>, 2017. Subnational violent conflict forecasts for sub-Saharan Africa, 201565, using climate-sensitive models. Journal of Peace Research 54, 175–192. <a href="https://doi.org/10.1177/0022343316682064">https://doi.org/10.1177/0022343316682064</a></p>
+</div>
+<div id="ref-worldpop2018">
+<p><span class="smallcaps">WorldPop</span>, 2018. Global High Resolution Population Denominators Project [WWW Document]. URL <a href="https://doi.org/10.5258/SOTON/WP00654">https://doi.org/10.5258/SOTON/WP00654</a></p>
+</div>
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.3 (2020-02-29)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Debian GNU/Linux 10 (buster)
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.3.5.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] plotly_4.9.2.1     lubridate_1.7.9.2  rgdal_1.5-18       countrycode_1.2.0 
+ [5] welchADF_0.3.2     rstatix_0.6.0      ggpubr_0.4.0       scales_1.1.1      
+ [9] RColorBrewer_1.1-2 latex2exp_0.4.0    cubelyr_1.0.0      gridExtra_2.3     
+[13] ggtext_0.1.1       magrittr_2.0.1     tmap_3.2           sf_0.9-7          
+[17] raster_3.4-5       sp_1.4-4           forcats_0.5.0      stringr_1.4.0     
+[21] purrr_0.3.4        readr_1.4.0        tidyr_1.1.2        tibble_3.0.6      
+[25] tidyverse_1.3.0    huwiwidown_0.0.1   kableExtra_1.3.1   knitr_1.31        
+[29] rmarkdown_2.7.3    bookdown_0.21      ggplot2_3.3.3      dplyr_1.0.2       
+[33] devtools_2.3.2     usethis_2.0.0     
+
+loaded via a namespace (and not attached):
+  [1] readxl_1.3.1       backports_1.2.0    workflowr_1.6.2   
+  [4] lwgeom_0.2-5       lazyeval_0.2.2     splines_3.6.3     
+  [7] crosstalk_1.1.0.1  leaflet_2.0.3      digest_0.6.27     
+ [10] htmltools_0.5.1.1  memoise_1.1.0      openxlsx_4.2.3    
+ [13] remotes_2.2.0      modelr_0.1.8       prettyunits_1.1.1 
+ [16] colorspace_2.0-0   rvest_0.3.6        haven_2.3.1       
+ [19] xfun_0.21          leafem_0.1.3       callr_3.5.1       
+ [22] crayon_1.4.0       jsonlite_1.7.2     lme4_1.1-26       
+ [25] glue_1.4.2         stars_0.4-3        gtable_0.3.0      
+ [28] webshot_0.5.2      car_3.0-10         pkgbuild_1.2.0    
+ [31] abind_1.4-5        DBI_1.1.0          Rcpp_1.0.5        
+ [34] viridisLite_0.3.0  gridtext_0.1.4     units_0.6-7       
+ [37] foreign_0.8-71     htmlwidgets_1.5.3  httr_1.4.2        
+ [40] ellipsis_0.3.1     pkgconfig_2.0.3    XML_3.99-0.3      
+ [43] dbplyr_2.0.0       labeling_0.4.2     tidyselect_1.1.0  
+ [46] rlang_0.4.10       later_1.1.0.1      tmaptools_3.1     
+ [49] munsell_0.5.0      cellranger_1.1.0   tools_3.6.3       
+ [52] cli_2.3.0          generics_0.1.0     broom_0.7.2       
+ [55] evaluate_0.14      yaml_2.2.1         processx_3.4.5    
+ [58] leafsync_0.1.0     fs_1.5.0           zip_2.1.1         
+ [61] nlme_3.1-150       xml2_1.3.2         compiler_3.6.3    
+ [64] rstudioapi_0.13    curl_4.3           png_0.1-7         
+ [67] e1071_1.7-4        testthat_3.0.1     ggsignif_0.6.0    
+ [70] reprex_0.3.0       statmod_1.4.35     stringi_1.5.3     
+ [73] ps_1.5.0           desc_1.2.0         lattice_0.20-41   
+ [76] Matrix_1.2-18      nloptr_1.2.2.2     classInt_0.4-3    
+ [79] vctrs_0.3.6        pillar_1.4.7       lifecycle_0.2.0   
+ [82] data.table_1.13.2  httpuv_1.5.5       R6_2.5.0          
+ [85] promises_1.1.1     KernSmooth_2.23-18 rio_0.5.16        
+ [88] sessioninfo_1.1.1  codetools_0.2-16   dichromat_2.0-0   
+ [91] boot_1.3-25        MASS_7.3-53        assertthat_0.2.1  
+ [94] pkgload_1.1.0      rprojroot_2.0.2    withr_2.4.1       
+ [97] mgcv_1.8-33        parallel_3.6.3     hms_1.0.0         
+[100] grid_3.6.3         minqa_1.2.4        class_7.3-17      
+[103] carData_3.0-4      git2r_0.27.1       base64enc_0.1-3   </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

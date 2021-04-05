@@ -1,0 +1,1386 @@
+\appendix
+
+# Appendix
+
+\renewcommand{\thefigure}{A\arabic{figure}} \setcounter{figure}{0}
+\renewcommand{\thetable}{A\arabic{table}} \setcounter{table}{0}
+\renewcommand{\theequation}{A\arabic{table}} \setcounter{equation}{0}
+\pagenumbering{Roman}   
+\setcounter{page}{1}
+
+```{r}
+var_iter = c("\\textbf{cb}", "\\textbf{sb}", "\\textbf{ns}", "\\textbf{os}")
+unit_iter = c("\\textit{adm}", "\\textit{bas}")
+combi = expand.grid(unit_iter, var_iter)
+names_unit = combi$Var1
+names_var = combi$Var2
+```
+
+## Density Plots of Predicted Conflict Probability {-}
+
+```{r appendix-densities, fig.cap=paste0("Predicted probability of ", names_var, " conflicts for ", names_unit, " districts. Note that in order to increase visibility the scale on the y-axis differs from one facet to another."), fig.height=3.6, fig.scap=paste0("Predicted probability of ", names_var, " conflicts for ", names_unit, " districts."), eval = T}
+
+files <- list.files("../output/acc/", pattern = ".rds", full.names = T)
+
+data <- lapply(files, function(x){
+  out = vars_detect(x)
+  tmp = readRDS(x)
+  
+  thres_df = readRDS(
+    paste0(
+      "../output/test-results/test-results-", 
+      paste(out$type, out$unit, out$var, sep = "-"),
+      ".rds")
+  )
+  if(out$var == "all"){
+    for(i in 1:length(tmp)){
+      tmp[[i]]$df$var = "cb"
+      out$var = "cb"
+    }
+  }
+  thres_df %>%
+    filter(name == "f2", month == 0) %>% 
+    filter(score == max(score, na.rm = T)) %>%
+    pull(rep) -> rep
+  
+  thres_df %>%
+    filter(name == "threshold", rep == !!rep) %>%
+    pull(score) -> threshold
+  
+  list(unit = out$unit, type = out$type, var = out$var, thres = threshold, df = tmp[[rep]]$df)
+}) 
+
+units <- unlist(lapply(data, `[[`, 1))
+types <- unlist(lapply(data, `[[`, 2))
+vars <- unlist(lapply(data, `[[`, 3))
+dfs <-  lapply(data, `[[`, 4)
+
+
+var_iter = c("cb", "sb", "ns", "os")
+unit_iter = c("states", "basins")
+type_iter = c("baseline", "structural", "environmental")
+
+
+for(var in var_iter){
+  tmp1 = data[vars == var]
+  for(unit in unit_iter){
+    unit_lab = if_else(unit == "states", "adm", "bas")
+    units =  unlist(lapply(tmp1, `[[`, 1))
+    tmp2 = tmp1[units == unit]
+    types =  unlist(lapply(tmp2, `[[`, 2))
+    thresholds = unlist(lapply(tmp2, `[[`, 4))
+    thresholds = data.frame(type = factor(types, 
+                                          levels = c("baseline", "structural", "environmental"),
+                                          labels = c("CH", "SV", "EV")), 
+                            thresholds = thresholds)
+    
+    df = do.call(rbind, lapply(tmp2, `[[`, 5))
+    opts_current$set(label = paste("dens", unit,var, sep = "-")) # setting label 
+    df %>%
+      mutate(type = factor(type, 
+                           levels = c("baseline", "structural", "environmental"),
+                           labels = c("CH", "SV", "EV")),
+             unit = factor(unit,
+                           levels = c("states", "basins"),
+                           labels = c("adm", "bas")),
+             obsv = factor(obsv,
+                           levels = c("peace", "conflict"),
+                           labels = c("Peace", "Conflict"))) %>%
+      ggplot() +
+      geom_density(aes(x=pred, fill = obsv), alpha = .4) +
+      geom_vline(data = thresholds, aes(xintercept=thresholds), linetype=2) +
+      xlim(0,1) +
+      labs(fill = "", x = "Predicted Probability", y = "Density", 
+           subtitle = paste0("Unit: *", unit_lab, "*      Variable: **",var,"**")) +
+      scale_fill_brewer(palette="Dark2") +
+      facet_wrap(~type, scales = "free_y")+
+      my_theme +
+      theme(plot.subtitle =  element_markdown(size = 10)) -> plt_out
+    print(plt_out)
+  }
+}
+
+
+
+
+
+```
+
+\newpage
+
+## Additional Global Performance Metrics {-}
+
+```{r appendix-global-prep, eval = T}
+#files <- list.files("../output/acc/", pattern = ".rds", full.names = T)
+files <- list.files("../output/test-results/", pattern = "test-results", full.names = T)
+# files <- files[-grep("test-results-regression-basins", files)]
+acc_data <- lapply(files, function(x){
+  out <- vars_detect(x)
+  tmp = readRDS(x)
+  tmp %>%
+    filter(month == 0) %>%
+    group_by(name) %>%
+    summarise(mean = mean(score, na.rm = T),
+              median = median(score, na.rm = TRUE),
+              sd = sd(score, na.rm = T),
+              type = out$type,
+              unit = out$unit,
+              var = out$var) %>%
+    ungroup()
+}) 
+acc_data = do.call(rbind, acc_data)
+
+acc_data %<>% 
+  mutate(var = factor(var, 
+                      levels = c("all", "sb", "ns", "os"),
+                      labels = c("cb", "sb", "ns", "os")),
+         type = factor(type, 
+                       labels = c("LR", "CH", "SV", "EV"),
+                       levels = c("regression", "baseline", "structural", "environmental")),
+         unit = if_else(unit == "basins", "bas", "adm"),
+         unit = factor(unit, levels = c("adm", "bas"), labels = c("adm", "bas")))
+
+pd <- position_dodge(0.1)
+score = "median"
+```
+
+```{r appendix-global-auc, fig.cap="Global performance of the AUC metric (top) and pecificity (bottom).", fig.scap="Global performance of the AUC metric and specificity.", eval = T, fig.height=4}
+
+labs.unit = c("_adm_", "_bas_")
+names(labs.unit) = c("adm", "bas")
+labs.name = c("", "")
+names(labs.name) = c("AUC", "AUC")
+
+plt_auc = acc_data %>%
+  dplyr::filter(name == "auc") %>%
+  dplyr::select(type, unit, var, name, score = !!score, sd) %>%
+  ggplot(aes(color=var, x=type, shape=var)) +
+  geom_point(aes(y=score), position = position_dodge2(width = .5)) +
+  geom_errorbar(aes(ymin=score-sd, ymax=score+sd, x=type), width=.5, position = position_dodge2(width = .5)) +
+  scale_color_brewer(palette = "Dark2") +
+  labs(x="", y = "AUC", color = "Conflict Class", shape = "Conflict Class") +
+  ylim(0,1) +
+  facet_wrap(~unit+name, labeller = labeller(unit = labs.unit, name = labs.name)) +
+  guides(color=guide_legend(ncol=4)) +
+  my_theme 
+
+plt_spec = acc_data %>%
+  filter(name == "specificity") %>%
+  dplyr::select(type, unit, var, name, score = !!score, sd) %>%
+  ggplot(aes(color=var, x=type, shape=var)) +
+  geom_point(aes(y=score), position = position_dodge2(width = .5)) +
+  geom_errorbar(aes(ymin=score-sd, ymax=score+sd, x=type), width=.5, position = position_dodge2(width = .5)) +
+  scale_color_brewer(palette = "Dark2") +
+  labs(x="Model type", y = "Specificity", color = "Conflict Class", shape = "Conflict Class") +
+  ylim(0,1) +
+  facet_wrap(~unit+name, labeller = labeller(unit = labs.unit, name = labs.name)) +
+  guides(color=guide_legend(ncol=4)) +
+  my_theme
+
+if(knitr::is_latex_output()){
+  ggarrange(plt_auc, plt_spec, ncol = 1, common.legend = T, legend = "bottom")
+} else {
+  require(plotly)
+  subplot(plt_auc, plt_spec, nrows = 2) %>%
+    layout(legend = list(orientation = "h", 
+                         xanchor = "center",
+                         x = 0.5, y = -.1))
+}
+
+```
+
+\newpage
+
+## Additional Temporal Performance Metrics {-}
+
+```{r appendix-time-prep, eval = T}
+#files <- list.files("../output/acc/", pattern = ".rds", full.names = T)
+files <- list.files("../output/test-results/", pattern = "test-results", full.names = T)
+# files <- files[-grep("test-results-regression-basins", files)]
+acc_data <- lapply(files, function(x){
+  out <- vars_detect(x)
+  tmp = readRDS(x)
+  tmp$type = out$type
+  
+  tmp %>%
+    filter(month != 0)
+}) 
+acc_data = do.call(rbind, acc_data)
+
+acc_data %<>% 
+  mutate(var = factor(var, labels = c("all", "sb", "ns", "os"),
+                      levels = c("all", "sb", "ns", "os")),
+         type = factor(type, 
+                       labels = c("LR", "CH", "SV", "EV"),
+                       levels = c("regression", "baseline", "structural", "environmental")),
+         unit = if_else(unit == "basins", "bas", "adm"),
+         unit = factor(unit, levels = c("adm", "bas"), labels = c("adm", "bas")))
+
+labs.unit = c("_adm_", "_bas_")
+names(labs.unit) = c("adm", "bas")
+labs.var = c("__cb__", "__sb__", "__ns__", "__os__")
+names(labs.var) = c("all", "sb", "ns", "os")
+```
+
+```{r apendix-time-auc, fig.cap="Time dependent performance of the AUC metric.", fig.scap="Time dependent performance of the AUC metric.", eval = T,  fig.height=4}
+
+acc_data %>%
+  filter(name == "auc") %>%
+  dplyr::select(name, score, month, var, unit, type) %>%
+  ggplot(aes(x=month, y=score, color=type, linetype=type))+
+  stat_smooth(geom='line', alpha=.4, size=.5, se=FALSE, lwd=1)+
+  facet_grid(unit~var, labeller = labeller(unit = labs.unit, var = labs.var)) +
+  scale_x_continuous(breaks=c(1:12)) +
+  ylim(0,1) +
+  theme_classic() +
+  scale_color_brewer(palette="Dark2") + 
+  labs(subtitle = "AUC", x = "Prediction window (in months)", y = "Score", color = "Model", linetype = "Model") +
+  guides(color=guide_legend(ncol=4)) +
+  my_theme -> plt_out
+plot_output(plt_out)
+
+```
+
+```{r appendix-time-specificity, fig.cap="Time dependent performance of specificity.", fig.scap="Time dependent performance of specificity.", eval = T, fig.height=4}
+
+acc_data %>%
+  filter(name == "specificity") %>%
+  dplyr::select(name, score, month, var, unit, type) %>%
+  ggplot(aes(x=month, y=score, color=type, linetype=type))+
+  stat_smooth(geom='line', alpha=.4, size=.5, se=FALSE, lwd=1)+
+  facet_grid(unit~var, labeller = labeller(unit = labs.unit, var = labs.var)) +
+  scale_x_continuous(breaks=c(1:12)) +
+  ylim(0,1) +
+  theme_classic() +
+  scale_color_brewer(palette="Dark2") + 
+  labs(subtitle = "Specificity", x = "Prediction window (in months)", y = "Score", color = "Model", linetype="Model") +
+  guides(color=guide_legend(ncol=4)) +
+  my_theme -> plt_out
+plot_output(plt_out)
+
+```
+
+\newpage
+
+## ROC Curves {-}
+
+```{r apendix-auc-prep, eval = T}
+files <- list.files("../output/acc/", pattern = ".rds", full.names = T)
+
+auc_data <- lapply(files, function(x){
+  out <- vars_detect(x)
+  tmp = readRDS(x)
+  
+  df_auc <- lapply(1:length(tmp), function(i){
+    rep = tmp[[i]]$rep
+    FPR = tmp[[i]]$auc$curve[,1]
+    recall = tmp[[i]]$auc$curve[,2]
+    FPR = FPR[ c(rep(FALSE, 3), TRUE)] # reduce to every 4th entry to reduce file size
+    recall = recall[ c(rep(FALSE, 3), TRUE)] # reduce to every 4th entry to reduce file size
+    
+    auc <- tibble(type = out$type,
+                  unit = out$unit,
+                  var = out$var,
+                  rep = rep,
+                  FPR = FPR,
+                  recall = recall)
+  })
+  df_auc = do.call(rbind, df_auc)
+}) 
+
+auc_data <- do.call(rbind, auc_data)
+
+auc_data %<>% 
+  mutate(var = factor(var, 
+                      labels = c("__cb__", "__sb__", "__ns__", "__os__"),
+                      levels = c("all", "sb", "ns", "os")),
+         type = factor(type, 
+                       labels = c("CH", "SV", "EV"),
+                       levels = c("baseline", "structural", "environmental")),
+         unit = factor(unit, levels = c("states", "basins"), labels = c("adm", "bas")))
+```
+
+```{r appendix-auc-adm, fig.cap="ROC curves for \\textit{adm} district models.", fig.scap = "ROC curves for \\textit{adm} district models.", eval = T,  fig.height=4}
+
+auc_data %>% 
+  filter(unit == "adm") %>%
+  mutate(group = paste(type,var,rep,sep="-")) %>%
+  ggplot(aes(x=FPR, y=recall,color=type,linetype=type)) +
+  geom_line(aes(group=group), size=.1, alpha = .5) +
+  geom_smooth(alpha=1, size=.5, se=FALSE) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(n=4, name  = "Dark2")[2:4]) +
+  facet_wrap(~var, ncol = 2) +
+  labs(color = "Model", linetype="Model", y = "Sensitivity", x = "FPR", subtitle = "adm") +
+  guides(color=guide_legend(override.aes = list(alpha = 1, ncol = 3))) +
+  my_theme +
+  theme(
+    plot.subtitle =  element_markdown(size = 10, face =  "italic")
+  ) 
+
+```
+
+```{r appendix-auc-bas, fig.cap="ROC curves for \\textit{bas} district models.", fig.scap = "ROC curves for \\textit{bas} district models.", eval = T,  fig.height=4}
+
+auc_data %>% 
+  filter(unit == "bas") %>%
+  mutate(group = paste(type,var,rep,sep="-")) %>%
+  ggplot(aes(x=FPR, y=recall,color=type,linetype=type)) +
+  geom_line(aes(group=group), size=.1, alpha = .5) +
+  geom_smooth(alpha=1, size=.5, se=FALSE) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(n=4, name  = "Dark2")[2:4]) +
+  facet_wrap(~var, ncol = 2) +
+  labs(color = "Model", linetype="Model", y = "Sensitivity", x = "FPR", subtitle = "bas") +
+  guides(color=guide_legend(override.aes = list(alpha = 1, ncol = 3))) +
+  my_theme +
+  theme(
+    plot.subtitle =  element_markdown(size = 10, face =  "italic")
+  )
+
+```
+
+\newpage
+
+\begin{tiny}
+\section*{Additional Spatial Predictions}
+
+```{r appendix-spatial-prep, eval = T}
+
+adm <- st_read("../data/vector/states_mask.gpkg", quiet = T)
+adm <- select(adm, geom)
+adm <- st_make_valid(adm)
+bas <- st_read("../data/vector/basins_simple.gpkg", quiet = T)
+bas <- select(bas, geom)
+bas <- st_make_valid(bas)
+crs <- st_crs("EPSG:3857")
+adm <- st_transform(adm, crs)
+adm <- st_simplify(adm, dTolerance = 1500, preserveTopology = T)
+bas <- st_transform(bas, crs) 
+bas <- st_simplify(bas, dTolerance = 1000, preserveTopology = T)
+
+
+files = list.files("../output/test-results/", pattern ="cnfrisk", full.names = T)
+
+map_data = lapply(files, function(x){
+  out = vars_detect(x)
+  tmp = st_read(x, quiet = T)
+  tmp = st_drop_geometry(tmp)
+  tmp$unit = out$unit
+  tmp$type = out$type
+  tmp$var = out$var
+  tmp %<>%
+    select(unit,type,var,mean,obsv)
+  if(out$unit == "basins") {
+    st_as_sf(bind_cols(bas, tmp))
+  } else {
+    st_as_sf(bind_cols(adm, tmp))
+  }
+})
+
+map_data = do.call(rbind, map_data)
+
+```
+
+```{r appendix-spatial-adm-sb, fig.scap="Spatial prediction of conflict class \\textbf{sb} for \\textit{adm} districts.", fig.cap="Spatial prediction of conflict class \\textbf{sb} for \\textit{adm} districts.", fig.height=9, fig.width=6, eval = T}
+
+map_data %>% 
+  filter(unit == "states", var == "sb") -> plt_data
+
+breaks = seq(0,1,0.1)
+
+plt_data %>% 
+  filter(type == "baseline") %>%
+  dplyr::select(obsv) %>%
+  mutate(obsv = ifelse(obsv > 0, obsv, NA)) -> obsv_data
+
+obsv_data %>%
+  tm_shape() +
+  tm_polygons("obsv", 
+              palette = "PuBu",
+              lwd=.01, 
+              border.col = "grey90", 
+              breaks = 0:12,
+              style = "fixed", 
+              title = "Conflict Months",
+              showNA = FALSE,
+              legend.hist = TRUE,
+              labels = as.character(1:12)) +
+  tm_legend(stack = "horizontal") + 
+  tm_layout(title = "Observation",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_obsv
+
+plt_data %>%
+  filter(type == "baseline") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE) +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Conflict History (CH)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_bas
+
+plt_data %>%
+  filter(type == "structural") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Structural Variables (SV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_str
+
+plt_data %>%
+  filter(type == "environmental") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Environmental Variables (EV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_env
+
+tmap_arrange(map_obsv, map_bas, map_str, map_env, ncol = 2)
+```
+
+```{r appendix-spatial-adm-ns, fig.scap="Spatial prediction of conflict class \\textbf{ns} for \\textit{adm} districts.", fig.cap="Spatial prediction of conflict class \\textbf{ns} for \\textit{adm} districts.", fig.height=9, fig.width=6, eval = T}
+
+map_data %>% 
+  filter(unit == "states", var == "ns") -> plt_data
+
+breaks = seq(0,1,0.1)
+
+plt_data %>% 
+  filter(type == "baseline") %>%
+  dplyr::select(obsv) %>%
+  mutate(obsv = ifelse(obsv > 0, obsv, NA)) -> obsv_data
+
+obsv_data %>%
+  tm_shape() +
+  tm_polygons("obsv", 
+              palette = "PuBu",
+              lwd=.01, 
+              border.col = "grey90", 
+              breaks = 0:12,
+              style = "fixed", 
+              title = "Conflict Months",
+              showNA = FALSE,
+              legend.hist = TRUE,
+              labels = as.character(1:12)) +
+  tm_legend(stack = "horizontal") + 
+  tm_layout(title = "Observation",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_obsv
+
+plt_data %>%
+  filter(type == "baseline") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE) +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Conflict History (CH)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_bas
+
+plt_data %>%
+  filter(type == "structural") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Structural Variables (SV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_str
+
+plt_data %>%
+  filter(type == "environmental") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Environmental Variables (EV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_env
+
+tmap_arrange(map_obsv, map_bas, map_str, map_env, ncol = 2)
+```
+
+```{r appendix-spatial-adm-os, fig.scap="Spatial prediction of conflict class \\textbf{os} for \\textit{adm} districts.", fig.cap="Spatial prediction of conflict class \\textbf{os} for \\textit{adm} districts.", fig.height=9, fig.width=6, eval = T}
+
+map_data %>% 
+  filter(unit == "states", var == "os") -> plt_data
+
+breaks = seq(0,1,0.1)
+
+plt_data %>% 
+  filter(type == "baseline") %>%
+  dplyr::select(obsv) %>%
+  mutate(obsv = ifelse(obsv > 0, obsv, NA)) -> obsv_data
+
+obsv_data %>%
+  tm_shape() +
+  tm_polygons("obsv", 
+              palette = "PuBu",
+              lwd=.01, 
+              border.col = "grey90", 
+              breaks = 0:12,
+              style = "fixed", 
+              title = "Conflict Months",
+              showNA = FALSE,
+              legend.hist = TRUE,
+              labels = as.character(1:12)) +
+  tm_legend(stack = "horizontal") + 
+  tm_layout(title = "Observation",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_obsv
+
+plt_data %>%
+  filter(type == "baseline") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE) +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Conflict History (CH)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_bas
+
+plt_data %>%
+  filter(type == "structural") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Structural Variables (SV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_str
+
+plt_data %>%
+  filter(type == "environmental") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Environmental Variables (EV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_env
+
+tmap_arrange(map_obsv, map_bas, map_str, map_env, ncol = 2)
+```
+
+```{r appendix-spatial-bas-sb, fig.scap="Spatial prediction of conflict class \\textbf{sb} for \\textit{bas} districts.", fig.cap="Spatial prediction of conflict class \\textbf{sb} for \\textit{bas} districts.", fig.height=9, fig.width=6, eval = T}
+
+map_data %>% 
+  filter(unit == "basins", var == "sb") -> plt_data
+
+breaks = seq(0,1,0.1)
+
+plt_data %>% 
+  filter(type == "baseline") %>%
+  dplyr::select(obsv) %>%
+  mutate(obsv = ifelse(obsv > 0, obsv, NA)) -> obsv_data
+
+obsv_data %>%
+  tm_shape() +
+  tm_polygons("obsv", 
+              palette = "PuBu",
+              lwd=.01, 
+              border.col = "grey90", 
+              breaks = 0:12,
+              style = "fixed", 
+              title = "Conflict Months",
+              showNA = FALSE,
+              legend.hist = TRUE,
+              labels = as.character(1:12)) +
+  tm_legend(stack = "horizontal") + 
+  tm_layout(title = "Observation",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_obsv
+
+plt_data %>%
+  filter(type == "baseline") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE) +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Conflict History (CH)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_bas
+
+plt_data %>%
+  filter(type == "structural") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Structural Variables (SV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_str
+
+plt_data %>%
+  filter(type == "environmental") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Environmental Variables (EV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_env
+
+tmap_arrange(map_obsv, map_bas, map_str, map_env, ncol = 2)
+```
+
+```{r appendix-spatial-bas-ns, fig.scap="Spatial prediction of conflict class \\textbf{ns} for \\textit{bas} districts.", fig.cap="Spatial prediction of conflict class \\textbf{ns} for \\textit{bas} districts.", fig.height=9, fig.width=6, eval = T}
+
+map_data %>% 
+  filter(unit == "basins", var == "ns") -> plt_data
+
+breaks = seq(0,1,0.1)
+
+plt_data %>% 
+  filter(type == "baseline") %>%
+  dplyr::select(obsv) %>%
+  mutate(obsv = ifelse(obsv > 0, obsv, NA)) -> obsv_data
+
+obsv_data %>%
+  tm_shape() +
+  tm_polygons("obsv", 
+              palette = "PuBu",
+              lwd=.01, 
+              border.col = "grey90", 
+              breaks = 0:12,
+              style = "fixed", 
+              title = "Conflict Months",
+              showNA = FALSE,
+              legend.hist = TRUE,
+              labels = as.character(1:12)) +
+  tm_legend(stack = "horizontal") + 
+  tm_layout(title = "Observation",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_obsv
+
+plt_data %>%
+  filter(type == "baseline") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE) +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Conflict History (CH)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_bas
+
+plt_data %>%
+  filter(type == "structural") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Structural Variables (SV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_str
+
+plt_data %>%
+  filter(type == "environmental") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Environmental Variables (EV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_env
+
+tmap_arrange(map_obsv, map_bas, map_str, map_env, ncol = 2)
+```
+
+```{r appendix-spatial-bas-os, fig.scap="Spatial prediction of conflict class \\textbf{os} for \\textit{bas} districts.", fig.cap="Spatial prediction of conflict class \\textbf{os} for \\textit{bas} districts.", fig.height=9, fig.width=6, eval = T}
+
+map_data %>% 
+  filter(unit == "basins", var == "os") -> plt_data
+
+breaks = seq(0,1,0.1)
+
+plt_data %>% 
+  filter(type == "baseline") %>%
+  dplyr::select(obsv) %>%
+  mutate(obsv = ifelse(obsv > 0, obsv, NA)) -> obsv_data
+
+obsv_data %>%
+  tm_shape() +
+  tm_polygons("obsv", 
+              palette = "PuBu",
+              lwd=.01, 
+              border.col = "grey90", 
+              breaks = 0:12,
+              style = "fixed", 
+              title = "Conflict Months",
+              showNA = FALSE,
+              legend.hist = TRUE,
+              labels = as.character(1:12)) +
+  tm_legend(stack = "horizontal") + 
+  tm_layout(title = "Observation",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_obsv
+
+plt_data %>%
+  filter(type == "baseline") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE) +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Conflict History (CH)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)   -> map_bas
+
+plt_data %>%
+  filter(type == "structural") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Structural Variables (SV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_str
+
+plt_data %>%
+  filter(type == "environmental") %>%
+  tm_shape() +
+  tm_polygons("mean", 
+              palette = "PuBu", 
+              lwd=.01, 
+              border.col = "grey90", 
+              title = "Probability of conflict", 
+              breaks = breaks, 
+              style = "fixed", 
+              legend.hist = TRUE)  +
+  tm_legend(stack = "horizontal") +
+  tm_layout(title = "Environmental Variables (EV)",
+            title.position = c("right", "top"),
+            title.size = 0.7,
+            legend.title.size = 0.7,
+            legend.text.size = 0.45,
+            legend.position = c("left", "bottom"),
+            legend.outside.position = "bottom",
+            legend.bg.color = "white",
+            legend.bg.alpha = 0,
+            legend.outside = TRUE,
+            legend.hist.width = 1,
+            legend.hist.height = .8,
+            legend.hist.size = .5)  -> map_env
+
+tmap_arrange(map_obsv, map_bas, map_str, map_env, ncol = 2)
+```
+\end{tiny}
+
+\newpage
+
+## QQ-Plots and Residual Plots of Interaction Model {-}
+
+```{r appendix-anova-prep, eval = T}
+files <- list.files("../output/test-results/", pattern = "test-results", full.names = T)
+acc_data <- lapply(files, function(x){
+  out <- vars_detect(x)
+  tmp = readRDS(x)
+  tmp %<>%
+    filter(name == "f2", 
+           month == 0)
+  tmp$type = out$type
+  tmp
+}) 
+
+acc_data = do.call(rbind, acc_data)
+acc_data %<>%
+  mutate(type = factor(type,
+                       levels = c("regression", "baseline", "structural", "environmental"),
+                       labels = c("LR", "CH", "SV", "EV")),
+         var = factor(var,
+                      levels = c("all", "sb", "ns", "os"),
+                      labels = c("cb", "sb", "ns", "os")),
+         unit = factor(unit, 
+                       levels = c("states", "basins"),
+                       labels = c("adm", "bas")))
+
+acc_data %>%
+  # filter(type != "LR") %>%
+  group_by(var) %>%
+  nest() %>%
+  mutate(model = map(data, ~lm(score ~ unit*type, data = .x)),
+         model = map(model, ~augment(.x)),
+         plots_resid= map(model, 
+                          ~ggplot(data = .x, aes(x=.fitted, y =.resid, shape = unit, color = type)) +
+                            geom_point(alpha = .5) +
+                            xlim(0.15,.7) +
+                            labs(x="Fitted values", 
+                                 y = "Residuals", 
+                                 color = "Aggregation unit", 
+                                 shape = "Predictor set", 
+                                 subtitle = var) +
+                            scale_color_brewer(palette = "Dark2") +
+                            guides(colour = guide_legend(override.aes = list(alpha = 1)),
+                                   shape = guide_legend(override.aes = list(alpha = 1))) +
+                            theme_classic() +
+                            theme(
+                              plot.subtitle=element_markdown(face = "bold", hjust = .5),
+                              plot.title = element_markdown(size = 10),
+                              plot.caption = element_markdown(size = 10),
+                              plot.tag = element_markdown(size = 10),
+                              strip.background = element_blank(),
+                              strip.text = element_markdown(size = 10),    
+                              strip.text.x = element_markdown(size = 10),
+                              strip.text.y = element_markdown(size = 10),
+                              legend.position = "bottom",
+                              legend.key.size = unit(0.4, "cm"),
+                              legend.text = element_markdown(size = 9),
+                              legend.title = element_markdown(size=10),
+                              axis.text = element_markdown(size = 7),
+                              axis.title=element_markdown(size=10)
+                            )),
+         plots_qq = map(model, 
+                        ~ggplot(data = .x, aes(sample = score, shape = unit, color = type)) +  
+                          stat_qq(alpha = .55) + 
+                          ylim(0.05, 0.85) +
+                          labs(x="Theoretical quantiles", 
+                               y = "Sample quantiles", 
+                               color = "Aggregation unit", 
+                               shape = "Predictor set", 
+                               subtitle = var) +
+                          scale_color_brewer(palette = "Dark2") +
+                          guides(colour = guide_legend(override.aes = list(alpha = 1)),
+                                 shape = guide_legend(override.aes = list(alpha = 1))) +
+                          theme_classic() +
+                          theme(
+                            plot.subtitle=element_markdown(face = "bold", hjust = .5),
+                            plot.title = element_markdown(size = 10),
+                            plot.caption = element_markdown(size = 10),
+                            plot.tag = element_markdown(size = 10),
+                            strip.background = element_blank(),
+                            strip.text = element_markdown(size = 10),    
+                            strip.text.x = element_markdown(size = 10),
+                            strip.text.y = element_markdown(size = 10),
+                            legend.position = "bottom",
+                            legend.key.size = unit(0.4, "cm"),
+                            legend.text = element_markdown(size = 9),
+                            legend.title = element_markdown(size=10),
+                            axis.text = element_markdown(size = 7),
+                            axis.title=element_markdown(size=10)
+                          )
+         )
+  ) -> lm_plots
+```
+
+```{r appendix-anova-qq, fig.scap = "QQ-plots of the linear interaction model for the F2-score.", fig.cap = "QQ-plots of the linear interaction model for the F2-score. Point shapes indicate the aggregation districts, colors the predictor set.", eval = T, fig.height=3.5}
+qqplots = lm_plots$plots_qq
+
+if(knitr::is_latex_output()){
+  ggarrange(qqplots[[1]] + 
+              theme(axis.title.x = element_blank(),
+                    axis.text.x = element_blank(),
+                    axis.ticks.x = element_blank(),
+                    axis.line.x = element_blank()), 
+            qqplots[[4]]+ 
+              theme(axis.title.x = element_blank(),
+                    axis.text.x = element_blank(),
+                    axis.ticks.x = element_blank(),
+                    axis.line.x = element_blank(),
+                    axis.title.y = element_blank(),
+                    axis.text.y = element_blank(),
+                    axis.ticks.y = element_blank(),
+                    axis.line.y = element_blank()),
+            qqplots[[2]], 
+            qqplots[[3]] +
+              theme(axis.title.y = element_blank(),
+                    axis.text.y = element_blank(),
+                    axis.ticks.y = element_blank(),
+                    axis.line.y = element_blank()), 
+            ncol = 2, nrow = 2, common.legend = TRUE, legend="bottom")
+} else {
+  for (i in 1:length(qqplots)){
+    var = as.character(qqplots[[i]]$labels$subtitle)
+    require(plotly)
+    ggplotly(qqplots[[i]] + ggtitle(var) + theme(plot.title = element_markdown(face = "bold"))) %>%
+      layout(legend = list(orientation = "h", 
+                           xanchor = "center",
+                           x = 0.5, y = -.2)) -> plt_out
+    print(plt_out)
+  }
+}
+
+```
+
+```{r appendix-anova-resid, fig.scap = "Residual plot of the linear interaction model for the F2-score.", fig.cap = "Residual plot of the linear interaction model for the F2-score. Point shapes indicate the aggregation districts, colors the predictor set.", eval = T, fig.height=3.5}
+residplots = lm_plots$plots_resid
+if(knitr::is_latex_output()){
+  ggarrange(residplots[[1]] + 
+              theme(axis.title.x = element_blank(),
+                    axis.text.x = element_blank(),
+                    axis.ticks.x = element_blank(),
+                    axis.line.x = element_blank()), 
+            residplots[[4]]+ 
+              theme(axis.title.x = element_blank(),
+                    axis.text.x = element_blank(),
+                    axis.ticks.x = element_blank(),
+                    axis.line.x = element_blank(),
+                    axis.title.y = element_blank(),
+                    axis.text.y = element_blank(),
+                    axis.ticks.y = element_blank(),
+                    axis.line.y = element_blank()),
+            residplots[[2]], 
+            residplots[[3]] +
+              theme(axis.title.y = element_blank(),
+                    axis.text.y = element_blank(),
+                    axis.ticks.y = element_blank(),
+                    axis.line.y = element_blank()), 
+            ncol = 2, nrow = 2, common.legend = TRUE, legend="bottom")
+} else {
+  for (i in 1:length(residplots)){
+    var = as.character(residplots[[i]]$labels$subtitle)
+    require(plotly)
+    ggplotly(residplots[[i]] + ggtitle(var) + theme(plot.title = element_markdown(face = "bold"))) %>%
+      layout(legend = list(orientation = "h", 
+                           xanchor = "center",
+                           x = 0.5, y = -.2)) -> plt_out
+    print(plt_out)
+  }
+}
+```
+
+\newpage
+
+## Descriptive Statistics of Interaction Variables with Agricultural Mask {-}
+
+```{r appendix-agr-table, eval = T}
+predictors = readRDS("../data/vector/predictor_cube.rds")
+vars = c("AGRET", "AGRGPP", "AGRLST", "AGRPREC", "AGRANOM", "AGRSPI1", "AGRSPI3", "AGRSPI6", "AGRSPI12", "AGRSPEI1", "AGRSPEI3", "AGRSPEI6", "AGRSPEI12")
+predictors %>% 
+  filter(var %in% vars) %>%
+  as_tibble() %>%
+  mutate(var = factor(var,
+                      labels = vars,
+                      levels = vars)) %>%
+  dplyr::select(id, unit, var, value) %>%
+  filter(!(unit == "states" & id > 847)) %>%
+  group_by(unit, var) %>%
+  summarise("Min." = round(min(value, na.rm = T),3),
+            "1st Qu." = round(quantile(value, 0.25, na.rm = T),3),
+            "Median" = round(median(value, na.rm = T),3),
+            "Mean" = round(mean(value, na.rm = T),3),
+            "3rd Qu." = round(quantile(value, 0.75, na.rm = T),3),
+            "Max." = round(max(value, na.rm = T),3),
+            "NA's" = round(sum(is.na(value)),3)) %>%
+  ungroup() %>%
+  mutate(unit = if_else(unit == "basins","\\textit{bas}", "\\textit{adm}")) %>%
+  mutate(unit = factor(unit, levels = c("\\textit{adm}", "\\textit{bas}"),
+                       labels = c("\\textit{adm}", "\\textit{bas}"))) %>%
+  arrange(var, unit) %>%
+  dplyr::select(-var) %>%
+  rename("Spatial Unit" = unit) %>%
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of agricultural interaction variables. (Unit of measurment: AGRET - kg/m²; AGRGPP - kg C/m²; AGRLST - K; AGRPREC - mm AGRANOM - mm; others - dimensionless)", 
+               caption.short = "Descriptive statistics of agricultural interaction variables.",
+               linesep = c("", "\\addlinespace"),
+               longtable = T) %>%
+  kable_styling(latex_options = c("HOLD_position", "repeat_header")) %>%
+  group_rows("AGRET", 1, 2) %>%
+  group_rows("AGRGPP", 3, 4) %>% 
+  group_rows("AGRLST", 5, 6) %>%
+  group_rows("AGRPREC", 7, 8) %>%
+  group_rows("AGRANOM", 9, 10) %>%
+  group_rows("AGRSPI1", 11, 12) %>%
+  group_rows("AGRSPI3", 13, 14) %>%
+  group_rows("AGRSPI6", 15, 16) %>%
+  group_rows("AGRSPI12", 17, 18) %>%
+  group_rows("AGRSPEI1", 19, 20) %>%
+  group_rows("AGRSPEI3", 21, 22) %>%
+  group_rows("AGRSPEI6", 23, 24) %>%
+  group_rows("AGRSPEI12", 25, 26)
+
+```
+
+\newpage
+
+## Table of Global Performance Metrics {-}
+
+```{r appendix-acc-table, eval = T}
+#files <- list.files("../output/acc/", pattern = ".rds", full.names = T)
+files <- list.files("../output/test-results/", pattern = "test-results", full.names = T)
+# files <- files[-grep("test-results-regression-basins", files)]
+acc_data <- lapply(files, function(x){
+  out <- vars_detect(x)
+  tmp = readRDS(x)
+  tmp %>%
+    filter(month == 0) %>%
+    group_by(name) %>%
+    summarise(target = mean(score, na.rm = T),
+              sd = sd(score, na.rm = T),
+              type = out$type,
+              unit = out$unit,
+              var = out$var) %>%
+    ungroup()
+}) 
+acc_data = do.call(rbind, acc_data)
+
+acc_data %<>% 
+  mutate(var = factor(var, labels = c("\\textbf{cb}", "\\textbf{sb}", "\\textbf{ns}", "\\textbf{os}"),
+                      levels = c("all", "sb", "ns", "os")),
+         type = factor(type, labels = c("LR", "CH", "SV", "EV"),
+                       levels = c("regression", "baseline", "structural", "environmental")),
+         unit = if_else(unit == "basins", "bas", "adm"),
+         unit = factor(unit, levels = c("adm", "bas"), labels = c("\\emph{adm}", "\\emph{bas}")))
+
+acc_data %>%
+  filter(name %in% c("f2", "auc", "aucpr", "sensitivity", "specificity", "precision")) %>%
+  mutate(
+    sd = paste0("($\\pm$", round(sd,3), ")"),
+    score = paste0("\\shortstack{", round(target,3), " \\\\ ", sd, "}")) %>%
+  dplyr::select(type, unit, var, name, score, target) %>%
+  group_by(name, var) %>%
+  mutate(score = if_else(target == max(target), paste0("\\textbf{", score, "}"), score )) %>%
+  dplyr::select(-target) %>% 
+  ungroup() %>%
+  pivot_wider(names_from = name, values_from = c(score),
+              id_cols = c(type, unit, var)) %>%
+  arrange(type, unit, var) %>% 
+  rename("F2" = f2, "AUC" = auc, "AUPR" = aucpr, "Precision" = precision, "Sensitivity" = sensitivity, "Specificity" = specificity) %>%
+  rename(Theme = type, Unit = "unit", Variable = var) %>% 
+  relocate(Theme, Unit, Variable, F2, AUC, AUPR, Precision, Sensitivity, Specificity) %>%
+  ungroup %>%
+  thesis_kable(escape = F,
+               align = "ccccccccc", 
+               longtable = T, 
+               linesep = c("", "", "","\\addlinespace"),
+               caption.short = "Global performance metrics for all model configurations.",
+               caption = "Global performance metrics for all models configurations. Bold number indicate the best performance of the respective performance metric per conflict class. Standard deviation is given in brackets.") %>%
+   kable_styling(latex_options = c("HOLD_position", "repeat_header"))
+
+```
+
+\newpage

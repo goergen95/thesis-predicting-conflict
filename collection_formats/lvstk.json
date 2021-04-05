@@ -1,0 +1,42 @@
+{
+  "description" : "GLW Livestock.",
+  "tags" : ["GLW", "LVSTK"],
+  "pattern" : ".+\\.tif.*",
+  "images" : {
+    "pattern" : ".*DA_.{2}_(.+)\\.tif.*"
+  },
+  "datetime" : {
+    "pattern" : ".*DA_.{2}_(.{4})\\.tif.*",
+    "format" : "%Y"
+  },
+  "bands" : {
+    "BF" : {
+      "pattern" : ".+BF.*",
+      "nodata" : -9999
+    },
+    "CH" : {
+      "pattern" : ".+CH.*",
+      "nodata" : -9999
+    },
+    "CT" : {
+      "pattern" : ".+CT.*",
+      "nodata" : -9999
+    },
+    "DK" : {
+      "pattern" : ".+DK.*",
+      "nodata" : -9999
+    },
+    "GT" : {
+      "pattern" : ".+HO.*",
+      "nodata" : -9999
+    },
+    "PG" : {
+      "pattern" : ".+PG.*",
+      "nodata" : -9999
+    },
+    "SH" : {
+      "pattern" : ".+SH.*",
+      "nodata" : -9999
+    }
+  }
+}

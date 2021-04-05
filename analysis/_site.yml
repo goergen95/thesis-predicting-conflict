@@ -1,0 +1,67 @@
+name: "masterthesis"
+output_dir: ../docs
+navbar:
+  title: "masterthesis"
+  left:
+  - text: Home
+    href: index.html
+    
+  - text: EDA
+    menu: 
+      - text: Response Variable
+        href: eda-response.html
+      - text: Precipitation Anomalies
+        href: eda-anom.html
+      - text: Dependency Ratio
+        href: eda-dep.html
+      - text: Evapotranspiration
+        href: eda-et.html
+      - text: Gross Domestic Product
+        href: eda-gdp.html
+      - text: Gross Primary Productivity
+        href: eda-gpp.html
+      - text: Land Surface Temperature
+        href: eda-lst.html
+      - text: Livestock
+        href: eda-lvstk.html
+      - text: Population
+        href: eda-pop.html
+      - text: Precipitation
+        href: eda-prec.html
+      - text: Standardized Precipitation Index (SPI)
+        href: eda-spi.html
+      - text: Standardized Precipitation-Evapotranspiration Index (SPI)
+        href: eda-spei.html
+      - text: Terrain Roudgeddness Index (TRI)
+        href: eda-tri.html
+      - text: Travel Time
+        href: eda-trt.html
+        
+  - text: Thesis
+    menu: 
+      - text: Introduction
+        href: thesis-intro.html
+      - text: Data
+        href: thesis-data.html
+      - text: Methods
+        href: thesis-methods.html
+      - text: Results 
+        href: thesis-results.html
+      - text: Discussion
+        href: thesis-discussion.html
+      - text: Conclusion
+        href: thesis-conclusion.html
+      - text: Appendix
+        href: thesis-appendix.html
+        
+  - text: License
+    href: license.html
+    
+output:
+  bookdown::html_document2:
+    code_folding: hide
+    base_format: workflowr::wflow_html
+    toc: yes
+    toc_float: yes
+    theme: flatly
+    highlight: textmate

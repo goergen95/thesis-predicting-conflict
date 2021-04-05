@@ -1,0 +1,38 @@
+{
+  "description" : "Collection format for selected bands from the MODIS MxD16A2GF (Aqua and Terra) v006 8-Day net evapotranspiration  product",
+  "tags" : ["MODIS", "ET"],
+  "pattern" : ".*\\.hdf.*",
+  "subdatasets" : true,
+  "images" : {
+    "pattern" : "HDF4_EOS:EOS_GRID:\"(.+)\\.hdf.*"
+  },
+  "datetime" : {
+    "pattern" : ".*M[OY]D16A2GF\\.A(.{7})[^/]*",
+    "format" : "%Y%j"
+  },
+  "bands" : {
+    "ET" : {
+      "pattern" : ".+M[OY]D_Grid_M[OY]D16A2:ET_500m",
+      "scale" : 0.1,
+      "unit" : "kg/m²/8day"
+    },
+    "LE" : {
+      "pattern" : ".+M[OY]D_Grid_M[OY]D16A2:LE_500m",
+      "scale" : 10000,
+      "unit" : "J/m²/day"
+    },
+    "PET" : {
+      "pattern" : ".+M[OY]D_Grid_M[OY]D16A2:PET_500m",
+      "scale" : 0.1,
+      "unit" : "kg/m²/8day"
+    },
+    "PLE" : {
+      "pattern" : ".+M[OY]D_Grid_M[OY]D16A2:PLE_500m",
+      "scale" : 10000,
+      "unit" : "J/m²/day"
+    },
+    "ET_QC" : {
+      "pattern" : ".+M[OY]D_Grid_M[OY]D16A2:ET_QC_500m"
+    }
+  }
+}

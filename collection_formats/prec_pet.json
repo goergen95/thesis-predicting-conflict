@@ -1,0 +1,19 @@
+{
+  "description" : "PET and Precipitation",
+  "pattern" : ".+\\.tif",
+  "images" : {
+    "pattern" : ".*p.+_(.{7})\\.tif"
+  },
+  "datetime" : {
+    "pattern" : ".*_(.{7})\\.tif",
+    "format" : "%Y-%m"
+  },
+  "bands": {
+    "prec" : {
+      "pattern" : ".+prec.*"
+    },
+    "pet" : {
+      "pattern" : ".+pet.*"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+library(workflowr)
+files = list.files("./analysis", pattern = ".Rmd", full.names = T)
+starttime = Sys.time()
+wflow_build(files)
+endtime = Sys.time()
+print(endtime - starttime)

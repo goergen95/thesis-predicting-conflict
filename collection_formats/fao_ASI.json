@@ -1,0 +1,23 @@
+{
+  "description" : "Agricultural Stress Index",
+  "references" : "http://www.fao.org/climate-change/programmes-and-projects/detail/en/c/327662/",
+  "tags" : ["FAO", "ASIS"],
+  "pattern" : ".+\\.tif",
+  "images" : {
+    "pattern" : ".*ASI_D_S.{1}_C_(.{10})_DEKAD\\.tif"
+  },
+  "datetime" : {
+    "pattern" : ".*ASI_D_S.{1}_C_(.{10})_DEKAD\\.tif",
+    "format" : "%Y-%m-%d"
+  },
+  "bands": {
+    "ASI_S1" : {
+      "pattern" : ".*ASI_D_S1_C_.{10}_DEKAD\\.tif",
+      "nodata" : 255
+    },
+    "ASI_S2" : {
+      "pattern" : ".*ASI_D_S2_C_.{10}_DEKAD\\.tif",
+      "nodata" : 255
+    }
+  }
+}

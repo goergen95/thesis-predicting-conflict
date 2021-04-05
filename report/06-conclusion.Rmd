@@ -1,0 +1,39 @@
+# Conclusion
+
+By systematically comparing the predictive performance of different levels
+of predictor variables and spatial units for data aggregation, this thesis 
+contributed to the understanding of how these components influence conflict prediction. 
+It has been shown that vast amounts of freely available open geodata can be incorporated 
+into complex deep learning models, delivering an edge over classical linear 
+regression models. The occurrence of violent conflict is inherently a time-series 
+problem and treating it as such provides high accuracies even in the absence of
+additional predictors. The utility of the inclusion of socio-economic and
+environmental variables into deep learning models shows a dependence on the 
+definition of the outcome class. For some types of violent conflicts, the selected 
+predictors do not decrease the prediction error. For other classes, absolute 
+gains in performance remain low. The role the natural environment plays in the 
+occurrence of violent conflict is still an open debate in the scientific community. 
+The proposed methodology has shown that, due to the increased availability of dense 
+time-series, incorporating a high number of environmental variables in prediction 
+models is feasible. The decision on how to aggregate available predictors substantially 
+affects the prediction outcome. While the presented results do not allow for 
+conclusive assessments, there are indications that aggregating environmental 
+variables based on sub-basin watersheds decreases the prediction error. 
+This comes at the cost of less familiarity with the spatial pattern of the 
+prediction outcome. However, depending on the conflict class, the absolute gains
+can be quite substantial compared to more familiar sub-national administrative 
+districts. Focusing on gridded data sets allows for almost arbitrary spatial
+aggregation, opening up distinct research opportunities in the field of conflict
+prediction. With the recently growing public focus on climate change's social 
+consequences, evaluating its impact on conflict risk is a crucial component in
+ensuring sustainable development. After all, human lives are at risk and increasing
+our understanding of how we can prevent their losses is of uttermost importance. 
+Prediction is a way to contribute to both supporting conflict prevention efforts 
+and advancing the scientific understanding of the relationship between the natural 
+environment and conflict. The usage of modern deep learning frameworks and the
+vast availability of open geodata allows for comprehensive spatiotemporal
+research designs adding value to the analysis of the complex process of violent conflict.
+Leveraging this potential to create impactful scientific findings and recommendations
+for action is a primary mandate of applied conflict research in the near future.
+
+\newpage

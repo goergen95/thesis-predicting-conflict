@@ -1,0 +1,21 @@
+{
+  "description" : "Collection format for selected bands from the MODIS MxD17A2HGF (Aqua and Terra) v006 8-Day gross primary productivity product",
+  "tags" : ["MODIS", "GPP"],
+  "pattern" : ".*\\.tif",
+  "images" : {
+    "pattern" : ".*/(gpp_.{10})\\.tif"
+  },
+  "datetime" : {
+    "pattern" : ".*/gpp_(.{10})\\.tif",
+    "format" : "%Y-%m-%d"
+  },
+  "bands" : {
+    "GPP" : {
+      "scale" : 0.457778,
+      "offset" : 15000,
+      "nodata" : -32768,
+      "unit" : "kgC/m²/day",
+      "pattern" : ".*\\.tif"
+    }
+  }
+}

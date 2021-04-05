@@ -1,0 +1,82 @@
+---
+title: "Terrain Rudgeddness Index (TRI)"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+bibliography: ../report/references.bib
+csl: ../report/elsevier-harvard.csl
+---
+
+```{r setup, include=FALSE}
+source("../code/workflowr-utils.R")
+```
+
+
+```{r}
+files = list.files("../data/vector/extraction/", pattern = "TRI", full.names = T)
+
+data = lapply(files, function(x){
+  filename = str_split(basename(x), "_")[[1]]
+  if(length(filename) == 3){
+    unit = filename[1]
+    buffer = as.numeric(filename[2])
+    var = str_remove(filename[3], ".gpkg")
+  } else {
+    unit = filename[1]
+    buffer = 0
+    var =  str_remove(filename[2], ".gpkg")
+  }
+  
+  layers = ogrListLayers(x)
+  layers = layers[grep("map_", layers)]
+  data = do.call(cbind, lapply(layers, function(l){
+    tmp = st_read(x, layer = l, quiet = TRUE)
+    names(tmp) = c(l, "geom")
+    tmp
+  }))
+  
+  data$id = 1:nrow(data)
+  data %>%
+    mutate(unit = unit, buffer = buffer, var = var) %>%
+    gather("time", "value", -id, -unit, -buffer, -var, -geom) %>%
+    mutate(time = str_remove(time, "map_"))
+})
+
+data = do.call(rbind, data)
+str(data)
+```
+
+```{r na-analysis}
+data %>%
+  st_drop_geometry() %>%
+  group_by(unit, buffer) %>%
+  summarise(N = n(), isna = sum(is.na(value)), isnotna = sum(!is.na(value)), perc = sum(is.na(value)) / n() * 100)
+```
+
+```{r adm-hist}
+data %>%
+  st_drop_geometry() %>%
+  filter(buffer == 0) %>%
+  ggplot() +
+  geom_histogram(aes(x=value, fill=unit, color=unit), alpha = .4) +
+  theme_classic() +
+  labs(x="TRI", y="Count",fill="Unit of analysis", color="Unit of analysis")
+```
+
+
+```{r map-adm}
+data %>%
+  filter(unit == "states", buffer == 0) %>%
+  tm_shape() +
+  tm_polygons(col = "value", palette = "-RdYlBu", breaks=c(0,1,2,3,4,5,10,15,25,+Inf), border.col = "gray", lwd = .2) 
+```
+
+```{r map-bas}
+data %>%
+  filter(unit == "basins", buffer == 0) %>%
+  tm_shape() +
+  tm_polygons(col = "value", palette = "-RdYlBu", breaks=c(0,1,2,3,4,5,10,15,25,+Inf), border.col = "gray", lwd = .2) 
+```

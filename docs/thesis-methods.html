@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>thesis-methods.utf8</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">masterthesis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    EDA
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="eda-response.html">Response Variable</a>
+    </li>
+    <li>
+      <a href="eda-anom.html">Precipitation Anomalies</a>
+    </li>
+    <li>
+      <a href="eda-dep.html">Dependency Ratio</a>
+    </li>
+    <li>
+      <a href="eda-et.html">Evapotranspiration</a>
+    </li>
+    <li>
+      <a href="eda-gdp.html">Gross Domestic Product</a>
+    </li>
+    <li>
+      <a href="eda-gpp.html">Gross Primary Productivity</a>
+    </li>
+    <li>
+      <a href="eda-lst.html">Land Surface Temperature</a>
+    </li>
+    <li>
+      <a href="eda-lvstk.html">Livestock</a>
+    </li>
+    <li>
+      <a href="eda-pop.html">Population</a>
+    </li>
+    <li>
+      <a href="eda-prec.html">Precipitation</a>
+    </li>
+    <li>
+      <a href="eda-spi.html">Standardized Precipitation Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-spei.html">Standardized Precipitation-Evapotranspiration Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-tri.html">Terrain Roudgeddness Index (TRI)</a>
+    </li>
+    <li>
+      <a href="eda-trt.html">Travel Time</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Thesis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="thesis-intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="thesis-data.html">Data</a>
+    </li>
+    <li>
+      <a href="thesis-methods.html">Methods</a>
+    </li>
+    <li>
+      <a href="thesis-results.html">Results</a>
+    </li>
+    <li>
+      <a href="thesis-discussion.html">Discussion</a>
+    </li>
+    <li>
+      <a href="thesis-conclusion.html">Conclusion</a>
+    </li>
+    <li>
+      <a href="thesis-appendix.html">Appendix</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks">
+Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-03-24
+</p>
+<p>
+<strong>Checks:</strong>
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+5
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>thesis/analysis/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version
+1.6.2). The <em>Checks</em> tab describes the
+reproducibility checks that were applied when the results were created.
+The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Environment:</strong> empty
+</a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global
+environment can affect the analysis in your R Markdown file in unknown ways.
+For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210321code">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Seed:</strong> <code>set.seed(20210321)</code>
+</a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210321code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210321)</code> was run prior to running the code in the R Markdown file.
+Setting a seed ensures that any results that rely on randomness,
+e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Session information:</strong> recorded
+</a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is
+critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Cache:</strong> none
+</a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident
+that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>File paths:</strong> relative
+</a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project
+makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongnoversioncontrol">
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<strong>Repository version:</strong> no version control
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongnoversioncontrol" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Tracking code development and connecting the code version to the results is
+critical for reproducibility. To start using Git, open the Terminal and type
+<code>git init</code> in your project directory.</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+This project is not being versioned with Git. To obtain the full
+reproducibility benefits of using workflowr, please see
+<code>?wflow_start</code>.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="methods" class="section level1">
+<h1><span class="header-section-number">1</span> Methods</h1>
+
+<div id="model-specifications" class="section level2">
+<h2><span class="header-section-number">1.1</span> Model Specifications</h2>
+<p>In the following section, the model specifications and the training and
+validation procedures are outlined. The core model of this thesis consists
+of a Convolutional-Long-Short-Term-Memory Neural Network (CNN-LSTM). However,
+as a baseline reference to asses the CNN-LSTM performance, a standard logistic
+regression model (LR) is also constructed. Starting from the LR model, relevant
+concepts for the establishment of the training architecture are introduced.</p>
+<div id="logistic-regression" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Logistic Regression</h3>
+<p>LR models have been the standard in conflict research for some time.
+One advantage of regression models is that the model outcome is easy to interpret
+by humans, which is of primary importance when research results are used
+to inform policy decisions. Recently, <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Halkia</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2020</span>)</span></span> published the methodology for
+the GCRI developed for the European Union Conflict Early Warning
+System which is based on LR. Their model outperforms or achieves
+comparable accuracy metrics compared to several conflict prediction tools
+based on more complex modeling procedures. This indicates that a LR
+model constitutes a viable choice to compare it with the results of more
+advanced modeling techniques such as neural networks.
+A binomial LR predicts the probability of an observation belonging to
+either one of two categories of a dichotomous dependent variable based on a number
+of independent variables following Equation <a href="#eq:logit">(1.1)</a>.</p>
+<p><span class="math display" id="eq:logit">\[\begin{equation}
+P(Y) = \frac{e^\gamma}{1+e^\gamma}; \gamma = \beta_0 + \beta_1x_1 + \beta_2x_2 + ... +\beta_nx_n
+\tag{1.1}
+\end{equation}\]</span></p>
+<p>In this form, <span class="math inline">\(P(Y)\)</span> will take a value between 0 and 1 and represents the probability
+of a conflict occurrence. <span class="math inline">\(x_1 ... x_n\)</span> represent the predictor variables while
+<span class="math inline">\(\beta_0 ... \beta_n\)</span> represent the model coefficients to be fitted.
+From the equation, it becomes evident that logistic regressions assume a linear
+relationship between the predictors and the response variable. Secondly,
+LR is not intrinsically designed to handle a time axis, even though
+one could include time as an additional independent variable. It also means that
+LR can only produce one output at a time for each observation.
+If one wants to predict conflict for several months into the future, a specific model
+must be trained for each month in the prediction horizon.</p>
+<p>Additionally, LR models are highly sensitive to class imbalances
+in the training data set. Conflict prediction is a classification task with a
+very high class imbalance (Table <a href="#tab:02-data-response-dist"><strong>??</strong></a>).
+Various techniques exist to cope with class imbalance <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Ali</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2015</span>)</span></span>.
+One among them which has been previously used in conflict research is downsampling <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Hegre</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>)</span></span>.
+Here, before fitting the model, the majority class, which is represented by
+non-conflict district-months, is randomly downsampled to match the size of the minority
+class. This balanced subset is then used to fit the model parameters.
+Metric evaluations can be applied on a hold-out test data set, characterized by
+the original imbalanced distribution between conflict and non-conflict district months.
+The procedure to map the probabilistic model output to a binary classification
+follows Equation <a href="#eq:proba">(1.2)</a>:</p>
+<p><span class="math display" id="eq:proba">\[\begin{equation}
+\hat{Y} = 
+\begin{cases} 
+1 &amp; \text{if } P(Y) \geq \lambda \\ 
+0 &amp; \text{otherwise}
+\end{cases}
+\tag{1.2}
+\end{equation}\]</span></p>
+<p>Here, <span class="math inline">\(\lambda\)</span> is a threshold value usually selected to be <span class="math inline">\(0.5\)</span>. However,
+specifically in modeling tasks with a high class imbalance such as conflict
+prediction, an optimal threshold might be searched for a given accuracy metric -
+a process referred to as threshold tuning <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Zou</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2016</span>)</span></span>.</p>
+</div>
+<div id="cnn-lstm" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> CNN-LSTM</h3>
+</div>
+</div>
+<div id="basic-concepts-of-neural-networks." class="section level2">
+<h2><span class="header-section-number">1.2</span> Basic Concepts of Neural Networks.</h2>
+<p>Before explaining the fundamentals of CNN-LSTMs, a first step is to define the
+modeling task which might guide the reader through the descriptions to follow.
+In the present case, the modeling task is one of a multivariate time series
+prediction with a multi-step prediction horizon. The available training data
+set can be formally described as in Equation <a href="#eq:data">(1.3)</a>,</p>
+<p><span class="math display" id="eq:data">\[\begin{equation}
+X_t^L= x_t^1,x_{t+1}^1...,x_{t-N+1}^1,...\ ..., x_t^L,...,x_{t-N+1}^L
+\tag{1.3}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(X_t^L\)</span> is the predictor matrix with <span class="math inline">\(L\)</span> predictors and <span class="math inline">\(t\)</span> available
+timesteps. The training process then comprises the search for a function
+<span class="math inline">\(f(X_t^L)\)</span> which maps the input features to a multi-step prediction vector following
+Equation <a href="#eq:pred">(1.4)</a>,</p>
+<p><span class="math display" id="eq:pred">\[\begin{equation}
+\hat{Y} = f(X_t^L) = {\hat{y}_{t+1},\hat{y}_{t+2},...,\hat{y}_{t+h}}
+\tag{1.4}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\hat{Y}\)</span> is the predicted outcome vector of <span class="math inline">\(h\)</span> time steps into the future.
+Commonly, the modeling function is trained on equal length inputs,
+such as the last 24 hours for energy price forecasting <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Cordoni</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>,
+the last week in the case of particle matter concentration forecasting <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Li</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>,
+or even several years worth of data in the case of solar irradiance and photovoltaic
+power prediction <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Rajagukguk</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>. However, sophisticated deep learning models
+are also able to model variable-length inputs to variable-length outputs, i.e., in
+the case of language translation models <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Yang</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.</p>
+<p>The most fundamental concept in neural networks is that of a single neuron. This neuron
+receives some inputs <span class="math inline">\(X\)</span>, learns a weight matrix <span class="math inline">\(W\)</span> which then is used for a
+multiplicative interaction with the inputs, and an additional bias term <span class="math inline">\(b\)</span> is added.
+The final output <span class="math inline">\(\hat{Y}\)</span> is obtained by passing the results of this interaction
+through a possibly non-linear activation function, also called activation
+function, here represented by a <span class="math inline">\(\sigma\)</span>-function <a href="#eq:neuron">(1.5)</a>:</p>
+<p><span class="math display" id="eq:neuron">\[\begin{equation}
+\hat{Y} = \sigma \Big(WX+b \Big).
+\tag{1.5}
+\end{equation}\]</span></p>
+<p>These predicted outcomes can be used to calculate the error in comparison
+to the observed outcomes based on a specific loss function also referred to as
+cost function <span class="math inline">\(C\)</span>. In a general notation,
+a given loss function calculates the loss between predicted and observed values
+which in itself is a function of the weights, the bias, the activation function
+and the inputs and observed values based on Equation <a href="#eq:loss">(1.6)</a>:</p>
+<p><span class="math display" id="eq:loss">\[\begin{equation}
+Loss = C(Y-\hat{Y}) = C(W b \sigma X Y).
+\tag{1.6}
+\end{equation}\]</span></p>
+<p>The loss is used to adjust the weight matrix <span class="math inline">\(W\)</span> and the bias term <span class="math inline">\(b\)</span> to more
+precisely match the expected outputs. This is achieved through a process called
+backpropagation. It is the process governing how a network <em>learns</em> to optimize
+the model function from Equation <a href="#eq:pred">(1.4)</a>. To apply backpropagation,
+partial derivatives of the loss function in relation to its components are calculated
+from the output towards the inputs. This way, the gradient of change in the loss
+conditioned by the single components can be estimated. The gradients’ calculation
+is not included in detail for brevity. However, a comprehensive explanation of
+the process can be found in <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Parr</span> and <span style="font-variant:normal;">Howard</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2018</span>)</span></span>.</p>
+<div style="page-break-after: always;"></div>
+<p>In relation to the weight matrix <span class="math inline">\(W\)</span>, the gradients are defined by the partial
+derivatives of the loss in relation to the single weights according to Equation
+<a href="#eq:back">(1.7)</a>:</p>
+<p><span class="math display" id="eq:back">\[\begin{equation}
+\nabla{C_{W}} = 
+\begin{bmatrix} \frac{\partial{C}}{\partial{w_1}} \\ 
+\frac{\partial{C}}{\partial{w_2}} \\ 
+\vdots \\ 
+\frac{\partial{C}}{\partial{w_n}} 
+\end{bmatrix}
+\tag{1.7}
+\end{equation}\]</span></p>
+<p>The gradients are used to update the weight matrix in the direction
+the loss function is suspected to decrease most rapidly following Equation <a href="#eq:lr">(1.8)</a></p>
+<p><span class="math display" id="eq:lr">\[\begin{equation}
+W^* = W - \eta \nabla{C_{W}},
+\tag{1.8}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\eta\)</span> is a constant steering how much the weight matrix is adjusted in the
+gradients’ direction referred to as learning rate, and <span class="math inline">\(W^*\)</span> is the adjusted weight matrix.
+The same principle applies to the bias term. It should be noted that the process
+of backpropagation described here is simplified to a single-layer network. For
+multi-layer networks, the error terms have to be backpropagated from one layer to
+the next, in the direction from the output layer towards the input layer. However, the general concept
+remains the same. In this context, it is essential to differentiate between
+different training strategies which differ from each other mainly by the fact
+when gradients are calculated, and weights are adjusted during training.
+The first is called batch gradient descent. Here the gradients are calculated on
+based on all available observations. Once all training samples have been
+passed through the network, the cost function evaluates the loss and the errors
+are then backpropagated to adjust the weight matrix and bias terms.
+The second strategy is referred to as stochastic gradient descent or online learning,
+where a backpropagation takes place for every single sample.
+The last one is called mini-batch gradient descent and is the most widely used
+strategy. Based on a pre-defined batch size, the training data set is separated
+into equally sized batches. Backpropagation is then applied once a batch has been
+passed through the network. Additionally, several functions governing the
+adaptation process exist. They are referred to as optimizers and they mainly differ in
+the way the learning rate is adapted during the training process. An analysis
+of these differences is out of this thesis’ scope, and the reader is referred
+to <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Sun</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2019</span>)</span></span> for a comprehensive overview.</p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="convolutional-neural-networks." class="section level2">
+<h2><span class="header-section-number">1.3</span> Convolutional Neural Networks.</h2>
+<p>In contrast to the simple neural network structure explained in the section
+above, CNNs work by applying a convolution kernel to the inputs. This operation
+effectively summarizes the input values based on a specific number of different kernels
+with a shared kernel width (Figure <a href="#fig:03-methods-cnn">1.1</a>). This behavior of
+CNNs made them most attractive to tasks involving 2D-data such as image classification
+<span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Krizhevsky</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017</span>)</span></span> or the analysis of remote sensing imagery <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Song</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>)</span></span>.
+Despite this traditional usage, CNNs successfully have been employed with 1D data
+structures with a time-component such as audio signals <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Lee</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2009</span>)</span></span>, activity detection
+and heart failure <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Zheng</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2014</span>)</span></span> or stock price forecasting <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Mehtab</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.</p>
+<pre class="r"><code>bracket_text = tibble(x=4, y=5.8 , text=TeX(&quot;$\\beta = 3$&quot;))
+kernel = tibble(x = c(3:5), y = rep(5.5,3), text = TeX(paste(&quot;$w_{k,&quot;, 1:3, &quot;}$&quot;, sep=&quot;&quot;)))
+arrow = tibble(x=5.6, y=5.5, xend=6.5, yend=5.5)
+points = tibble(x = 4.5, y = c(2.7,2.5,2.3))
+anno_left = tibble(x=rep(-1,5), y = c(5.5,4.5, 3.5, 1.5, 0), text = TeX(c(&quot;$W_k$&quot;, &quot;$L_1$&quot;, &quot;$L_2$&quot;, &quot;$L_i$&quot;, &quot;$X^*_k$&quot;)))
+input_1 = tibble(x = c(0:9), y = rep(4.5, 10), group = factor(c(0,1,1,2,2,2,rep(1,4)),
+                                                              label = c(&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;),
+                                                              levels = 0:4),
+                 text = c(&quot;0&quot;, TeX(paste(&quot;$x_&quot;, 1:7, &quot;$&quot;, sep=&quot;&quot;)),&quot;...&quot;, TeX(&quot;$x_t$&quot;)))
+
+input_2 = tibble(x = c(0:9), y = rep(3.5, 10),  group = factor(c(0,1,1,2,2,2,rep(1,4)),
+                                                               label = c(&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;),
+                                                               levels = 0:4),
+                 text = c(&quot;0&quot;, TeX(paste(&quot;$x_&quot;, 1:7, &quot;$&quot;, sep=&quot;&quot;)),&quot;...&quot;, TeX(&quot;$x_t$&quot;)))
+
+input_3 = tibble(x = c(0:9), y = rep(1.5, 10),  group = factor(c(0,1,1,2,2,2,rep(1,4)),
+                                                               label = c(&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;),
+                                                               levels = 0:4),
+                 text = c(&quot;0&quot;, TeX(paste(&quot;$x_&quot;, 1:7, &quot;$&quot;, sep=&quot;&quot;)),&quot;...&quot;, TeX(&quot;$x_t$&quot;)))
+
+output = tibble(x = c(1:9), y = rep(0, 9), group = factor(c(3,3,3,2,rep(4,5)),
+                                                          label = c(&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;),
+                                                          levels = 0:4),
+                text = c(TeX(paste(&quot;$y_{k,&quot;, 1:4, &quot;}$&quot;, sep=&quot;&quot;)), rep(&quot;&quot;,5)))
+
+ggplot() +
+  annotate(geom=&quot;text&quot;, x=4, y=6.5, label=TeX(&quot;$\\beta = 3$&quot;), size=5, parse=TRUE)+
+  # annotate(geom=&quot;text&quot;, x=4, y=6, label=TeX(&quot;$\\{$&quot;), parse=TRUE, angle=-90, size=50)+
+  geom_rect(data=kernel, aes(xmin=x-.5, xmax=x+.5, ymin=y-.4, ymax=y+.4), 
+            fill = &quot;#E6AB02&quot;,color = &quot;black&quot;) +
+  geom_text(data=kernel, aes(x=x, y=y, label=text), 
+            parse=T, size=4.5) +
+  geom_segment(data=arrow, aes(x=x,y=y,xend=xend,yend=yend), 
+               arrow = arrow(length=unit(0.5,&quot;cm&quot;)), size = 1) +
+  geom_rect(data=input_1, aes(xmin=x-.5, xmax=x+.5, ymin=y-.4, ymax=y+.4, fill=group), 
+            color = &quot;black&quot;, show.legend = F) +
+  geom_text(data=input_1, aes(x=x,y=y,label=text), parse=T, size=4.5) +
+  geom_point(data=points, aes(x=x,y=y)) +
+  geom_rect(data=input_2, aes(xmin=x-.5, xmax=x+.5, ymin=y-.4, ymax=y+.4, fill=group), 
+            color = &quot;black&quot;, show.legend = F) +
+  geom_text(data=input_2, aes(x=x,y=y,label=text), parse=T, size=4.5) +
+  geom_rect(data=input_3, aes(xmin=x-.5, xmax=x+.5, ymin=y-.4, ymax=y+.4, fill=group), 
+            color = &quot;black&quot;, show.legend = F) +
+  geom_text(data=input_3, aes(x=x,y=y,label=text), parse=T, size=4.5) +
+  geom_rect(data=output, aes(xmin=x-.5, xmax=x+.5, ymin=y-.4, ymax=y+.4, fill=group),
+            color = &quot;black&quot;, show.legend = F) +
+  geom_text(data=output, aes(x=x,y=y,label=text), parse=T, size=4.5) +
+  geom_text(data=anno_left, aes(x=x,y=y,label=text), parse=T, size=6) +
+  scale_fill_manual(values=c(&quot;#999999&quot;,&quot;#7570B3&quot;,&quot;#E6AB02&quot;,&quot;#1B9E77&quot;,&quot;transparent&quot;)) +
+  theme_classic() +
+  ylim(-1,7) +
+  labs(x=NULL, y=NULL)+
+  theme(line = element_blank(),
+        text = element_blank())</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:03-methods-cnn"></span>
+<img src="figure/thesis-methods.Rmd/03-methods-cnn-1.png" alt="Scheme of a 1D convolution operation for a specific kernel k with width $\beta = 3$. Yellow squares indicate the current convolution at $t=4$." width="672" />
+<p class="caption">
+Figure 1.1: Scheme of a 1D convolution operation for a specific kernel k with width <span class="math inline">\(\beta = 3\)</span>. Yellow squares indicate the current convolution at <span class="math inline">\(t=4\)</span>.
+</p>
+</div>
+<p>Figure <a href="#fig:03-methods-cnn">1.1</a> is an exemplary convolution operation for a specific
+kernel <span class="math inline">\(k\)</span> with the kernel width <span class="math inline">\(\beta=3\)</span>. The input matrix <span class="math inline">\(X\)</span> consists of <span class="math inline">\(L_i\)</span>
+individual predictors with <span class="math inline">\(t\)</span> time steps. The computation of the output involves
+sliding the kernel window <span class="math inline">\(W_k\)</span> along the time axis. At the edges of the time series,
+there is not enough data for the convolution operation. One way to overcome this
+limitation is called zero-padding.
+A value of 0 is assumed for unavailable data, indicated by the gray boxes on the left.
+Another method, which would eventually alter the size of the time axis,
+is to simply drop the observations for which no calculation with the kernel width <span class="math inline">\(\beta\)</span>
+is possible. This behavior is leveraged in many applications to effectively
+reduce the size of the data sequence at higher abstraction levels within the
+network, e.g., in applications of CNNs in image recognition <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Krizhevsky</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>.
+The individual outputs <span class="math inline">\(y_{k,t}\)</span> are obtained by summing
+up the products of the inputs and the weights within the kernel window, indicated
+by the yellow boxes. The weights of <span class="math inline">\(W_k\)</span> remain the same for one kernel but
+not across different kernels. Note that the result of the operation was denoted
+<span class="math inline">\(X^*_k\)</span> to indicate it is an intermediate output, so one does not confuse it with
+the final network output <span class="math inline">\(\hat{Y}\)</span>. Convolutional layers rarely represent the
+final layer in a network. It is prevalent to stack multiple convolutional
+layers on top of each other so that the outputs of the first are used as the inputs
+to the next <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Rawat</span> and <span class="smallcaps">Wang</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>. For this reason, a given 1D convolutional layer at position <span class="math inline">\(l\)</span> within the network
+and an input <span class="math inline">\(X^{l-1}\)</span> is defined by Equation <a href="#eq:cnn">(1.9)</a>,</p>
+<p><span class="math display" id="eq:cnn">\[\begin{equation}
+X^l_\beta = \sigma \Big( \sum\limits^L_{i=1} X^{l-1}_i \cdot k^l_{i\beta} + b^l_{i\beta} \Big)
+\tag{1.9}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(k\)</span> is the number of kernels, <span class="math inline">\(\beta\)</span> indicates the size of the filter kernels,
+<span class="math inline">\(L\)</span> is the number of input features in <span class="math inline">\(X^{l-1}\)</span>, the bias is represented with <span class="math inline">\(b\)</span>,
+<span class="math inline">\(\sigma\)</span> is an activation function and <span class="math inline">\((\cdot)\)</span> represents the convolutional operation
+explained in Figure <a href="#fig:03-methods-cnn">1.1</a>. In practice, convolutional layers are often combined with so-called pooling layers,
+which combine the advantages of further reducing the dimensionality of the inputs and
+extracting latent patterns in the data <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Rawat</span> and <span class="smallcaps">Wang</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>. The pooling layers exist in two favors,
+namely average and maximum pooling. It requires the specification of a pooling
+window, like the kernel window in the convolutional layer, which will then
+be applied over the input data to generate the average or maximum value of the observation
+window. A difference to the convolution kernel is that the pooling will be applied
+to each kernel individually and that most commonly, the pooling windows will be
+non-overlapping. Again, by using a zero-padding strategy, the shortening of the time series can be averted.</p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="long-short-term-memory-network." class="section level2">
+<h2><span class="header-section-number">1.4</span> Long Short-Term Memory Network.</h2>
+<p>The basic building block of LSTMs is recurrency. In deep learning, this is implemented
+by a simple recurrent cell which is defined by Equation <a href="#eq:rnn-cell">(1.10)</a>.</p>
+<p><span class="math display" id="eq:rnn-cell">\[\begin{equation}
+Y_t = h_t; h_t = \sigma \Big( W_h h_{t-1} + W_xX_t + b \Big)
+\tag{1.10}
+\end{equation}\]</span></p>
+<p>Here, the recurrent information, also referred to as hidden state, <span class="math inline">\(h_t\)</span> is defined
+by the previous hidden state <span class="math inline">\(h_{t-1}\)</span>, the current input <span class="math inline">\(X_t\)</span> and the associated
+learnable weights <span class="math inline">\(W_{h}\)</span>, <span class="math inline">\(W_x\)</span> and the bias <span class="math inline">\(b\)</span>. <span class="math inline">\(\sigma\)</span> is an activation function.
+That way, recurrent networks have information from earlier time steps available
+when <span class="math inline">\(X_t\)</span> is processed. However, long-term dependencies in the input sequence are
+not very well captured by this simple recurrent cell because of the
+exploding or vanishing gradient problem <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Yu</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>)</span></span>. To capture long-term dependencies
+in the data, <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Hochreiter</span> and <span style="font-variant:normal;">Schmidhuber</span></span> <span class="smallcaps">(<span style="font-variant:normal;">1997</span>)</span></span> proposed an extension to the
+simple recurrent cell referred to as Long Short-Term Memory cell, which was
+later modified to today’s most common LSTM architecture by <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Gers</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2000</span>)</span></span>.</p>
+<pre class="r"><code>knitr::include_graphics(&quot;../assets/img/LSTM.png&quot;)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:03-methods-lstm"></span>
+<img src="../assets/img/LSTM.png" alt="Scheme of a Long Short-Term Memory cell. (Source: Yu et al. (2019))" width="80%" />
+<p class="caption">
+Figure 1.2: Scheme of a Long Short-Term Memory cell. (Source: Yu et al. (2019))
+</p>
+</div>
+<p>Figure <a href="#fig:03-methods-lstm">1.2</a> depicts the inner structure of a LSTM cell. The input
+data flows from left to right. There are two inputs to the cell, namely the inputs
+<span class="math inline">\(x_t\)</span> as well as <span class="math inline">\(h_{t-1}\)</span>, similar to the basic recurrent cell. The difference is
+found <em>within</em> the LSTM cell, where red boxes represent so-called gates which are functions
+with trainable parameters controlling the information flow inside the cell.
+The cell state <span class="math inline">\(c_{t-1}\)</span> moves from left to right on the top of the box.
+At the first intersection, the cell state is updated by a point-wise multiplication
+with the result of <span class="math inline">\(\sigma(h_{t-1}x_t)\)</span>, which is either 0 or 1 for specific locations.
+This gate governs which parts of the cell state are set to 0, which is why one refers
+to it as the forget gate <span class="math inline">\(f(t)\)</span>.
+The second gate is slightly more complex. First, another variant with individual weights
+of <span class="math inline">\(\sigma(h_{t-1}x_t)\)</span> is calculated. Then a point-wise multiplication with
+<span class="math inline">\(\widetilde{c}(x_t)\)</span> determines which new information is added linearly
+to the cell state. Because new information is added to the cell state, this gate
+is referred to as the input gate.
+At the final gate, referred to as the output gate <span class="math inline">\(o(t)\)</span>, another multiplicative
+interaction with the updated cell state and the input determines the cell
+output <span class="math inline">\(h_t\)</span>. Additionally, the new cell state <span class="math inline">\(c_t\)</span> is an output, both of which
+will be used in the next step of an unfolded LSTM to process the input at <span class="math inline">\(x_{t+1}\)</span>.
+Mathematically, such an LSTM cell is defined by the following equations:</p>
+<p><span class="math display" id="eq:lstm-cell">\[\begin{equation}
+\begin{aligned}
+&amp; f(t) = \sigma (W_{fh} h_{t-1} + W_{fx}x_t + b_f), \\
+&amp; i(t) = \sigma (W_{ih} h_{t-1} + W_{ix}x_t + b_i), \\
+&amp; \widetilde{c}(t) = tanh(W_{\widetilde{c}h} h_{t-1} + W_{\widetilde{c}x}x_t + b_{\widetilde{c}}), \\
+&amp; c(t) = f(t) \cdot c_{t-1} + i(t) \cdot \widetilde{c}_t, \\
+&amp; o(t) = \sigma (W_{oh} h_{t-1} + W_{ox}x_t + b_0), \\
+&amp; h_t = o_t \cdot tanh(c_t).
+\end{aligned}
+\tag{1.11}
+\end{equation}\]</span></p>
+<p>A common regularization strategy to reduce the tendency to overfit the training
+data is to include dropout layers after an LSTM layer. The dropout layer randomly
+silences a specific percentage of the neurons in a LSTM, thus directing each
+neuron’s learning process towards learning more general features in the
+input sequence. Also, multiple LSTM layers can be stacked on top of each other,
+similar to CNNs, so that the first layer’s output will be used as the input
+to the next.
+LSTMs have
+been reported to achieve considerable results in various problem fields for their
+capacity to capture both long and short-term dependencies. Researchers
+from Google achieved a high accuracy by using a LSTM in a sequence-to-sequence problem
+in machine translation <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Wu</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2016</span>)</span></span>. Other use cases are the prediction of stream flows
+in rivers <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Hu</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>, estimates of monthly rainfall <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Chhetri</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>, or predicting
+the occurrences of armed conflict in India <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Hao</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.</p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="model-architecture." class="section level2">
+<h2><span class="header-section-number">1.5</span> Model architecture.</h2>
+<p>The proposed model leverages both CNNs and LSTMs by combining them
+in a multi-input model. CNNs are used at the top of the model in
+order to yield representative feature map encodings of the high-dimensional
+conditions of a district and its spatial neighborhood. There are four parallel
+branches in the network for the model to pick up differences between a district
+and its buffer zones. Each of these branches processes the available predictors for the
+respective zone, i.e., the district or its buffers. Figure <a href="#fig:03-methods-arch">1.3</a>
+shows one such branch as an example for the network architecture. Note that all four
+branches follow the same concept but that the specific architecture, i.e., the
+number of layers and neurons is determined during a hyperparameter optimization
+explained in the following section.</p>
+<p>The first component of a branch consists of a 1D-CNN based on zero-padding
+that a second CNN layer can follow before the signal goes through a local pooling layer that
+averages or maximizes a sequence based on a temporal window determined by
+the pool size. Note that because the network is fed with variable-length input
+sequences, explained in detail in Section <a href="#training-validation-process">1.8</a>,
+a global pooling operation is necessary before the LSTM layers. For equal
+length input sequences, a flattening layer is typically used to flatten
+the time sequence to one dimension. With variable-length inputs, this would result
+in different output sizes, which the LSTM layers could not process. Thus,
+the global pooling layer reduces the input sequences to the number of kernels in
+the previous layer. This reduction is then repeated <span class="math inline">\(h\)</span> times according to the desired
+prediction horizon and fed into a sequence of a maximum of three LSTM layers
+coupled with individual dropout layers.</p>
+<p>Because this general network structure is applied to a total of four different
+inputs, the network will produce four distinct sequences.
+These sequences represent what the network has learned from the
+input data for each of the buffer zones. They are concatenated and put
+through a small, fully connected model with three layers to retrieve a single
+output. Each of these layers shares the same activation function and number
+of neurons. Since each neuron is fully connected to every neuron in the next layer,
+this part of the model is referred to as a fully connected model. Figure <a href="#fig:03-methods-fc">1.4</a>
+shows the model structure from the concatenation of the four input sequences to
+the final output. The final layer only has one neuron but is time distributed so that
+it outputs a single value for every time step in the prediction horizon, which is
+set here to 12 months. For its activation function, it must output values between
+0 and 1 so that it can be interpreted as a probability for the occurrence of
+conflict, which can be mapped to a specific prediction following Equation <a href="#eq:proba">(1.2)</a>.</p>
+<div style="page-break-after: always;"></div>
+<pre class="r"><code>cnn &lt;- tibble(x = c(5, 5, 5, 5, 5) ,
+              y = c(10, 9, 8, 7, 6),
+              text = c(&quot;**1-D CNN Layer**&quot;,
+                       &quot;**1-D CNN Layer**&quot;,
+                       &quot;**Local Pooling**&quot;,
+                       &quot;**Global Pooling**&quot;,
+                       &quot;**Repeat Layer**&quot;),
+              specs = c(TeX(&quot;$number \\, of \\, kernels: \\; k_1 \\; kernel width: \\; \\beta_1 \\; activation: \\; a_1$&quot;),
+                        TeX(&quot;$number \\, of \\, kernels: \\; k_2 \\; kernel width: \\; \\beta_2 \\; activation: \\; a_2$&quot;),
+                        TeX(&quot;$pooling \\, operation: \\; pool_1  \\; pool size:    \\; pool-size$&quot;),
+                        TeX(&quot;$pooling \\, operation: \\; pool_2$&quot;),
+                        TeX(&quot;$number \\, of \\, repeats: \\; h = 12$&quot;)),
+              group = as.factor(c(1, 2, 1, 1, 1)) # 1: mandatory, 2: possible
+)
+arrows_cnn &lt;- tibble(x = c(5,5,5,5),
+                     y = c(9.7, 8.7, 7.7, 6.7),
+                     xend = c(5,5,5,5),
+                     yend = c(9.4, 8.4, 7.4, 6.4) 
+)
+
+lstm &lt;- tibble(x = c(5,5,5,5,5,5),
+               y = c(5,4,3,2,1,0),
+               text = c(
+                 &quot;**LSTM Layer**&quot;,
+                 &quot;**Dropout**&quot;,
+                 &quot;**LSTM Layer**&quot;,
+                 &quot;**Dropout**&quot;,
+                 &quot;**LSTM Layer**&quot;,
+                 &quot;**Dropout**&quot;),
+               specs = c( 
+                 TeX(&quot;number of neurons: $n_1$&quot;),
+                 TeX(&quot;dropout rate: $d_1$&quot;),
+                 TeX(&quot;number of neurons: $n_2$&quot;),
+                 TeX(&quot;dropout rate: $d_2$&quot;),
+                 TeX(&quot;number of neurons: $n_3$&quot;),
+                 TeX(&quot;dropout rate: $d_3$&quot;)),
+               group = as.factor(c(1,1,2,2,2,2))
+)
+
+arrows_lstm &lt;- tibble(x = c(5,5,5,5,5,5),
+                      y = c(5.7, 4.7, 3.7, 2.7, 1.7, 0.7),
+                      xend = c(5,5,5,5,5,5),
+                      yend = c(5.4, 4.4, 3.4, 2.4, 1.4, 0.4) 
+)
+
+
+ggplot()+
+  geom_rect(data = cnn, aes(xmin=x-2, xmax=x+2, ymin=y-.25, ymax=y+.35, linetype=group),
+            fill=NA, show.legend = F, color = &quot;black&quot;) +
+  geom_richtext(data=cnn, aes(x=x,y=y+.18,label=text),  fill = NA, label.color = NA) +
+  geom_text(data=cnn, aes(x=x,y=y-.1,label=specs), size=3, parse = T) +
+  geom_segment(data=arrows_cnn, aes(x=x,y=y,xend=xend,yend=yend), 
+               arrow = arrow(length=unit(0.3,&quot;cm&quot;)), size = 1) +
+  geom_rect(data = lstm, aes(xmin=x-2, xmax=x+2, ymin=y-.25, ymax=y+.35, linetype=group),
+            fill=NA, show.legend = F, color = &quot;black&quot;) +
+  geom_richtext(data=lstm, aes(x=x,y=y+.18,label=text),  fill = NA, label.color = NA) +
+  geom_text(data=lstm, aes(x=x,y=y-.1,label=specs), size=3, parse = T) +
+  geom_segment(data=arrows_lstm, aes(x=x,y=y,xend=xend,yend=yend), 
+               arrow = arrow(length=unit(0.3,&quot;cm&quot;)), size = 1) +
+  theme_classic() +
+  labs(x=NULL, y=NULL)+
+  theme(line = element_blank(),
+        text = element_blank())</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:03-methods-arch"></span>
+<img src="figure/thesis-methods.Rmd/03-methods-arch-1.png" alt="Proposed architecture of a single CNN-LSTM branch. Bold lines indicate mandatory layers, dashed lines indicate potential layers which are determined together with other parameters during a hyperparamter optimization process." width="480" />
+<p class="caption">
+Figure 1.3: Proposed architecture of a single CNN-LSTM branch. Bold lines indicate mandatory layers, dashed lines indicate potential layers which are determined together with other parameters during a hyperparamter optimization process.
+</p>
+</div>
+<div style="page-break-after: always;"></div>
+<pre class="r"><code>fc &lt;- tibble(x = c(5, 5, 5, 5, 5) ,
+             y = c(10, 9, 8, 7, 6),
+             text = c(&quot;**Concatentation Layer**&quot;,
+                      &quot;**Fully Connected Dense Layer**&quot;,
+                      &quot;**Fully Connected Dense Layer**&quot;,
+                      &quot;**Fully Connected Dense Layer**&quot;,
+                      &quot;**Time Distributed Dense Layer**&quot;),
+             specs = c(TeX(&quot;$number\\,of\\,input\\,sequences:\\;4$&quot;),
+                       TeX(&quot;$number\\,of\\,neurons:  \\; n_{dense}  \\; \\; activation:  \\; a_{dense}$&quot;),
+                       TeX(&quot;$number\\,of\\,neurons:  \\; n_{dense}  \\; \\; activation:  \\; a_{dense}$&quot;),
+                       TeX(&quot;$number\\,of\\,neurons:  \\; n_{dense}  \\; \\; activation:  \\; a_{dense}$&quot;),
+                       TeX(&quot;$number\\,of\\,neurons:  \\; 1   \\;\\; activation:  \\; a_{out}  \\; bias \\, initialization: \\; \\pi$&quot;)),
+             group = as.factor(c(1, 1, 1, 1, 1)) # 1: mandatory, 2: possible
+)
+
+arrows_fc &lt;- tibble(x = c(5,5,5,5),
+                    y = c(9.7, 8.7, 7.7, 6.7),
+                    xend = c(5,5,5,5),
+                    yend = c(9.4, 8.4, 7.4, 6.4) 
+)
+
+ggplot()+
+  geom_rect(data = fc, aes(xmin=x-2, xmax=x+2, ymin=y-.25, ymax=y+.35, linetype=group),
+            fill=NA, show.legend = F, color = &quot;black&quot;) +
+  geom_richtext(data=fc, aes(x=x,y=y+.18,label=text),  fill = NA, label.color = NA) +
+  geom_text(data=fc, aes(x=x,y=y-.1,label=specs), size=3, parse = T) +
+  geom_segment(data=arrows_fc, aes(x=x,y=y,xend=xend,yend=yend), 
+               arrow = arrow(length=unit(0.3,&quot;cm&quot;)), size = 1) +
+  theme_classic() +
+  labs(x=NULL, y=NULL)+
+  theme(line = element_blank(),
+        text = element_blank())</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:03-methods-fc"></span>
+<img src="figure/thesis-methods.Rmd/03-methods-fc-1.png" alt="Proposed architechture of the fully connected output model." width="480" />
+<p class="caption">
+Figure 1.4: Proposed architechture of the fully connected output model.
+</p>
+</div>
+<p>As mentioned before, the outcome variable is characterized by a very high
+class imbalance (Table <a href="#tab:02-data-response-dist"><strong>??</strong></a>). In traditional approaches,
+researchers have counterbalanced this fact by artificially altering the distribution
+during training <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Halkia</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>; <span style="font-variant:normal;"><span class="smallcaps">Schellens</span> and <span class="smallcaps">Belyazid</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>. Using downsampling approaches,
+however, means that there is a reduction in available training data. Because of
+the relatively short available sequences and a low number of observations,
+downsampling was not conducted when training the neural network. Instead, a
+specialized loss function was used to differentiate between easy-to-learn examples,
+referred to as the background class, and hard-to-classify examples also called foreground class.
+This function is called focal loss and was initially designed to detect rare objects in
+image segmentation tasks <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Lin</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>. As indicated, the focal loss down-weights the
+contribution of easy-to-classify examples to the overall loss, thus directing the
+training process towards optimizing for hard-to-classify examples. It is defined
+mathematically by Equation <a href="#eq:floss">(1.12)</a></p>
+<p><span class="math display" id="eq:floss">\[\begin{equation}
+\begin{aligned}
+&amp; p_t = 
+\begin{cases} 
+p &amp; \text{if } y = 1 \\ 
+1-p &amp; \text{otherwise} 
+\end{cases} \\
+&amp; FL(p_t) = -\alpha(1-p_t)^{\gamma} \, log(p_t) ,
+\end{aligned}
+\tag{1.12}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(p\)</span> is the probability estimation for an observation outputted by the model,
+<span class="math inline">\(\alpha\)</span> is a weighting factor that attributes different weights to the background and
+foreground class and <span class="math inline">\(\gamma\)</span> is a parameter governing the magnitude with which
+easy examples are down-weighted. The original authors state that this
+loss function has two beneficial properties for contexts with high class imbalance.
+The first is that for an observation wrongly classified as the background
+class, while <span class="math inline">\(p_t\)</span> is small, the loss remains nearly unaffected because the modulating
+factor <span class="math inline">\((1-p_t)^{\gamma}\)</span> tends towards 1. However, when <span class="math inline">\(p_t\rightarrow1\)</span>, the term
+goes towards 0, which means that the contribution of well-classified examples is
+weighted down. The second property is that the focusing parameter <span class="math inline">\(\gamma\)</span>
+leans itself to adjusting the rate at which easy examples are down-weighted based
+on the problem at hand. When <span class="math inline">\(\gamma = 0\)</span>, the loss is equal to cross-entropy
+loss, i.e., all examples contribute equally to the overall loss. Both <span class="math inline">\(\alpha\)</span> and
+<span class="math inline">\(\gamma\)</span> are parameters that are optimized during the hyperparameters
+optimization stage. Additionally, the authors initiate the final output layer with
+a small value <span class="math inline">\(\pi\)</span>, effectively reducing the probability the network will estimate
+the occurrence of the foreground class during the early stages of training. They report
+that this has positive impacts on training stability in high class imbalance
+scenarios <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Lin</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>. This initialization bias is also determined during the
+optimization stage.</p>
+</div>
+<div id="bayesian-hyperparameter-optimization" class="section level2">
+<h2><span class="header-section-number">1.6</span> Bayesian Hyperparameter Optimization</h2>
+<p>Hyperparameters are not directly involved in predicting a particular output, so
+they are often contrasted with model parameters. They substantially influence
+the overall training process and the accuracy of the predictions <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Albahli</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.
+Table <a href="#tab:03-methods-hyperparas-choices">1.1</a> summaries the notation of hyperparameters
+and the associated value ranges. Note that the branch-specific hyperparameters will
+be optimized for the four different branches in the network corresponding to
+the districts and the three buffer zones. Various strategies to apply hyperparameter
+optimization exist. Among the most widely used are grid search, random search,
+Bayesian Optimization (BO), and more recently the training of machine-learning
+models to predict the accuracy of different model configurations, also called
+meta-learning <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Baik</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>; <span style="font-variant:normal;"><span class="smallcaps">Yu</span> and <span class="smallcaps">Zhu</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.</p>
+<div style="page-break-after: always;"></div>
+<pre class="r"><code>hyperparas &lt;- tibble(name = c(&quot;lstm\\_layers&quot;,
+                              &quot;double\\_cnn&quot;,
+                              &quot;a_{cnn}&quot;,
+                              &quot;k_{cnn}&quot;,
+                              &quot;\\beta_{cnn}&quot;,
+                              &quot;pool_1&quot;,
+                              &quot;pool\\_size&quot;,
+                              &quot;pool_2&quot;,
+                              &quot;n_{1}&quot;,
+                              &quot;d_{1}&quot;,
+                              &quot;n_{2}&quot;,
+                              &quot;d_{2}&quot;,
+                              &quot;n_{3}&quot;,
+                              &quot;d_{3}&quot;,
+                              &quot;a_{dense}&quot;,
+                              &quot;n_{dense}&quot;,
+                              &quot;a_{out}&quot;,
+                              &quot;\\pi&quot;,
+                              &quot;\\alpha&quot;,
+                              &quot;\\gamma&quot;,
+                              &quot;opti&quot;,
+                              &quot;lr&quot;),
+                     descr = c(&quot;Number of LSTM Layers&quot;,
+                               &quot;Use of a second CNN layer&quot;,
+                               &quot;Activation function for CNN layers&quot;,
+                               &quot;Number of kernels in CNN layers&quot;,
+                               &quot;Kernel width for CNN layers&quot;,
+                               &quot;Pooling operation for local pooling&quot;,
+                               &quot;Pool size for local pooling&quot;,
+                               &quot;Pooling operation for global pooling&quot;,
+                               &quot;Number of neurons in first LSTM layer&quot;,
+                               &quot;Rate of dropout in first LSTM layer&quot;,
+                               &quot;Number of neurons in second LSTM layer&quot;,
+                               &quot;Rate of dropout in second LSTM layer&quot;,
+                               &quot;Number of neurons in third LSTM layer&quot;,
+                               &quot;Rate of dropout in third LSTM layer&quot;,
+                               &quot;Activation of the dense model&quot;,
+                               &quot;Neurons per layer in the dense model&quot;,
+                               &quot;Activation of the output layer&quot;,
+                               &quot;Value of bias initialization of output layer&quot;,
+                               &quot;Alpha parameter of focal loss function&quot;,
+                               &quot;Gamma parameter of focal loss function&quot;,
+                               &quot;Optimizer function&quot;,
+                               &quot;Learning rate of the optimizer function&quot;),
+                     values = c(&quot;1-3&quot;,
+                                &quot;Yes, No&quot;,
+                                &quot;sigmoid, hard\\_sigmoid, softmax,\\\\softplus, softsign&quot;,
+                                &quot;12-128&quot;,
+                                &quot;3-24&quot;,
+                                &quot;maximum, average&quot;,
+                                &quot;3-24&quot;,
+                                &quot;maximum, average&quot;,
+                                &quot;12-128&quot;,
+                                &quot;0-0.5&quot;,
+                                &quot;12-128&quot;,
+                                &quot;0-0.5&quot;,
+                                &quot;12-128&quot;,
+                                &quot;0-0.5&quot;,
+                                &quot;sigmoid, hard\\_sigmoid, softmax,\\\\softplus, softsign, relu,\\\\elu, selu, tanh&quot;,
+                                &quot;12-128&quot;,
+                                &quot;sigmoid, hard\\_sigmoid, softmax&quot;,
+                                &quot;0-1&quot;,
+                                &quot;0-1&quot;,
+                                &quot;0-10&quot;,
+                                &quot;rmsprop, adam, adadelta,\\\\adagrad, adamax, sgd&quot;,
+                                &quot;1^{-10} - 1&quot;))
+
+hyperparas$name = paste(&quot;$&quot;, hyperparas$name, &quot;$&quot;, sep = &quot;&quot;)
+hyperparas$values = paste(&quot;$&quot;, hyperparas$values, &quot;$&quot;, sep = &quot;&quot;)
+
+hyperparas %&gt;% 
+  rename(Name = name, Description = descr, &#39;Value Ranges&#39; = values) %&gt;% 
+  thesis_kable(linesep = c(&quot;&quot;),
+        align = &quot;lll&quot;,
+        caption = c(&quot;Overview of model hyperparameters.&quot;),
+        escape = F,
+        longtable = T) %&gt;% 
+  kable_styling(latex_options = c(&quot;HOLD_position&quot;, &quot;repeat_header&quot;),
+                font_size = 10) %&gt;%
+  group_rows(&quot;Branch specific hyperparameters&quot;, 1, 14) %&gt;%
+  group_rows(&quot;Global hyperparameters&quot;, 15, 22) %&gt;%
+  footnote(general = &quot;Branch specific parameters are optimized individually for the 0/50/100/200 km input branches. Global parameters are optimized once per model.&quot;,
+           threeparttable = T,
+           escape = FALSE,
+           general_title = &quot;General:&quot;,
+           footnote_as_chunk = T)</code></pre>
+<table class="table table" style="margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption style="font-size: initial !important;">
+<span id="tab:03-methods-hyperparas-choices">Table 1.1: </span>Overview of model hyperparameters.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Name
+</th>
+<th style="text-align:left;">
+Description
+</th>
+<th style="text-align:left;">
+Value Ranges
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="14">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Branch specific hyperparameters</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(lstm\_layers\)</span>
+</td>
+<td style="text-align:left;">
+Number of LSTM Layers
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(1-3\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(double\_cnn\)</span>
+</td>
+<td style="text-align:left;">
+Use of a second CNN layer
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(Yes, No\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(a_{cnn}\)</span>
+</td>
+<td style="text-align:left;">
+Activation function for CNN layers
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(sigmoid, hard\_sigmoid, softmax,\\softplus, softsign\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(k_{cnn}\)</span>
+</td>
+<td style="text-align:left;">
+Number of kernels in CNN layers
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(12-128\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(\beta_{cnn}\)</span>
+</td>
+<td style="text-align:left;">
+Kernel width for CNN layers
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(3-24\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(pool_1\)</span>
+</td>
+<td style="text-align:left;">
+Pooling operation for local pooling
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(maximum, average\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(pool\_size\)</span>
+</td>
+<td style="text-align:left;">
+Pool size for local pooling
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(3-24\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(pool_2\)</span>
+</td>
+<td style="text-align:left;">
+Pooling operation for global pooling
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(maximum, average\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(n_{1}\)</span>
+</td>
+<td style="text-align:left;">
+Number of neurons in first LSTM layer
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(12-128\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(d_{1}\)</span>
+</td>
+<td style="text-align:left;">
+Rate of dropout in first LSTM layer
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(0-0.5\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(n_{2}\)</span>
+</td>
+<td style="text-align:left;">
+Number of neurons in second LSTM layer
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(12-128\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(d_{2}\)</span>
+</td>
+<td style="text-align:left;">
+Rate of dropout in second LSTM layer
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(0-0.5\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(n_{3}\)</span>
+</td>
+<td style="text-align:left;">
+Number of neurons in third LSTM layer
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(12-128\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(d_{3}\)</span>
+</td>
+<td style="text-align:left;">
+Rate of dropout in third LSTM layer
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(0-0.5\)</span>
+</td>
+</tr>
+<tr grouplength="8">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Global hyperparameters</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(a_{dense}\)</span>
+</td>
+<td style="text-align:left;">
+Activation of the dense model
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(sigmoid, hard\_sigmoid, softmax,\\softplus, softsign, relu,\\elu, selu, tanh\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(n_{dense}\)</span>
+</td>
+<td style="text-align:left;">
+Neurons per layer in the dense model
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(12-128\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(a_{out}\)</span>
+</td>
+<td style="text-align:left;">
+Activation of the output layer
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(sigmoid, hard\_sigmoid, softmax\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(\pi\)</span>
+</td>
+<td style="text-align:left;">
+Value of bias initialization of output layer
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(0-1\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(\alpha\)</span>
+</td>
+<td style="text-align:left;">
+Alpha parameter of focal loss function
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(0-1\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(\gamma\)</span>
+</td>
+<td style="text-align:left;">
+Gamma parameter of focal loss function
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(0-10\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(opti\)</span>
+</td>
+<td style="text-align:left;">
+Optimizer function
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(rmsprop, adam, adadelta,\\adagrad, adamax, sgd\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<span class="math inline">\(lr\)</span>
+</td>
+<td style="text-align:left;">
+Learning rate of the optimizer function
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(1^{-10} - 1\)</span>
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">General:</span> <sup></sup> Branch specific parameters are optimized individually for the 0/50/100/200 km input branches. Global parameters are optimized once per model.
+</td>
+</tr>
+</tfoot>
+</table>
+<div style="page-break-after: always;"></div>
+<p>Different approaches have in common what <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Shahriari</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2016</span>)</span></span> called “taking the human out of the loop.”
+Hyperparameter tuning in this way can be understood as a process of reducing the
+impact of a researcher’s subjectivity on the model construction towards the
+machine and the data controlling the training process.
+In its most extreme form, this thought leads towards machines being able to
+determine how they can learn a specific problem by themselves <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Yao</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>)</span></span>.
+The approaches, however, differ in complexity and the way they cope with the
+problem to balance between search time and accuracy. For example, grid search
+might yield equally high accuracies but the training time needed to achieve these
+can be very high compared with BO <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Wu</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>)</span></span>.
+While the meta-learning approach certainly is beyond this thesis’s scope, an
+optimization strategy was searched with a reasonable balance between computing
+efficiency in terms of time and high accuracy. The choice was made to apply
+BO because it explicitly leverages prior information on the performance of
+hyperparameters to determine the next set to be explored and has a proven
+record of delivering robust results since its original publication in the 1970s
+<span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Mockus</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2014</span>)</span></span>. In essence, BO works by iteratively updating the beliefs on
+the distribution of an accuracy metric for an objective function <span class="math inline">\(f\)</span> based on the
+knowledge of prior samples of parameter <span class="math inline">\(x\)</span>. The goal is to find the global maximum
+for <span class="math inline">\(x^+\)</span> within a pre-defined search space <span class="math inline">\(A\)</span> following Equation <a href="#eq:opti">(1.13)</a></p>
+<p><span class="math display" id="eq:opti">\[\begin{equation}
+x^+ = arg\;\underset{x \in A}{max} \, f(x).
+\tag{1.13}
+\end{equation}\]</span></p>
+<p>This is achieved by updating the prior probability <span class="math inline">\(P(f(x))\)</span> given data <span class="math inline">\(D\)</span> to
+get the posterior probability <span class="math inline">\(P(f(x)|D)\)</span>, which is referred to as the Bayes’
+theorem <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Bayes</span> and <span class="smallcaps">Price</span></span>, <span style="font-variant:normal;">1763</span>)</span></span>. Assume that we have accumulated a dataset
+<span class="math inline">\(D_{1:t-1} = [(x_1,y_1) \dots (x_{t-1},y_{t-1})]\)</span> where <span class="math inline">\(x_1\)</span> is the value of a
+hyperparameter at trial <span class="math inline">\(t = 1\)</span> and <span class="math inline">\(y_1\)</span> is the result of the objective function
+<span class="math inline">\(y_1 = f(x_1)\)</span> which, in the case at hand, is the performance of the proposed model
+measured by a specific accuracy metric. This knowledge data can be queried by an
+acquisition function <span class="math inline">\(u\)</span> to retrieve the next promising candidate <span class="math inline">\(x_t\)</span> following
+Equation <a href="#eq:acqu">(1.14)</a></p>
+<p><span class="math display" id="eq:acqu">\[\begin{equation}
+x_{t} = arg \;\underset{x}{max} \, u(x|D_{1:t-1})
+\tag{1.14}
+\end{equation}\]</span></p>
+<p>With this candidate at hand the model is retrained to obtain an additional
+measurement on the performance. The knowledge data set is updated by
+<span class="math inline">\(D_{1:t} = \{D_{1:t-1},(x_t,y_t)\}\)</span> and a new posterior probability for <span class="math inline">\(f(x)\)</span>
+can be estimated.
+BO works by calculating the probability density function for a given parameter
+<span class="math inline">\(x\)</span> based on a Gaussian process. The details of these calculations are beyond
+this thesis’s scope, but the reader is referred to <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Rasmussen</span> and <span style="font-variant:normal;">Williams</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2006</span>)</span></span> for a
+comprehensive analysis of its application in machine learning. As an acquisition
+function, the Upper Confidence Bound (UCB) function was used to calculate the next
+candidate parameter <span class="math inline">\(x_t\)</span>. For a comprehensive overview of a BO process using
+UCB be referred to <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Srinivas</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2012</span>)</span></span>. It should be noted that BO, in its essence, is
+a sequential problem because the results of one iteration will impact the next.
+Even though there have been efforts to parallelize BO <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Nomura</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>, these
+approaches do not alter the basic sequential characteristic of the algorithm and
+come with higher management costs for the researcher.</p>
+</div>
+<div id="performance-metrics" class="section level2">
+<h2><span class="header-section-number">1.7</span> Performance Metrics</h2>
+
+<p>The performance of a model is validated on a specific set of accuracy
+metrics. However, performance is often a multi-dimensional problem, which is why
+several metrics are used in this thesis. These were selected to
+represent different dimensions of a model’s performance to differentiate between
+the occurrence of conflicts versus peace.</p>
+<p>In its essence, the problem of this thesis is one of a binary classification.
+The core component for the performance assessment of a binary classification
+problem is a simple two-class confusion matrix depicted in Table <a href="#tab:03-methods-conf">1.2</a>
+<span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Tharwat</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.</p>
+<pre class="r"><code>cnf &lt;- tibble(col1 = c(&quot;&quot;, &quot;*Positives*&quot;, &quot;*Negatives*&quot;),
+              col2 = c(&quot;*Positives*&quot;, &quot;True Positives (TP)&quot;, &quot;False Negatives (FN)&quot;),
+              col3 = c(&quot;*Negatives*&quot;, &quot;False Positives (FP)&quot;, &quot;True Negatives (TN)&quot;))
+
+thesis_kable(cnf, 
+      col.names = c(&quot;&quot;,&quot;&quot;, &quot;&quot;),
+      align = &quot;ccc&quot;,
+      escape = F,
+      caption = &quot;Concept of a binary confusion matrix.&quot;) %&gt;%
+  kable_styling(latex_options = c(&quot;HOLD_position&quot;, &quot;repeat_header&quot;),
+                font_size = 10) %&gt;%
+  add_header_above(c(&quot;&quot;, &quot;Observation&quot; = 2), bold = T) %&gt;%
+  group_rows(&quot;Prediction&quot;, 2,3)</code></pre>
+<table class="table table" style="margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:03-methods-conf">Table 1.2: </span>Concept of a binary confusion matrix.
+</caption>
+<thead>
+<tr>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="1">
+</th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Observation
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:center;">
+</th>
+<th style="text-align:center;">
+</th>
+<th style="text-align:center;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+<em>Positives</em>
+</td>
+<td style="text-align:center;">
+<em>Negatives</em>
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Prediction</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:center; padding-left:  2em;" indentlevel="1">
+<em>Positives</em>
+</td>
+<td style="text-align:center;">
+True Positives (TP)
+</td>
+<td style="text-align:center;">
+False Positives (FP)
+</td>
+</tr>
+<tr>
+<td style="text-align:center; padding-left:  2em;" indentlevel="1">
+<em>Negatives</em>
+</td>
+<td style="text-align:center;">
+False Negatives (FN)
+</td>
+<td style="text-align:center;">
+True Negatives (TN)
+</td>
+</tr>
+</tbody>
+</table>
+<p>From the table above, it is evident that there are two types of errors.
+False Positives (FP), also referred to as Type I error,
+are observations that were falsely classified as the positive class while in
+reality they belong to the negative class. False Negatives (FN), referred to
+as the Type II error, are observations that were predicted as the negative
+class, however, they belong to the positive class <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Tharwat</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.
+The most widely used accuracy metric derived from a confusion matrix
+is Overall Accuracy (OA). It is simply calculated as the rate of correctly
+classified observations (Equation <a href="#eq:OA">(1.15)</a>)</p>
+<p><span class="math display" id="eq:OA">\[\begin{equation}
+OA = \frac{TP+TN}{TP+TN+FP+FN}\;.
+\tag{1.15}
+\end{equation}\]</span></p>
+<p>However, OA is not very well suited for classification problems with high class
+imbalance <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Tharwat</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>. A model for a classification problem where the positive class only
+covers 1 % of the observations can achieve an OA of 99 % only by always predicting
+the negative class. In the context of class imbalance, other metrics derived
+from the confusion matrix help to paint a more concise picture of a model’s
+capability to predict a particular outcome.
+The rate at which positive examples are correctly classified (True Positive Rate),
+also called sensitivity or recall, sheds light on a models capability to
+correctly identify positive observations (Equation <a href="#eq:Sensitivity">(1.16)</a>)</p>
+<p><span class="math display" id="eq:Sensitivity">\[\begin{equation}
+Sensitivity = TPR = \frac{TP}{TP+FN}\;.
+\tag{1.16}
+\end{equation}\]</span></p>
+<p>The False Positive Rate (FPR) contains information on the rate a model falsely
+predicts a positive outcome in relation to all observations with a negative outcome
+thus indicating the rate negative observations are treated as positives (Equation <a href="#eq:FPR">(1.17)</a>)</p>
+<p><span class="math display" id="eq:FPR">\[\begin{equation}
+FPR = \frac{FP}{FP+TN}\;.
+\tag{1.17}
+\end{equation}\]</span></p>
+<p>Shifting the focus towards the negative class, specificity also called True
+Negative Rate (TNR) describes the rate negative observations are correctly
+identified (Equation <a href="#eq:Specificity">(1.18)</a>)</p>
+<p><span class="math display" id="eq:Specificity">\[\begin{equation}
+Specificity = TNR = \frac{TN}{TN+FP}\;.
+\tag{1.18}
+\end{equation}\]</span></p>
+<p>The False Negative Rate (FNR) then describes the rate that positive observations
+are falsely classified as the negative class (Equation <a href="#eq:FNR">(1.19)</a>)</p>
+<p><span class="math display" id="eq:FNR">\[\begin{equation}
+FNR = \frac{FN}{FN+TP}\;.
+\tag{1.19}
+\end{equation}\]</span></p>
+<p>In addition to these metrics, the precision of a model, also referred to as Positive
+Predictive Value (PPV) captures the rate examples classified as the positive
+class actually represent positive observations (Equation <a href="#eq:Precision">(1.20)</a>)</p>
+<p><span class="math display" id="eq:Precision">\[\begin{equation}
+Precision = PPV = \frac{TP}{TP+FP}\;.
+\tag{1.20}
+\end{equation}\]</span></p>
+<p>Note that sensitivity and precision always are in a fragile balance with each other.
+While higher sensitivity values can be achieved by decreasing the number of false
+negatives, there naturally will be a higher number of false positives, and the precision
+is decreased. The same holds if one tries to increase the precision, which will lead to
+lower sensitivity values. To harmonize this relationship into a
+single metric the <span class="math inline">\(F_\beta\)</span>-score is used (Equation <a href="#eq:Fbeta">(1.21)</a>)</p>
+<p><span class="math display" id="eq:Fbeta">\[\begin{equation}
+F_\beta = (1+\beta^2)\frac{Precision*Sensitivity}{\beta^2*Precision+Sensitivity}\;.
+\tag{1.21}
+\end{equation}\]</span></p>
+<p>The most widely used is <span class="math inline">\(\beta = 1\)</span>, which will result in a harmonic mean between
+precision and sensitivity, also referred to as <span class="math inline">\(F_1\)</span>-score <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Tharwat</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.
+With increasing values of <span class="math inline">\(\beta\)</span>, sensitivity is emphasized over precision.
+<span class="math inline">\(\beta=2\)</span> will put the double weight of sensitivity compared to precision.
+This metric, referred to as <span class="math inline">\(F_2\)</span>-score, is the central metric for this thesis.
+It was chosen because a model’s capability to not miss out on the occurrence
+of conflict district-months was considered more important than a model’s tendency
+towards so-called false alarms, i.e., the prediction of conflict when in reality,
+there was peace. If this model was used in conflict prevention or crisis
+early warning systems, missing out on a potential conflict can lead to the loss of
+lives. It is therefore considered advantageous when a model can correctly
+detect positive examples at a high rate. However, using the <span class="math inline">\(F_2\)</span>-score as the central
+optimization metric ensures that the precision of a model still
+influences its performance evaluation so that frequently predicting the
+positive class itself would not lead to very high performance scores.</p>
+<p>Two additional metrics which can not directly be derived from the confusion matrix
+are included as well. These are the Area Under the Receiver Operating Characteristic
+(AUROC - AUC for short) as well as the Area Under the Precision-Recall Curve
+(AUPRC - AUPR for short) <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Fawcett</span></span>, <span style="font-variant:normal;">2006</span>)</span></span>. These metrics represent
+the relative tradeoffs between sensitivity and FPR, and precision and sensitivity,
+respectively. To get an intuition about the calculation, one can imagine that the
+threshold value to map a model’s output to a specific class prediction steadily increases
+from 0 to 1. In the former case, for each threshold, the values for sensitivity
+and FPR are recorded. In the latter case, precision and sensitivity are the metrics of interest.
+In reality, a more efficient algorithm is used to calculate these metrics <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Fawcett</span></span>, <span style="font-variant:normal;">2006</span>)</span></span>.
+Both metrics are then plotted against each other. The area under theses curves
+generalizes the performance of a classifier into a single metric. The generated
+plots of both the ROC and the PRC, can be used to compare the performance
+of different classifiers visually <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Fawcett</span></span>, <span style="font-variant:normal;">2006</span>)</span></span>.</p>
+</div>
+<div id="training-validation-process" class="section level2">
+<h2><span class="header-section-number">1.8</span> Training &amp; Validation Process</h2>
+<p>Recall that the training data is available as a sequence of <span class="math inline">\(L\)</span> predictors
+of <span class="math inline">\(t\)</span> time steps in the form of <span class="math inline">\(X^L_t\)</span> from Equation <a href="#eq:data">(1.3)</a>. In total,
+there are <span class="math inline">\(t = 228\)</span> time steps available from January 2001 to December 2019.
+The total number of predictors is <span class="math inline">\(L = 176\)</span>, but only a subset is fed to the respective models,
+except for the regression baseline and the environmental models which are trained on
+the complete data set. The prediction horizon is set to 12 months so that for
+each <span class="math inline">\(x_t\)</span> there is an associated outcome vector of the form <span class="math inline">\(y = [{y_{t+1},y_{t+2},...,y_{t+12}}]\)</span>.</p>
+<p>In order to be able to evaluate the potential of a model to generalize, out-of-sample
+evaluation data sets are needed. The available data is split into three different
+sets, which are used for training, validation, and testing according to Table
+<a href="#tab:03-methods-split">1.3</a>.</p>
+<pre class="r"><code>data_sets &lt;- tibble(Name = c(&quot;Training&quot;,
+                             &quot;Validation&quot;,
+                             &quot;Test&quot;),
+                    Purpose = c(&quot;Fit model parameters&quot;,
+                                &quot;Fit model hyperparameters&quot;,
+                                &quot;Performance estimation&quot;),
+                    &#39;Range&#39; = c(&quot;Jan. 2001 - Dec. 2016&quot;,
+                                &quot;Jan. 2017 - Dec. 2018&quot;,
+                                &quot;Jan. 2019 - Dec. 2019&quot;))
+
+thesis_kable(data_sets,
+      align = &quot;lll&quot;,
+      caption = &quot;Split of the available data to training, validation and testing data sets.&quot;,
+      escape = F,
+      longtable = T) %&gt;% 
+  kable_styling(latex_options = c(&quot;HOLD_position&quot;),
+                font_size = 10)</code></pre>
+<table class="table table" style="margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:03-methods-split">Table 1.3: </span>Split of the available data to training, validation and testing data sets.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Name
+</th>
+<th style="text-align:left;">
+Purpose
+</th>
+<th style="text-align:left;">
+Range
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Training
+</td>
+<td style="text-align:left;">
+Fit model parameters
+</td>
+<td style="text-align:left;">
+Jan. 2001 - Dec. 2016
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Validation
+</td>
+<td style="text-align:left;">
+Fit model hyperparameters
+</td>
+<td style="text-align:left;">
+Jan. 2017 - Dec. 2018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:left;">
+Performance estimation
+</td>
+<td style="text-align:left;">
+Jan. 2019 - Dec. 2019
+</td>
+</tr>
+</tbody>
+</table>
+<p>For the LR baseline, all available predictors
+are used. Because no hyperparameter tuning is involved in fitting the model,
+the training and validation data sets are combined to estimate
+the model parameters. Undersampling is performed so that an equal amount of
+observations with conflict and peace district-months is included. While all
+conflict observations are included, peace
+observations are randomly sampled. This process is repeated ten times, each with different selected peace
+observations. For each month in the prediction horizon, models are trained individually.
+Time is not included as a predictor variable, so that the model predictions
+e.g. for six month into the future are based solely on the predictors
+at time step <span class="math inline">\(t\)</span>: <span class="math inline">\(\hat{y}_{t+6} = f(x_t)\)</span>.
+The predictor variables are normalized based on the distribution in the combined
+training and validation set. District-months with missing data are dropped for
+the logistic regression model. Threshold tuning on the model’s probability predictions
+is applied in the sense that the threshold is chosen which delivers the best
+<span class="math inline">\(F_2\)</span>-score on the training data. With this threshold, the performance metrics
+are evaluated on the test set and averaged across the ten repeats. The average
+of the monthly performance metrics is calculated and referred to as the global performance.</p>
+<p>Handling the data for training the neural networks differs considerably compared
+to the LR baseline. For all neural network models, the data
+is handed over as a time series with increasing length and a minimum length of 48 months.
+Batch gradient descent was chosen as a training strategy, meaning that the first
+step in an epoch of training a neural network consists of 48 months worth of data
+for all the districts. Then gradients are calculated, and the learnable
+model parameters are updated. The next step in an epoch then consists of
+training data worth of <span class="math inline">\(t = 48\, months + step\_size\)</span> time steps for all available
+districts. During hyperparameter optimization, a <span class="math inline">\(step\_size = 4\)</span> was chosen,
+effectively reducing the size of the training data set to <span class="math inline">\(\frac{1}{4}\)</span>. During the
+models’ final training, <span class="math inline">\(step\_size=1\)</span> was chosen so that the complete
+data set is used to estimate the final model parameters. One epoch of
+training is completed once all time steps have been presented to the model.
+Performance on the validation set is calculated at the end of an epoch. A global
+termination criterion for training is implemented for all models, once 200
+epochs have been trained. This is combined with different early stopping
+policies for the optimization and the final training stage, which
+will lead to varying numbers of epochs from one model to another.
+Similar to the logistic regression model, the predictor variables are normalized
+based on the distribution in the training data set. Missing values, in contrast,
+are not dropped but imputed with a value of -1. Due to normalization, valid values
+are in the range of <span class="math inline">\([0,1]\)</span>, so replacing missing data with a constant value
+represents a valid training strategy for deep learning frameworks <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Ipsen</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.
+Also, missing values mainly occurred systematically in the present data set. For
+example, values of evapotranspiration are systematically missing for the Sahara
+region. Other imputation strategies, such as mean imputation of interpolation between
+the last and next observed value in a time series, cannot deliver robust
+results in such cases. Also, a comparable pattern of missingness is expected
+in the test set, and missing values are expected to occur not in relation to
+the outcome variable but due to the characteristics governing their respective
+generating process.</p>
+<p>Hyperparameter optimization for the neural networks is performed only once with
+the outcome variable <strong>cb</strong> to minimize computation time. Even though it
+can be expected that the optimal configurations of the network architecture might
+differ for the outcome variables, this simplification drastically reduces
+training time. Additionally, the internal structure of the data does not change
+with the outcome variable, so that it can be expected that this one-to-serve-all
+approach will lead to satisfactory performance with other outcome variables.
+For both aggregation units, <em>adm</em> and <em>bas</em>, and the different predictor sets
+(CH, SV, EV) optimization is conducted individually, resulting in a total number
+of six optimization processes. For one optimization process, the first 100 trials are conducted with
+random initialization of the hyperparameters. These first trials serve as the
+knowledge base to estimate the performance of yet-to-be-tested parameters. Another iteration of
+100 trials are then used to explore and optimize the parameter space. During this stage,
+the training set is used to optimize model parameters. The <span class="math inline">\(F_2\)</span>-score is evaluated
+on the validation data set at the end of each epoch. During training, threshold
+tuning is not applied, which is why <span class="math inline">\(\lambda = 0.5\)</span> is used as the cut-off value
+to calculate the <span class="math inline">\(F_2\)</span>-score. Early stopping was included when the <span class="math inline">\(F_2\)</span>-score
+on the validation data set does not improve for ten epochs above a threshold of
+<span class="math inline">\(0.001\)</span>.</p>
+<p>The final training process is conducted for each predictor set on each of the
+four outcome variables for both aggregation units. The model is set up with the
+optimal hyperparameters found during the optimization stage. There are two steps
+involved in the final training stage. The first step consists of training the
+model parameters on the training set with a slightly changed early stopping
+policy on evaluating the validation set. Here, training is stopped after
+20 epochs of no improvement in the <span class="math inline">\(F_2\)</span>-score above a threshold of <span class="math inline">\(0.0001\)</span>.
+The policy is slightly changed because firstly, more training data is available,
+and secondly, the hyperparameters have been optimized for the response variable
+<strong>cb</strong> only. To account for possible variations during training, the stopping
+criterion is relaxed so that a higher number of training epochs are possible.
+Once training has been completed, threshold tuning is applied based on the
+validation data set to find the threshold which optimizes the <span class="math inline">\(F_2\)</span>-score.
+During the second step, the model parameters are trained on the
+validation set, which has been held out during the first step. Because there is
+no other independent data set to validate this training process against, the early
+stopping criterion is set to a decrease in the overall loss smaller than 0.0001
+within 10 epochs. After the second training step, the model performance is evaluated
+on the test set. For this, the model’s estimation for the probability of conflict
+is predicted, then the optimized threshold from the first training step is applied,
+and the performance metrics are recorded. Because the weights of different layers
+are randomly initialized, the prediction results can substantially
+differ when training is repeated. To account for this variability, training
+is repeated 10 times on each predictor set for both aggregation units and
+all outcome variables, resulting in a total number of 240 distinct DL models
+(10 repeats x 4 outcome classes x 3 predictor sets x 2 aggregation units).</p>
+</div>
+<div id="analysis-of-variance" class="section level2">
+<h2><span class="header-section-number">1.9</span> Analysis of Variance</h2>
+<p>Leveraging the availability of ten repeats per outcome variable and predictor set
+a two-way analysis of variance (ANOVA) is used to derive statistical indications
+to answer hypothesis H1 and H2. ANOVA is used to analyze the impact of different
+treatment factors on the outcome of an experiment. The four different
+model and predictor themes (LR, CH, SV, and EV) in combination with the spatial
+representation (<em>adm</em> and <em>bas</em>) are conceptualized as two different levels of
+treatment. The outcome of the experiment is measured by the achieved global <span class="math inline">\(F_2\)</span>-score.
+Three assumptions must hold for the classical Fisher’s ANOVA <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Fisher</span></span>, <span style="font-variant:normal;">1921</span>)</span></span>.
+The first is the independence of observations between and within groups of
+treatment. This independence is given since the results of one predictor set
+do not impact the results of another. The ten repeats of the DL models for a
+given predictor-unit combination are independent from each other because instead
+of a cross-validation the total available data set is used for each repeat <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Raschka</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.
+For the LR model, downsampling is conducted randomly so
+that for each repeat peace observations have the same probability to be included
+during training. The second assumption is that residuals are normally distributed
+and thirdly homogeneity of variance is assumed.
+Visualizations of the residuals are used to assess if the assumptions are violated.
+While the assumption of normal distribution holds (Figure <a href="#fig:appendix-anova-qq"><strong>??</strong></a>),
+the assumptions on homogeneous variance is slightly violated (Figure
+<a href="#fig:appendix-anova-resid"><strong>??</strong></a>). For that reason, instead of the classical ANOVA,
+the Welch-James test is applied <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">James</span></span>, <span style="font-variant:normal;">1951</span>; <span style="font-variant:normal;"><span class="smallcaps">Welch</span></span>, <span style="font-variant:normal;">1951</span>)</span></span> which tests for <span class="math inline">\(H_0\)</span>
+that no statistical significant difference in the mean of the outcome is observed between
+treatments. It is a non-parametric test and thus can be applied for cases where
+variance is not homogeneous. When <span class="math inline">\(H_0\)</span> can be refused, usually post-hoc tests
+are applied to investigate the differences between groups. For cases where two
+or more treatment groups are tested against, the test is specified by terms
+describing the individual group’s contributions (main effect) as well as the
+interaction terms between groups (interaction effect). When interaction effects
+are significant, main effects are excluded from further analysis. The Games-Howell
+test is applied as a post-hoc test. It can be applied when six or more observations
+for each group are present <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Lee</span> and <span class="smallcaps">Lee</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>. It delivers an estimate of the absolute
+difference between treatment groups and reports on the statistical significance
+of these differences. The results thus allow a detailed comparison of the
+achieved performances for different predictor-unit combinations based on statistical
+significance and thus play a central role in the confirmation of hypothesis H1 and H2.</p>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1><span class="header-section-number">2</span> References</h1>
+<div id="refs">
+<div id="ref-albahli2020">
+<p><span class="smallcaps">Albahli, S., Alhassan, F., Albattah, W., Khan, R.U.</span>, 2020. Handwritten Digit Recognition: Hyperparameters-Based Analysis. Applied Sciences 10, 5988. <a href="https://doi.org/10.3390/app10175988">https://doi.org/10.3390/app10175988</a></p>
+</div>
+<div id="ref-ali2015">
+<p><span class="smallcaps">Ali, A., Shamsuddin, S.M., Ralescu, A.</span>, 2015. Classification with class imbalance problem: A review. International Journal of Advances in Soft Computing and its Applications 5, 176–204.</p>
+</div>
+<div id="ref-baik2020">
+<p><span class="smallcaps">Baik, S., Choi, M., Choi, J., Kim, H., Lee, K.M.</span>, 2020. Meta-Learning with Adaptive Hyperparameters, in: Larochelle, H., Ranzato, M., Hadsell, R., Balcan, M.F., Lin, H. (Eds.), Advances in Neural Information Processing Systems. pp. 20755–20765.</p>
+</div>
+<div id="ref-bayes1763">
+<p><span class="smallcaps">Bayes, M., Price, M.</span>, 1763. An Essay towards Solving a Problem in the Doctrine of Chances. By the Late Rev. Mr. Bayes, F. R. S. Communicated by Mr. Price, in a Letter to John Canton, A. M. F. R. S. Philosophical Transactions (1683-1775) 53, 370–418.</p>
+</div>
+<div id="ref-chhetri2020">
+<p><span class="smallcaps">Chhetri, M., Kumar, S., Pratim Roy, P., Kim, B.-G.</span>, 2020. Deep BLSTM-GRU Model for Monthly Rainfall Prediction: A Case Study of Simtokha, Bhutan. Remote Sensing 12, 3174. <a href="https://doi.org/10.3390/rs12193174">https://doi.org/10.3390/rs12193174</a></p>
+</div>
+<div id="ref-cordoni2020">
+<p><span class="smallcaps">Cordoni, F.</span>, 2020. A comparison of modern deep neural network architectures for energy spot price forecasting. Digital Finance 2, 189–210. <a href="https://doi.org/10.1007/s42521-020-00022-2">https://doi.org/10.1007/s42521-020-00022-2</a></p>
+</div>
+<div id="ref-fawcett2006">
+<p><span class="smallcaps">Fawcett, T.</span>, 2006. An introduction to ROC analysis. Pattern Recognition Letters, ROC Analysis in Pattern Recognition 27, 861–874. <a href="https://doi.org/10.1016/j.patrec.2005.10.010">https://doi.org/10.1016/j.patrec.2005.10.010</a></p>
+</div>
+<div id="ref-fisher1921">
+<p><span class="smallcaps">Fisher, R.A.</span>, 1921. Studies in crop variation. I. An examination of the yield of dressed grain from Broadbalk. The Journal of Agricultural Science 11, 107–135. <a href="https://doi.org/10.1017/S0021859600003750">https://doi.org/10.1017/S0021859600003750</a></p>
+</div>
+<div id="ref-gers2000">
+<p><span class="smallcaps">Gers, F.A., Schmidhuber, J., Cummins, F.</span>, 2000. Learning to forget: Continual prediction with LSTM. Neural Computation 12, 2451–2471. <a href="https://doi.org/10.1162/089976600300015015">https://doi.org/10.1162/089976600300015015</a></p>
+</div>
+<div id="ref-halkia2020a">
+<p><span class="smallcaps">Halkia, M., Ferri, S., Schellens, M.K., Papazoglou, M., Thomakos, D.</span>, 2020. The Global Conflict Risk Index: A quantitative tool for policy support on conflict prevention. Progress in Disaster Science 6, 100069. <a href="https://doi.org/10.1016/j.pdisas.2020.100069">https://doi.org/10.1016/j.pdisas.2020.100069</a></p>
+</div>
+<div id="ref-hao2020a">
+<p><span class="smallcaps">Hao, M., Fu, J., Jiang, D., Ding, F., Chen, S.</span>, 2020. Simulating the Linkages Between Economy and Armed Conflict in India With a Long Short-Term Memory Algorithm. Risk Analysis 40, 1139–1150. <a href="https://doi.org/10.1111/risa.13470">https://doi.org/10.1111/risa.13470</a></p>
+</div>
+<div id="ref-hegre2019">
+<p><span class="smallcaps">Hegre, H., Allansson, M., Basedau, M., Colaresi, M., Croicu, M., Fjelde, H., Hoyles, F., Hultman, L., Högbladh, S., Jansen, R., Mouhleb, N., Muhammad, S.A., Nilsson, D., Nygård, H.M., Olafsdottir, G., Petrova, K., Randahl, D., Rød, E.G., Schneider, G., von Uexkull, N., Vestby, J.</span>, 2019. ViEWS: A political violence early-warning system. Journal of Peace Research 56, 155–174. <a href="https://doi.org/10.1177/0022343319823860">https://doi.org/10.1177/0022343319823860</a></p>
+</div>
+<div id="ref-hochreiter1997">
+<p><span class="smallcaps">Hochreiter, S., Schmidhuber, J.</span>, 1997. Long Short-Term Memory. Neural Computation 9, 1735–1780. <a href="https://doi.org/10.1162/neco.1997.9.8.1735">https://doi.org/10.1162/neco.1997.9.8.1735</a></p>
+</div>
+<div id="ref-hu2020">
+<p><span class="smallcaps">Hu, Y., Yan, L., Hang, T., Feng, J.</span>, 2020. Stream-Flow Forecasting of Small Rivers Based on LSTM. arXiv:2001.05681 [cs].</p>
+</div>
+<div id="ref-ipsen2020">
+<p><span class="smallcaps">Ipsen, N., Mattei, P.-A., Frellsen, J.</span>, 2020. How to deal with missing data in supervised deep learning?, in: Art of Learning with MissingValues (Artemiss).</p>
+</div>
+<div id="ref-james1951">
+<p><span class="smallcaps">James, G.S.</span>, 1951. The Comparison of Several Groups of Observations When the Ratios of the Population Variances are Unknown. Biometrika 38, 324–329. <a href="https://doi.org/10.2307/2332578">https://doi.org/10.2307/2332578</a></p>
+</div>
+<div id="ref-krizhevsky2017">
+<p><span class="smallcaps">Krizhevsky, A., Sutskever, I., Hinton, G.E.</span>, 2017. ImageNet classification with deep convolutional neural networks. Communications of the ACM 60, 84–90. <a href="https://doi.org/10.1145/3065386">https://doi.org/10.1145/3065386</a></p>
+</div>
+<div id="ref-lee2009">
+<p><span class="smallcaps">Lee, H., Largman, Y., Pham, P., Ng, A.Y.</span>, 2009. Unsupervised feature learning for audio classification using convolutional deep belief networks, in: Proceedings of the 22nd International Conference on Neural Information Processing Systems, NIPS’09. Curran Associates Inc., Red Hook, NY, USA, pp. 1096–1104.</p>
+</div>
+<div id="ref-lee2018">
+<p><span class="smallcaps">Lee, S., Lee, D.K.</span>, 2018. What is the proper way to apply the multiple comparison test? Korean Journal of Anesthesiology 71, 353–360. <a href="https://doi.org/10.4097/kja.d.18.00242">https://doi.org/10.4097/kja.d.18.00242</a></p>
+</div>
+<div id="ref-li2020">
+<p><span class="smallcaps">Li, T., Hua, M., Wu, X.</span>, 2020. A Hybrid CNN-LSTM Model for Forecasting Particulate Matter (PM2.5). IEEE Access 8, 26933–26940. <a href="https://doi.org/10.1109/ACCESS.2020.2971348">https://doi.org/10.1109/ACCESS.2020.2971348</a></p>
+</div>
+<div id="ref-lin2018">
+<p><span class="smallcaps">Lin, T.-Y., Goyal, P., Girshick, R., He, K., Doll’ar, P.</span>, 2018. Focal Loss for Dense Object Detection. arXiv:1708.02002 [cs].</p>
+</div>
+<div id="ref-mehtab2020a">
+<p><span class="smallcaps">Mehtab, S., Sen, J., Dasgupta, S.</span>, 2020. Robust Analysis of Stock Price Time Series Using CNN and LSTM-Based Deep Learning Models, in: Proceedings of the 4th International Conference on Electronics, Communication and Aerospace Technology (ICECA). IEEE, Coimbatore, pp. 1481–1486. <a href="https://doi.org/10.1109/ICECA49313.2020.9297652">https://doi.org/10.1109/ICECA49313.2020.9297652</a></p>
+</div>
+<div id="ref-mockus2014">
+<p><span class="smallcaps">Mockus, J., Tiesis, V., Zilinskas, A.</span>, 2014. The application of Bayesian methods for seeking the extremum, in: Hey, A.M. (Ed.), Towards Global Optimization 2. pp. 117–129.</p>
+</div>
+<div id="ref-nomura2020">
+<p><span class="smallcaps">Nomura, M.</span>, 2020. Simple and Scalable Parallelized Bayesian Optimization. arXiv:2006.13600 [cs, stat].</p>
+</div>
+<div id="ref-parr2018">
+<p><span class="smallcaps">Parr, T., Howard, J.</span>, 2018. The Matrix Calculus You Need For Deep Learning. arXiv:1802.01528 [cs, stat].</p>
+</div>
+<div id="ref-rajagukguk2020">
+<p><span class="smallcaps">Rajagukguk, R.A., Ramadhan, R.A.A., Lee, H.-J.</span>, 2020. A Review on Deep Learning Models for Forecasting Time Series Data of Solar Irradiance and Photovoltaic Power. Energies 13, 6623. <a href="https://doi.org/10.3390/en13246623">https://doi.org/10.3390/en13246623</a></p>
+</div>
+<div id="ref-raschka2020">
+<p><span class="smallcaps">Raschka, S.</span>, 2020. Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning. arXiv:1811.12808 [cs, stat].</p>
+</div>
+<div id="ref-rasmussen2006">
+<p><span class="smallcaps">Rasmussen, C.E., Williams, C.K.I.</span>, 2006. Gaussian processes for machine learning, Adaptive computation and machine learning. MIT Press, Cambridge, Massachusetts.</p>
+</div>
+<div id="ref-rawat2017">
+<p><span class="smallcaps">Rawat, W., Wang, Z.</span>, 2017. Deep convolutional neural networks for image classification: A comprehensive review. Neural Computation 29, 2352–2449. <a href="https://doi.org/10.1162/NECO_a_00990">https://doi.org/10.1162/NECO_a_00990</a></p>
+</div>
+<div id="ref-schellens2020">
+<p><span class="smallcaps">Schellens, M.K., Belyazid, S.</span>, 2020. Revisiting the Contested Role of Natural Resources in Violent Conflict Risk through Machine Learning. Sustainability 12, 6574. <a href="https://doi.org/10.3390/su12166574">https://doi.org/10.3390/su12166574</a></p>
+</div>
+<div id="ref-shahriari2016">
+<p><span class="smallcaps">Shahriari, B., Swersky, K., Wang, Z., Adams, R.P., de Freitas, N.</span>, 2016. Taking the Human Out of the Loop: A Review of Bayesian Optimization. Proceedings of the IEEE 104, 148–175. <a href="https://doi.org/10.1109/JPROC.2015.2494218">https://doi.org/10.1109/JPROC.2015.2494218</a></p>
+</div>
+<div id="ref-song2019">
+<p><span class="smallcaps">Song, J., Gao, S., Zhu, Y., Ma, C.</span>, 2019. A survey of remote sensing image classification based on CNNs. Big Earth Data 3, 232–254. <a href="https://doi.org/10.1080/20964471.2019.1657720">https://doi.org/10.1080/20964471.2019.1657720</a></p>
+</div>
+<div id="ref-srinivas2012">
+<p><span class="smallcaps">Srinivas, N., Krause, A., Kakade, S.M., Seeger, M.</span>, 2012. Gaussian Process Optimization in the Bandit Setting: No Regret and Experimental Design. IEEE Transactions on Information Theory 58, 3250–3265. <a href="https://doi.org/10.1109/TIT.2011.2182033">https://doi.org/10.1109/TIT.2011.2182033</a></p>
+</div>
+<div id="ref-sun2019">
+<p><span class="smallcaps">Sun, S., Cao, Z., Zhu, H., Zhao, J.</span>, 2019. A Survey of Optimization Methods from a Machine Learning Perspective. arXiv:1906.06821 [cs, math, stat].</p>
+</div>
+<div id="ref-tharwat2020">
+<p><span class="smallcaps">Tharwat, A.</span>, 2020. Classification assessment methods. Applied Computing and Informatics 17. <a href="https://doi.org/10.1016/j.aci.2018.08.003">https://doi.org/10.1016/j.aci.2018.08.003</a></p>
+</div>
+<div id="ref-welch1951">
+<p><span class="smallcaps">Welch, B.L.</span>, 1951. On the Comparison of Several Mean Values: An Alternative Approach. Biometrika 38, 330–336. <a href="https://doi.org/10.2307/2332579">https://doi.org/10.2307/2332579</a></p>
+</div>
+<div id="ref-wu2019">
+<p><span class="smallcaps">Wu, J., Chen, X.-Y., Zhang, H., Xiong, L.-D., Lei, H., Deng, S.-H.</span>, 2019. Hyperparameter Optimization for Machine Learning Models Based on Bayesian Optimizationb. Journal of Electronic Science and Technology 17, 26–40. <a href="https://doi.org/10.11989/JEST.1674-862X.80904120">https://doi.org/10.11989/JEST.1674-862X.80904120</a></p>
+</div>
+<div id="ref-wu2016">
+<p><span class="smallcaps">Wu, Y., Schuster, M., Chen, Z., Le, Q.V., Norouzi, M., Macherey, W., Krikun, M., Cao, Y., Gao, Q., Macherey, K., Klingner, J., Shah, A., Johnson, M., Liu, X., Kaiser, Gouws, S., Kato, Y., Kudo, T., Kazawa, H., Stevens, K., Kurian, G., Patil, N., Wang, W., Young, C., Smith, J., Riesa, J., Rudnick, A., Vinyals, O., Corrado, G., Hughes, M., Dean, J.</span>, 2016. Google’s Neural Machine Translation System: Bridging the Gap between Human and Machine Translation. arXiv:1609.08144 [cs].</p>
+</div>
+<div id="ref-yang2020">
+<p><span class="smallcaps">Yang, S., Wang, Y., Chu, X.</span>, 2020. A Survey of Deep Learning Techniques for Neural Machine Translation. arXiv:2002.07526 [cs].</p>
+</div>
+<div id="ref-yao2019a">
+<p><span class="smallcaps">Yao, Q., Wang, M., Chen, Y., Dai, W., Li, Y.-F., Tu, W.-W., Yang, Q., Yu, Y.</span>, 2019. Taking Human out of Learning Applications: A Survey on Automated Machine Learning. arXiv:1810.13306 [cs, stat].</p>
+</div>
+<div id="ref-yu2020">
+<p><span class="smallcaps">Yu, T., Zhu, H.</span>, 2020. Hyper-Parameter Optimization: A Review of Algorithms and Applications. arXiv:2003.05689 [cs, stat].</p>
+</div>
+<div id="ref-yu2019">
+<p><span class="smallcaps">Yu, Y., Si, X., Hu, C., Zhang, J.</span>, 2019. A Review of Recurrent Neural Networks: LSTM Cells and Network Architectures. Neural Computation 31, 1235–1270. <a href="https://doi.org/10.1162/neco_a_01199">https://doi.org/10.1162/neco_a_01199</a></p>
+</div>
+<div id="ref-zheng2014">
+<p><span class="smallcaps">Zheng, Y., Liu, Q., Chen, E., Ge, Y., Zhao, J.L.</span>, 2014. Time Series Classification Using Multi-Channels Deep Convolutional Neural Networks, in: Hutchison, D., Kanade, T., Kittler, J., Kleinberg, J.M., Kobsa, A., Mattern, F., Mitchell, J.C., Naor, M., Nierstrasz, O., Pandu Rangan, C., Steffen, B., Terzopoulos, D., Tygar, D., Weikum, G., Li, F., Li, G., Hwang, S.-w., Yao, B., Zhang, Z. (Eds.), Web-Age Information Management. Springer International Publishing, Cham, pp. 298–310. <a href="https://doi.org/10.1007/978-3-319-08010-9_33">https://doi.org/10.1007/978-3-319-08010-9_33</a></p>
+</div>
+<div id="ref-zou2016">
+<p><span class="smallcaps">Zou, Q., Xie, S., Lin, Z., Wu, M., Ju, Y.</span>, 2016. Finding the Best Classification Threshold in Imbalanced Classification. Big Data Research 5, 2–8. <a href="https://doi.org/10.1016/j.bdr.2015.12.001">https://doi.org/10.1016/j.bdr.2015.12.001</a></p>
+</div>
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.3 (2020-02-29)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Debian GNU/Linux 10 (buster)
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.3.5.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] lubridate_1.7.9.2  rgdal_1.5-18       countrycode_1.2.0  welchADF_0.3.2    
+ [5] rstatix_0.6.0      ggpubr_0.4.0       scales_1.1.1       RColorBrewer_1.1-2
+ [9] latex2exp_0.4.0    cubelyr_1.0.0      gridExtra_2.3      ggtext_0.1.1      
+[13] magrittr_2.0.1     tmap_3.2           sf_0.9-7           raster_3.4-5      
+[17] sp_1.4-4           forcats_0.5.0      stringr_1.4.0      purrr_0.3.4       
+[21] readr_1.4.0        tidyr_1.1.2        tibble_3.0.6       tidyverse_1.3.0   
+[25] huwiwidown_0.0.1   kableExtra_1.3.1   knitr_1.31         rmarkdown_2.7.3   
+[29] bookdown_0.21      ggplot2_3.3.3      dplyr_1.0.2        devtools_2.3.2    
+[33] usethis_2.0.0     
+
+loaded via a namespace (and not attached):
+  [1] readxl_1.3.1       backports_1.2.0    workflowr_1.6.2   
+  [4] lwgeom_0.2-5       splines_3.6.3      crosstalk_1.1.0.1 
+  [7] leaflet_2.0.3      digest_0.6.27      htmltools_0.5.1.1 
+ [10] memoise_1.1.0      openxlsx_4.2.3     remotes_2.2.0     
+ [13] modelr_0.1.8       prettyunits_1.1.1  colorspace_2.0-0  
+ [16] rvest_0.3.6        haven_2.3.1        xfun_0.21         
+ [19] leafem_0.1.3       callr_3.5.1        crayon_1.4.0      
+ [22] jsonlite_1.7.2     lme4_1.1-26        glue_1.4.2        
+ [25] stars_0.4-3        gtable_0.3.0       webshot_0.5.2     
+ [28] car_3.0-10         pkgbuild_1.2.0     abind_1.4-5       
+ [31] DBI_1.1.0          Rcpp_1.0.5         viridisLite_0.3.0 
+ [34] gridtext_0.1.4     units_0.6-7        foreign_0.8-71    
+ [37] htmlwidgets_1.5.3  httr_1.4.2         ellipsis_0.3.1    
+ [40] farver_2.0.3       pkgconfig_2.0.3    XML_3.99-0.3      
+ [43] dbplyr_2.0.0       labeling_0.4.2     tidyselect_1.1.0  
+ [46] rlang_0.4.10       later_1.1.0.1      tmaptools_3.1     
+ [49] munsell_0.5.0      cellranger_1.1.0   tools_3.6.3       
+ [52] cli_2.3.0          generics_0.1.0     broom_0.7.2       
+ [55] evaluate_0.14      yaml_2.2.1         processx_3.4.5    
+ [58] leafsync_0.1.0     fs_1.5.0           zip_2.1.1         
+ [61] nlme_3.1-150       xml2_1.3.2         compiler_3.6.3    
+ [64] rstudioapi_0.13    curl_4.3           png_0.1-7         
+ [67] e1071_1.7-4        testthat_3.0.1     ggsignif_0.6.0    
+ [70] reprex_0.3.0       statmod_1.4.35     stringi_1.5.3     
+ [73] highr_0.8          ps_1.5.0           desc_1.2.0        
+ [76] lattice_0.20-41    Matrix_1.2-18      markdown_1.1      
+ [79] nloptr_1.2.2.2     classInt_0.4-3     vctrs_0.3.6       
+ [82] pillar_1.4.7       lifecycle_0.2.0    data.table_1.13.2 
+ [85] httpuv_1.5.5       R6_2.5.0           promises_1.1.1    
+ [88] KernSmooth_2.23-18 rio_0.5.16         sessioninfo_1.1.1 
+ [91] codetools_0.2-16   dichromat_2.0-0    boot_1.3-25       
+ [94] MASS_7.3-53        assertthat_0.2.1   pkgload_1.1.0     
+ [97] rprojroot_2.0.2    withr_2.4.1        parallel_3.6.3    
+[100] hms_1.0.0          grid_3.6.3         minqa_1.2.4       
+[103] class_7.3-17       carData_3.0-4      git2r_0.27.1      
+[106] base64enc_0.1-3   </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

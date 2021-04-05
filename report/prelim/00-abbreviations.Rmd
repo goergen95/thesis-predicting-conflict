@@ -1,0 +1,92 @@
+# List of Abbreviations {-}
+
+
+```{r abbreviation, echo=F}
+
+abbrv = tibble::tibble(
+  Abbreviation = c("UCDP",
+                   "ns",
+                   "sb",
+                   "os",
+                   "cb",
+                   "CHIRPS",
+                   "CNN",
+                   "LSTM",
+                   "BO",
+                   "DL",
+                   "TRI",
+                   #"DEM",
+                   #"SRTM",
+                   "adm",
+                   "bas",
+                   "GDP",
+                   "MODIS",
+                   #"IGBP",
+                   #"UMD",
+                   "CH",
+                   "SV",
+                   "EV",
+                   "LR",
+                   "AUC", 
+                   "AUPR",
+                   "ROC", 
+                   "SPI",
+                   "SPEI",
+                   "GPP",
+                   "ANOVA",
+                   #"ACLED",
+                   #"GDELT",
+                   #"PRIO-GRID",
+                   "GCRI",
+                   "PET",
+                   "ET",
+                   "LST"),
+  Explanation = c("Upsala Conflict Data Program",
+                  "Non-state violence class",
+                  "One-sided violence class",
+                  "State-based violence class",
+                  "Combined violence class",
+                  "Climate Hazards Group Infrared Precipitation with Station data",
+                  "Convolutional Neural Network",
+                  "Long Short-Term Memory",
+                  "Bayesian optimization",
+                  "Deep Learning",
+                  "Terrain Ruggedness Index",
+                  #"Digital Elevation Model",
+                  #"Shuttle Radar Topography Mission",
+                  "Sub-national administrative districts",
+                  "Sub-basin watershed districts",
+                  "Gross Domestic Product",
+                  "Moderate Resolution Imaging Spectroradiometer",
+                  #"International Geosphere-Biosphere Programme",
+                  #"University of Maryland",
+                  "Conflict history",
+                  "Structural variables",
+                  "Environmental variables",
+                  "Logistic regression baseline", 
+                  "Area under the Receiver Operating Characteristic curve",
+                  "Area under the precision-recall curve",
+                  "Receiver Operating Characteristic",
+                  "Standardized Precipitation Index",
+                  "Standardized Precipitation-Evapotranspiration Index",
+                  "Gross Primary Productivity",
+                  "Analysis of variance",
+                  #"Armed Conflict Location & Event Data Project",
+                  #"Global Database of Events, Language, and Tone",
+                  #"Peace Research Institute Oslo Gridded data set",
+                  "Global Conflict Risk Index",
+                  "Total Potential Evapotranspiration",
+                  "Total Evapotranspiration",
+                  "Land Surface Temperature")
+)
+
+knitr::kable(abbrv[order(abbrv$Abbreviation),], format = "pandoc", booktabs = T) 
+# %>%
+#   sub("\\\\toprule", "", .) %>%
+#   sub("\\\\bottomrule", "", .) %>%
+#   sub("\\\\midrule", "", .) %>%
+#   sub("\\\\addlinespace", "", .)
+
+```
+
+\renewcommand{\thetable}{\arabic{table}} \setcounter{table}{0}

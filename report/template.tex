@@ -1,0 +1,260 @@
+% This is the HU Berlin LaTeX template, optimized for R Markdown.
+
+% -------------------------------
+% --- PREAMBLE ---
+% -------------------------------
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}    % Typical maths resource packages
+\usepackage{graphicx}                           % Packages to allow inclusion of graphics
+\usepackage[authoryear]{natbib}                 % literature reference style
+\usepackage[bf]{caption}
+\usepackage{textcomp}                           % For single quotes
+\usepackage{floatrow}                           % For image and table position
+\usepackage{booktabs}                           % For tables
+% \usepackage[colorlinks=true]{hyperref}                           
+% \usepackage[bottom]{footmisc}                   
+\usepackage[bottom, flushmargin]{footmisc}                   % For footnotes
+\usepackage[citebordercolor={0 1 0}]{hyperref}                           % For creating hyperlinks in cross references
+\usepackage{footnotebackref}
+
+% my additions
+\usepackage{makecell}
+\usepackage{pdflscape}
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{threeparttablex}
+\sisetup{output-exponent-marker=\ensuremath{\mathrm{e}}}
+% -------------------------------
+% --- some layout definitions ---
+% -------------------------------
+
+% define topline
+\usepackage[automark]{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\automark{section}
+\clearscrheadings
+\ohead{\headmark}
+
+%\usepackage[pagestyles,raggedright]{titlesec}
+%\newpagestyle{main}{%
+%   \sethead[\thepage][][\chaptername\ \thechapter \chaptertitle]{\thesection\ \itshape\MakeUppercase{\sectiontitle}}{}{}
+%   \headrule
+%   \setfoot[\thepage][][]{}{\thepage}{}
+%}
+\pagestyle{plain}
+
+% define citation style
+\bibliographystyle{ecta}
+
+% define page size, margin size
+\setlength{\headheight}{1.1\baselineskip}
+\voffset=-2cm
+\hoffset=-3cm
+\textheight24cm
+\textwidth15.5cm
+\topmargin1cm
+\oddsidemargin3cm
+\evensidemargin3cm
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}   
+$if(space_between_paragraphs)$
+  \usepackage[parfill]{parskip} 
+$endif$
+
+% define line spacing = 1.5
+\renewcommand{\baselinestretch}{1.5}
+
+% define position of graphics
+\floatsetup[figure]{capposition=bottom}
+\floatsetup[table]{capposition=top}
+\floatplacement{figure}{ht}
+\floatplacement{table}{ht}
+
+% save thesis parameters for later
+\newcommand{\thesistype}{$type$}
+\newcommand{\thesisauthor}{$author$}
+\newcommand{\thesisdate}{$date$}
+% my additions
+\newcommand{\lt}{\ensuremath <}
+\newcommand{\gt}{\ensuremath >}
+
+% define tightlist to work with newer versions of pandoc
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% change spacing
+\setlength {\parskip}{1em}
+
+% my addition added to build document under pandoc 2.8
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newenvironment{CSLReferences}%
+{\setlength{\parindent}{0pt}%
+\everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
+{\par}
+
+
+% Additional LaTeX parameters added in the YAML header of index.Rmd
+$for(header-includes)$
+  $header-includes$
+$endfor$
+
+% --------------------------------------
+% --------------------------------------
+% --------------------------------------
+% --- the structure the tex document ---
+% ---  (this our recommendation) -------
+% frontmatter:
+%   - titlepage (mandatory),
+%   - acknowledgement,
+%   - abstract,
+%   - table of contents (mandatory),
+%   - list of abbreviations (not mandatory),
+%   - list of figures (not mandatory),
+%   - list of tables  (not mandatory) .
+%
+% body of the thesis (the structure of the thesis body is not mandatory, but the list of literature is mandatory):
+%   - introduction,
+%   - methods,
+%   - data,
+%   - results,
+%   - conclusion,
+%   - literature (mandatory),
+%   - appendix (figures, tables).
+%
+% last page:
+%   - declaration of authorship (mandatory).
+% --------------------------------------
+% --------------------------------------
+% --------------------------------------
+
+\begin{document}
+% -------------------------------
+% --- frontmatter: Title page ---
+% -------------------------------
+\thispagestyle{empty}
+\begin{center}
+  {\Large{\bf $title$}} \vspace{0.5cm}
+
+  $type$ submitted \\\vspace{0.5cm}
+  to \\\vspace{0.5cm}
+  \textbf{$advisor1$} \\
+  \textbf{$advisor2$} \\\vspace{0.5cm}
+  $university$ \\
+  $institute$ \\
+  $chair$ \\
+  $if(chair2)$ $chair2$ \\ $endif$ \vspace{1cm}
+
+  % \includegraphics[width=0.35\textwidth]{HU_Logo_small.png}
+  
+  by \\\vspace{0.5cm}
+  \textbf{$author$} \\
+  ($matriculation_number$) \\
+  
+  \medskip
+  \medskip
+  in partial fulfillment of the requirements \\
+  for the degree of \\
+  \textbf{$program$} \\\vspace{0.5cm}
+  $date$
+  
+\end{center}
+
+% -----------------------------
+% --- frontmatter: Abstract ---
+% -----------------------------
+\newpage
+\pagestyle{plain}
+\pagenumbering{roman}   % define page number in roman style
+\setcounter{page}{1}    % start page numbering
+$abstract$
+
+% -----------------------------
+% --- frontmatter: Contents ---
+% -----------------------------
+\newpage
+\tableofcontents
+\clearpage
+
+% ----------------------------------------------------------
+% --- frontmatter: List of Abbreviations (not mandatory) ---
+% ----------------------------------------------------------
+$if(abbreviations)$
+\newpage
+$abbreviations$
+$endif$
+
+% ----------------------------------------------------
+% --- frontmatter: List of Figures (not mandatory) ---
+% ----------------------------------------------------
+$if(lof)$
+\newpage
+\listoffigures
+\addcontentsline{toc}{section}{List of Figures}
+$endif$
+
+% ---------------------------------------------------
+% --- frontmatter: List of Tables (not mandatory) ---
+% ---------------------------------------------------
+$if(lot)$
+\newpage
+\listoftables
+\addcontentsline{toc}{section}{List of Tables}
+$endif$
+
+% -------------------------------
+% --- main body of the thesis ---
+% -------------------------------
+\newpage
+\setcounter{page}{1}    % start page numbering anew
+\pagenumbering{arabic}  % page numbers in arabic style
+
+$body$
+
+% change rmd_files in `_bookdown.yml` files to determine order
+% note that references and appendix are also contained here.
+
+% --------------------------------------------
+% --- last page: Declaration of Authorship ---
+% --------------------------------------------
+
+\newpage
+\thispagestyle{plain}
+\hypertarget{declaration-of-authorship}{%
+\section*{Declaration of Authorship}\label{declaration-of-authorship}}
+
+I hereby confirm that I have authored this \thesistype{} independently and
+without use of others than the indicated sources. The \thesistype{} has not 
+yet been submitted to another university in its current or similar form and has 
+not yet served any other examination purposes
+\vspace{1cm}
+
+Marburg, \thesisdate{}
+\vspace{1.5cm}
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+\vspace{0.1cm}
+
+\thesisauthor{}
+\vspace{2.5cm}
+
+\hypertarget{declaration-of-consent}{%
+\section*{Declaration of Consent for the Inspection of the Thesis}\label{declaration-of-consent}}
+
+\begin{itemize}
+\item[$$\bigcirc$$]{I agree that my thesis may be viewed by third parties in the department/university archives for scientific purposes.}
+\item[$$\bigcirc$$]{I \underline{do not} agree that my thesis may be viewed by third parties in the department/university archives for scientific purposes.}
+\end{itemize}
+\vspace{1cm}
+
+Marburg, \thesisdate{}
+\vspace{1.5cm}
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+\vspace{0.1cm}
+
+\thesisauthor{}
+
+\end{document}

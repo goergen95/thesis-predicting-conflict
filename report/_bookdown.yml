@@ -1,0 +1,14 @@
+book_filename: "thesis"
+rmd_files: ["index.Rmd",
+  "01-intro.Rmd",
+  "02-data.Rmd",
+  "03-methods.Rmd",
+  "04-results.Rmd", 
+  "05-discussion.Rmd",
+  "06-conclusion.Rmd", 
+  "98-references.Rmd",
+  "99-appendix.Rmd"
+  ]
+output_dir: "thesis-output"
+download: ["thesis.pdf", "PDF"]
+delete_merged_file: true

@@ -1,0 +1,67 @@
+{
+  "description" : "Collection format for selected bands from the MODIS MxD17A2HGF (Aqua and Terra) v006 8-Day gross primary productivity product",
+  "tags" : ["MODIS", "GPP"],
+  "pattern" : ".*\\.hdf.*",
+  "subdatasets" : true,
+  "images" : {
+    "pattern" : "HDF4_EOS:EOS_GRID:\"(.+)\\.hdf.*"
+  },
+  "datetime" : {
+    "pattern" : ".*MCD12Q1\\.A(.{7})[^/]*",
+    "format" : "%Y%j"
+  },
+  "bands" : {
+    "LC_Type1" : {
+      "pattern" : ".+LC_Type1",
+      "unit" : "Class"
+    },
+    "LC_Type2" : {
+      "pattern" : ".+LC_Type2",
+      "unit" : "Class"
+    },
+    "LC_Type3" : {
+      "pattern" : ".+LC_Type3",
+      "unit" : "Class"
+    },
+    "LC_Type4" : {
+      "pattern" : ".+LC_Type4",
+      "unit" : "Class"
+    },
+    "LC_Type5" : {
+      "pattern" : ".+LC_Type5",
+      "unit" : "Class"
+    },
+    "LC_Prop1" : {
+      "pattern" : ".+LC_Prop1",
+      "unit" : "Class"
+    },
+    "LC_Prop2" : {
+      "pattern" : ".+LC_Prop2",
+      "unit" : "Class"
+    },
+    "LC_Prop3" : {
+      "pattern" : ".+LC_Prop3",
+      "unit" : "Class"
+    },
+    "LC_Prop1_Assessment" : {
+      "pattern" : ".+LC_Prop1_Assessment",
+      "unit" : "Class"
+    },
+    "LC_Prop2_Assessment" : {
+      "pattern" : ".+LC_Prop2_Assessment",
+      "unit" : "Class"
+    },
+    "LC_Prop3_Assessment" : {
+      "pattern" : ".+LC_Prop3_Assessment",
+      "unit" : "Class"
+    },
+    "QC" : {
+      "pattern" : ".+QC",
+      "unit" : "Quality Flag"
+    }, 
+    "LW" : {
+      "pattern" : ".+LW",
+      "unit" : "Class"
+    }
+  }
+}

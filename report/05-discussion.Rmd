@@ -1,0 +1,218 @@
+# Limitations and Recommendations
+\setcounter{page}{73}
+#### Trade-off Decisions.
+
+This thesis's results reveal that there are several trade-offs to consider in 
+predicting violent conflict. The most obvious trade-off is balancing a model's 
+precision with its sensitivity. For a given model, an increase in one metric will
+lead to a decrease in the other. Thus, it is the context the model is to be 
+applied in governing the decision for either one of these metrics. In the present 
+thesis, the decision has been made to give more weight to sensitivity than to 
+precision, realized by optimizing towards the $F_2$-score. The argument for this 
+decision is that not to miss actual occurrences of conflict is more critical than 
+falsely flagging peaceful district-months as conflict. This comes at the cost that
+the models tend to predict the occurrence of conflict more frequently. Once a 
+district has crossed a certain threshold, the models predict conflict for almost 
+the entire prediction horizon, resulting in a very low precision in the temporal 
+distribution of conflicts. However, based on the performances of existing 
+early-warning tools, it is evident that quantitative models should not be relied 
+on as the sole instrument in practical conflict prevention efforts [@cederman2017].
+Instead, predicting the risk of conflict occurrence should be considered as one 
+link in a chain of tools for conflict prevention. Predictive models can serve the 
+purpose of delivering information on focus areas where additional quantitative 
+and qualitative analysis would prove as most valuable and this way helps to use 
+limited resources more efficiently. 
+
+In this context, another trade-off becomes evident by comparing the DL models' 
+performance with related studies. Compared to studies focusing on country-month
+data sets, the performance of the proposed method is substantially reduced. In 
+relation to @kuzma2020, who used similar aggregation units on the sub-national
+scale, the performance is comparable. For a confirmation of this finding beyond 
+doubt, a thorough investigation on the effect of scale is needed. However, there
+is some indication that a model's performance will decrease for increasing the spatial 
+detail. Scientists, as well as policymakers, require highly detailed information 
+on future conflicts in the spatial and temporal domain [@chadefaux2017]. The 
+proposed method of only using data sets that are available in a gridded format 
+allows for almost arbitrary spatial aggregation. It also reduces the complexity 
+of data preparation because data sets with differing spatiotemporal dimensions 
+can easily be harmonized by free and open source tools provided by the spatial 
+research community [@brovelli2017]. Additionally, for research focusing on the 
+interaction between environmental change and human societies, remote sensing 
+provides spatial and temporal comprehensive data sets that are currently used to
+derive a sheer magnitude of different environmental variables [@kwok2018]. The 
+proposed method thus seems beneficial to tailor prediction models to the specific 
+spatiotemporal demands of real-world applications.
+
+However, implementing DL models leads to reduced interpretability of a model's
+prediction. While it is relatively easy to demonstrate why and how a linear model
+predicts a particular outcome, DL models are sometimes referred to as black-box models [@gilpin2019].
+This metaphor indicates that due to the complex internal structure of DL networks, 
+it is not always explicable how a network predicts a specific outcome. This seriously
+limits the effective use of DL in conflict prevention efforts because political
+decision-makers require recommendations on how to lower the conflict risk
+at a particular location. The research community has not yet fully agreed on a 
+concise definition of interpretability. It often depends strongly on the 
+research domain [@molnar2020]. In conflict research, relatively few studies apply 
+machine learning techniques, so robust standards of interpretability 
+have yet to be defined. 
+
+Another trade-off is found in the comparison between _adm_ and _bas_ districts. 
+Given the presented problem formulation and predictor variables, evidence has been 
+presented that _bas_ districts perform better on the conflict prediction task. 
+However, most humans are more familiar with administrative boundaries. Familiarity 
+is an essential factor that helps people to more quickly process visual information 
+[@manahova2019]. Changing the representation of data to something people do not 
+expect or are less familiar with makes it harder to interpret the data. In this 
+sense, the trade-off consists of achieving higher performances versus making data 
+interpretation more challenging for the audience. Again, this trade-off decision 
+needs to be based on the application context of a model. The presented results 
+show that the difference in performance between _adm_ and _bas_ districts can be 
+quite substantial, indicating that changing to a less familiar representation of 
+the Earth's surface could prove beneficial for the conflict prediction task.
+
+#### Framing the Response Variable.
+
+Within the literature of conflict prediction, various definitions of events of 
+interest exist. Some have been focused on violent conflict [@rost2009], terrorism 
+[@uddin2020], rebellions and insurgencies [@collier2004], others on international 
+wars [@beck2000] and irregular leadership changes [@ward2017]. All of these 
+applications require a careful semantic differentiation between different types 
+of events. Besides focusing on a specific type of violence, various thresholds 
+in terms of casualties have been applied to determine if an event is included in 
+a study. In this thesis, a district-month was considered as belonging to the 
+conflict class if at least one event in the UCDP data base was found. UCDP only 
+includes events with at least 25 casualties [@pettersson2020]. The distinction 
+between three different conflict classes found in the data base allows for some 
+interpretation, however, a more profound semantic differentiation, e.g., in terms of involved 
+actors, political goals, etc., was considered out of scope for the present analysis.
+However, backed by the finding that for __cb__ and __os__ conflict classes, the 
+EV predictor set has a higher impact on increasing the prediction performance, 
+some types of violence seem to be better predictable by environmental variables 
+compared to others. Concentrating future investigations on these types of conflict 
+seems promising to increase predictive performance. Additionally, the presented 
+results do not distinguish between different modes of conflict, i.e., between a 
+newly occurring conflict in a given district or the continuance of an ongoing 
+conflict history. Analyzing these conflict modes distinctly can generate insights 
+into a model's ability to differentiate between emerging and ongoing conflicts, 
+as shown by @kuzma2020, thereby increasing the confidence one can have in a model's 
+prediction. It requires an additional definition of emerging and ongoing conflicts 
+to be applied to the response variable, increasing the complexity of the modeling 
+approach, which is why it was not conducted in this thesis. Future improvements 
+of the current approach should consider this distinction since the CH theme 
+already, to some extent, proves capable of predicting conflict. Thus, a model's 
+ability to capture emerging conflicts is of high relevance, comparing the 
+performance of different model configurations.
+
+#### Selection of Predictor Variables.
+
+As it has been stated above, most of the previously cited studies rely on data 
+sets which are collected per year on a national scale and are comprehensively
+provided by institutions such as the World Bank. One reason to refrain from sub-national
+analysis might be that considering sub-national units complicates the 
+collection of predictor variables. Spatially disaggregated variables are hard to
+collect on a large scale and while disaggregating national statistics to a smaller 
+scale is possible, it adds additional complexity in data preparation and is 
+associated with additional assumptions not necessarily matchin real-world processes [@verstraete2017]. 
+Disaggregating these administrative-bound variables to sub-basin watersheds is 
+even more challenging because these units tend to cross administrative boundaries. 
+The presented approach of variable selection was thus restricted to gridded data
+formats at the consequence of the deliberate exclusion of several variables which 
+have been found valuable predictors of violent conflict. Among these are variables
+associated with a population's health and education status, such as infant mortality 
+or rate of secondary education, the economic structure on the country level, such
+as the rate of primary commodity exports in terms of GDP, as well as information
+on the political system and ethnolinguistic composition of a society, represented
+by indicators such as the democracy index, level of repression, or the exclusion
+of power for certain groups. On the one hand, evidence has been presented that 
+despite these simplifications notable performances in conflict prediction can be
+achieved. On the other hand, ignoring these indicators might have reduced the 
+overall potential of the DL models to predict conflicts more accurately.
+
+While most of the indicators mentioned above could have been easily collected for 
+the _adm_ representation of the data, this would have hindered the direct comparison 
+to the performance to the _bas_ representation. However, there are variables
+originating from the research on integrated water resource management that could 
+be collected exclusively for _bas_ districts, such as indicators on the (non-)consumptive 
+use of water, water quality, and governance as well as additional hydrological
+indicators characterizing water availability [@pires2017]. In the future the 
+current approach could be augmented by including _adm_ and _bas_ specific 
+indicators to compare the resulting predictive performance of these approaches.
+
+Most of the environmental predictors were derived from the MODIS twin satellites.
+These were chosen because their mission time started in 2001 and is still ongoing,
+therefore covering an extensive time window by only two instruments. Mixing
+measurements on the same variable from multiple instruments with differing 
+spatiotemporal extents would have opened additional complexities during data 
+preparation [@pasetto2018]. This underlines the importance that 
+_value-added_ remote sensing products play in research questions such as conflict
+prediction. Different research questions can be investigated much quicker and 
+rigorously when institutions deliver standardized products ready for analysis. 
+Currently, such efforts are observed moving towards digital twins of processes
+on the Earth's surface and in the atmosphere [@bauer2021]. The importance of
+analysis ready data sets holds for the spatial mapping of socio-economic variables 
+such as populations counts and GDP, for which continuance and improvement over 
+the next decades will play a decisive role in enabling innovative spatiotemporal
+analysis in many research fields [@head2017].
+
+
+#### Model Architecture and Training Process.
+
+The basic CNN-LSTM architecture as presented in this thesis proved capable of
+learning the prediction task. The task has been formulated as a time series
+problem with an increasing length starting from 48 months. Other possibilities
+to frame the problem exist. For example, evaluating the predictive model with
+a fixed size of the time window could be one option. The window size would need
+optimization, but the results could inform conflict theory on how much knowledge
+of the past is needed to make accurate conflict predictions for the future. 
+The training strategy was based on batch gradient descent, meaning that all 
+districts are presented to the network before weights are updated. Optimizing 
+for different batch sizes was deemed unfeasible for this thesis because it would
+considerably increase training time. Additionally, because the model is not 
+expected to generalize beyond its current spatial extent, spatial-cross validation 
+was not considered necessary. However, regionalized models, as shown by @kuzma2020, 
+could improve performance because the conflict pathways can not be expected to be
+the same in the entire study domain.
+
+There is potential for improvement in the network design choices especially 
+considering the latest advances in DL. @shih2019 proposed a mechanism of temporal
+pattern attention for multivariate time series forecasting to overcome the shortcoming 
+of recurrent networks to memorize long-term dependencies in the data. Their attention 
+mechanism applies convolutional filters onto the hidden state of a recurrent layer 
+at each time step so that the network can learn which variables to pay attention 
+to and which variables to ignore. They achieve promising results for several 
+multivariate time series problems with this approach. Since the conflict prediction 
+task's data structure is very similar, temporal pattern attention would lend 
+itself to future investigations to improve performance. Another recurrent-based 
+network architecture worth to be investigated for the conflict prediction task 
+is Echo State Networks (ESN). These networks consist of a high number of randomly 
+initiated recurrent cells with a trainable output layer. They are more light-weight 
+during training than traditional LSTM and can model chaotic time-dependent systems [@jaeger2001]. ESN 
+have been successfully applied to highly complex time series prediction problems 
+such as wind power forecasting [@lopez2018], rainfall estimation [@yen2019], or 
+spatiotemporal modeling of sea surface temperature [@mcdermott2017]. Because of 
+the high complexity associated with the occurrence of violent conflicts, ESNs 
+could be tested as a viable alternative model architecture.
+
+#### ANOVA.
+
+The influence of different model architectures on the observed differences in
+mean performance measured by the $F_2$-score can not completely be neglected with
+the current study setup. To account for variances due to model architecture,
+training all models on exactly the same architecture would be beneficial. However,
+the question would arise if there exists a model architecture which performs equally
+well for all model configurations and how to find it. DL, like many other research 
+activities, is a process constrained by available computation power and time.
+In the setup of this study, hyperparameter optimization was implemented based
+on the most complex predictors sets. The rationale for this decision was that
+a model architecture capable of learning in a complex setting would also be
+capable of learning in simpler contexts and not necesarily vice-versa. 
+Additionally, hyperparameter optimization was applied for _adm_ and _bas_ districts 
+under the same computational constraints simoltaniously. With fewer constraints on 
+computational resources, a more elaborated investigation on the influence of 
+model architechture could yield interesting results. However, in the context of 
+this thesis, the presented evidence should not be considered as a closure on the
+question of the importance of environmental variables in conflict prediction, 
+but rather as the optimized outcome of a research process associated with 
+computational and methodological constraints. 
+
+\newpage

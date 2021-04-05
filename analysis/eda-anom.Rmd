@@ -1,0 +1,228 @@
+---
+title: "Precipitation Anomalies"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+bibliography: ../report/references.bib
+csl: ../report/elsevier-harvard.csl
+---
+
+```{r setup, include=FALSE}
+source("../code/workflowr-utils.R")
+```
+
+# Loading the data
+
+```{r read-data}
+files = list.files("../data/vector/extraction/", pattern = "ANOM", full.names = T)
+
+data = lapply(files, function(x){
+  filename = str_split(basename(x), "_")[[1]]
+  if(length(filename) == 3){
+    unit = filename[1]
+    buffer = as.numeric(filename[2])
+    var = str_remove(filename[3], ".gpkg")
+  } else {
+    unit = filename[1]
+    buffer = 0
+    var =  str_remove(filename[2], ".gpkg")
+  }
+  
+  layers = ogrListLayers(x)
+  layers = layers[grep("attr_", layers)]
+  data = do.call(cbind, lapply(layers, function(l){
+    tmp = st_read(x, layer = l, quiet = TRUE)
+    names(tmp) = l
+    tmp
+  }))
+  
+  data$id = 1:nrow(data)
+  data %>%
+    as_tibble() %>%
+    mutate(unit = unit, buffer = buffer, var = var) %>%
+    gather("time", "value", -id, -unit, -buffer, -var) %>%
+    mutate(time = str_remove(time, "attr_"))
+})
+
+data = do.call(rbind, data)
+str(data)
+```
+
+# Missing Values
+
+The resulting dataframe contains roughly 1.8 Mio. rows containing the district-month
+observations for the two different units of analysis as well as the buffered data.
+Let's start looking at the unbuffered data.
+
+
+```{r na-analysis}
+data %>%
+  group_by(unit, buffer) %>%
+  summarise(N = n(), isna = sum(is.na(value)), isnotna = sum(!is.na(value)), perc = sum(is.na(value)) / n() * 100)
+```
+
+# Time Series
+
+```{r time-series}
+data %>%
+  filter(buffer==0) %>%
+  mutate(time = as.Date(paste0(time, "-01"))) %>%
+  group_by(time, unit) %>%
+  summarise(value = mean(value, na.rm = T)) %>%
+  ggplot() +
+  geom_line(aes(x=time, y=value, color = unit)) +
+  theme_classic() +
+  labs(y="Precipitation [mm]", x = "Time", color = "Unit of Analysis")
+
+```
+
+# Seasonal decompositon
+
+```{r decompositon}
+data %>%
+  filter(unit == "basins", buffer == 0) %>%
+  mutate(time = as.Date(paste0(time, "-01"))) %>%
+  group_by(time) %>%
+  summarise(value = mean(value, na.rm = T)) %>% 
+  pull(value) %>%
+  ts(start = c(2000,1), frequency = 12) %>%
+  decompose() -> dec_basins
+
+data %>%
+  filter(unit == "states", buffer == 0) %>%
+  mutate(time = as.Date(paste0(time, "-01"))) %>%
+  group_by(time) %>%
+  summarise(value = mean(value, na.rm = T)) %>% 
+  pull(value) %>%
+  ts(start = c(2000,1), frequency = 12) %>%
+  decompose() -> dec_states
+dec_data = list(basins = dec_basins, states = dec_states)
+
+dec_data = lapply(c("basins", "states"), function(x){
+  tmp = dec_data[[x]]
+  data.frame(type = x,
+             obsv = as.numeric(tmp$x),
+             seasonal = as.numeric(tmp$seasonal),
+             trend =  as.numeric(tmp$trend),
+             random = as.numeric(tmp$random),
+             date = seq(as.Date("2000-01-01"), as.Date("2019-12-31"), by = "month"))
+  
+})
+
+dec_data = do.call(rbind, dec_data)
+
+dec_data %>%
+  as_tibble() %>%
+  gather(component, value, -type, -date) %>%
+  mutate(component = factor(component, levels = c("obsv", "trend", "seasonal", "random"))) %>%
+  ggplot() +
+  geom_line(aes(x=date, y=value, color=type)) +
+  facet_wrap(~component, nrow = 4, scales = "free_y") +
+  theme_classic() +
+  labs(y = "Precipitation [mm]", x = "Time", color = "Unit of Analysis") +
+  theme(legend.position="bottom")
+```
+
+# Auto-correlation Analysis
+
+```{r acf-data}
+data %>%
+  filter( buffer == 0) %>%
+  mutate(time = as.Date(paste0(time, "-01"))) %>%
+  group_by(unit, time) %>%
+  summarise(value = mean(value, na.rm = T)) %>%
+  spread(key = unit, value = value) -> acf_data
+```
+
+## States
+
+```{r acf-states}
+acf(acf_data$states, lag.max = 24)
+```
+
+## Basins
+
+```{r acf-basins}
+acf(acf_data$basins, lag.max = 24)
+```
+
+# Spatial Pattern
+
+```{r spatial-join}
+poly_bas = st_read("../data/vector/basins_mask.gpkg", quiet = T)
+crs <- st_crs("EPSG:3857")
+poly_bas <- st_transform(poly_bas, crs)
+poly_bas <- st_simplify(poly_bas, dTolerance = 1000, preserveTopology = T)
+poly_bas$id = 1:nrow(poly_bas)
+poly_adm = st_read("../data/vector/states_mask.gpkg", quiet = T)
+poly_adm <- st_transform(poly_adm, crs)
+poly_adm <- st_simplify(poly_adm, dTolerance = 1500, preserveTopology = T)
+poly_adm$id = 1:nrow(poly_adm)
+
+
+
+data %>%
+  filter(buffer == 0) %>%
+  mutate(time = as.Date(paste0(time, "-01")),
+         month = month(time)) %>%
+  group_by(unit, id, month) %>%
+  summarise(obsv = sum(is.na(value))) -> obs_data
+
+
+data %>%
+  filter(buffer == 0) %>%
+  mutate(time = as.Date(paste0(time, "-01")),
+         month = month(time)) %>%
+  group_by(unit, id, month) %>%
+  summarise(value = mean(value, na.rm = T)) -> sum_data
+
+poly_adm = left_join(poly_adm, filter(sum_data, unit == "states"))
+poly_bas = left_join(poly_bas, filter(sum_data, unit == "basins"))
+poly_adm = left_join(poly_adm, filter(obs_data, unit == "states"))
+poly_bas = left_join(poly_bas, filter(obs_data, unit == "basins"))
+
+```
+
+## Administrative Units by month
+
+### Number of missing observations
+
+```{r map-states-obsv}
+tm_shape(poly_adm) +
+  tm_polygons("obsv", palette = "-RdBu", border.col = "white", lwd = .5) +
+  tm_facets("month")
+```
+### Precipitation map
+
+```{r map-states-value}
+tm_shape(poly_adm) +
+  tm_polygons(col = "value", palette = "RdYlBu", breaks = c(-Inf,-30,-20,-10,0,10,20,30,+Inf), border.col = "white", lwd = .5) +
+  tm_facets("month")
+```
+
+## Sub-basin watersheds by month
+
+### Number of missing observations
+
+```{r map-basins-obsv}
+tm_shape(poly_bas) +
+  tm_polygons("obsv", palette = "-RdBu", border.col = "white", lwd = .5) +
+  tm_facets("month")
+```
+
+### Precipitation map
+
+```{r map-basins-value}
+tm_shape(poly_bas) +
+   tm_polygons(col = "value", palette = "RdYlBu", breaks = c(-Inf,-30,-20,-10,0,10,20,30,+Inf), border.col = "white", lwd = .5) +
+  tm_facets("month")
+```
+
+
+
+
+
+

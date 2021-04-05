@@ -1,0 +1,296 @@
+# Introduction
+
+#### Background.
+
+While the world has seen only limited numbers of international conflicts in the
+21st century, civil war is on the rise (Figure \@ref(fig:01-intro-conflicts)). 
+These conflicts not only are associated with increasing numbers of casualties, 
+but they also threaten the social fabric of societies through migration pressure, 
+especially towards the urban centers [@brzoska2016; @owain2018; @reuveny2007], 
+and put material assets such as infrastructure, agricultural production, 
+and natural forests at risk [@adelaja2019; @buhaug2015; @eklund2017; @jones2017; @koren2018]. 
+The scientific literature has successfully revealed a multitude of pathways 
+violent conflict, directly and indirectly, impacts socio-economic indicators. 
+It is commonly agreed that violent conflict is a primary factor impeding sustainable 
+development due to the vigorous impacts on people's livelihoods [@gates2012].
+However, the field is complex, with many interdependent relationships. Posing the 
+question of causality, especially for the relationship between the natural environment 
+and conflict, produced heterogeneous and even contradicting empirical results over 
+the last decades [@ward2005a]. Methodologically, the scientific community has 
+been focused on using various degrees of derivatives of simple linear regression 
+models to construct theory-based causal models to explain the occurrence, duration, 
+and intensity of violent conflict in relation to natural and socio-economic covariates. 
+Very often, these models proved less valuable for actually predicting violent 
+conflict into the yet unseen future. Some researchers have attributed this 
+shortcoming to the strategy of fitting the parameters of causal models [@colaresi2017]. 
+Most studies fit their parameters and evaluate the model _in-sample_, meaning that 
+the complete data set is used during both stages, 
+model building and evaluation. While this has the clear advantage of explaining 
+why something has happened within the spatiotemporal domain of a given study, 
+extrapolating these findings to other space-time locations or even to the future 
+of the domain itself led to discouraging results. These shortcomings in accurately 
+predicting the occurrence of violent conflict have not been unrecognized by the 
+general public [@ward2010]. Especially for political decision-makers, accurate 
+predictions into the future and information on how they can act to prevent conflict 
+are of utmost importance. This led to increasing criticism on the usability of 
+research findings because they were neither suited to predict violence outbreaks 
+nor did they inform decision-makers on how to act to achieve a more peaceful future.
+
+```{r 01-intro-conflicts, fig.scap="Total number of conflict casualties in Africa 1989-2019.", fig.cap="Total number of conflict casualties in Africa 1989-2019. The green line indicates the linear trend for the conflict classes combined.", fig.height = 3}
+load("../data/raw/ged/ged201.RData")
+
+custom_match = c("Yemen")
+names(custom_match) = "Yemen (North Yemen)"
+
+ged201 %>%
+  mutate(
+    continent = countrycode(sourcevar = .$country,
+              origin = "country.name",
+              destination = "continent",
+              custom_match = custom_match)
+    ) %>%
+  filter(continent == "Africa") -> ged_africa
+
+ged_africa %>%
+  dplyr::select(year, type_of_violence, starts_with("deaths")) %>%
+  mutate(total_deaths = sum(3:4)) %>%
+  dplyr::select(-starts_with("deaths")) %>%
+  group_by(year, type_of_violence) %>%
+  summarise(total_deaths = sum(total_deaths)) %>%
+  ungroup %>%
+  arrange(year, type_of_violence) %>%
+  mutate(type_of_violence = factor(type_of_violence, 
+                                   levels = c(3:1), 
+                                   labels = rev(c("state-based", "non-state", "one-sided"))),
+         year = as.Date(paste("01-01-", year, sep = ""), format = "%d-%m-%Y")) %>%
+  ggplot() +
+  geom_bar(aes(x=year, y=total_deaths, fill=type_of_violence), stat = "identity", position="stack", alpha=.6) +
+  geom_smooth(aes(x=year,y=total_deaths), color = "#1B9E77",  method = "lm", se=F) +
+  scale_fill_manual(values = RColorBrewer::brewer.pal(n=4, name = "Dark2")[4:2]) +
+  scale_x_date(labels = date_format("%Y"), breaks = as.Date(c("1989-01-01", "2000-01-01", "2010-01-01", "2019-01-01"))) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_classic() +
+  labs(y= "Number of deaths", x = "Year", fill = "Type of violence")+
+  theme(legend.position = "bottom",
+        legend.key.size = unit(0.4, "cm"),
+        legend.text = element_text(size = 9),
+        legend.title = element_text(size=10),
+        axis.text = element_text(size = 7),
+        axis.title=element_text(size=10)) -> plot_out
+
+plot_output(plot_out)
+```
+#### Recent Developments.
+
+Today, massive amounts of data are collected in near-realtime. Due to recent 
+advances in computational power it is now possible to apply computational intensive 
+tools to analyze this data. These developments have led to a shift in the 
+peace and conflict research community to use newly available research opportunities 
+for more robust conflict prediction. A first adaptation to the shortcomings of causal models 
+was a shift towards _out-of-sample_ evaluation for prediction models [@ward2010; @ward2013]. 
+In short, this can be summarized in the observation that a variable is 
+useful that accurately predicts, not necessarily that one that has a lower
+p-value. This approach to conflict prediction was born out of the necessity to 
+change the community's standpoint towards causal models because they failed to predict more 
+often than not. The question arose about the value of a conflict theory when the 
+theoretically grounded selection of significant variables _does not_ lead to useful 
+predictions. In this context, it has been noted that establishing models for 
+prediction itself can inform theory building [@ward2010]. A model that accurately predicts 
+will at least carry some information on the data generating process that can be 
+integrated during the practice of theory building. The second adaptation is in 
+the use of more sophisticated models that possibly capture non-linear 
+relationships better. The conflict research community has seen an increase in the use of 
+machine learning models like Random Forest [@perry2013;@muchlinski2016] as well as 
+Deep Learning (DL) techniques [@beck2000;@schellens2020] to more accurately predict, 
+both in space and time, the occurrence of violent conflict. A third shift has 
+primarily materialized on the left side of the equation. Recent technological 
+advances allowed for the nearly fully automated coding of event data on violence. 
+Examples are the Armed Conflict Location & Event Data Project (ACLED) [@raleigh2010a], 
+the Upsala Conflict Data Program (UCDP) [@pettersson2020], and the Global Database of 
+Events, Language, and Tone (GDELT) [@gdelt2021], which automatically filter global 
+news feeds for the occurrences of events of interest. 
+Human intervention is mainly restricted to quality control, delivering previously 
+unseen information richness on spatially and temporally disaggregated levels in 
+near-realtime. Conflict research has not yet fully integrated increased data streams
+on the right side of the equation. Most studies still rely on highly aggregated 
+predictors based on country-years while other research fields, such as different 
+earth sciences, saw an tremendous increase in the availability of data mainly driven 
+by advances of remote sensing technology.
+Only a few conflict prediction studies make use of disaggregated data sets on the 
+sub-national level and higher temporal resolution. In principle, this can be explained due to the 
+difficulties associated with a spatial-continuous mapping of socio-economic variables. 
+The PRIO-GRID is one example to overcome this limitation using statistical methods 
+to distribute survey data in space [@tollefsen2012]. Other projects also showed 
+promising results in mapping demographic data sets into regularly spaced grids 
+worldwide [@worldpop2018]. For natural resources, however, many analysis-ready 
+data sets with high spatiotemporal resolution are already available, and more are yet 
+to come, e.g., through the European Copernicus Program [@europeanunion2021]. 
+
+#### Environmental Causes of Conflict.
+
+Whether environmental change can be a driver of violent 
+conflict has been asked since the 1990s. Homer-Dixon presented his famous pie
+metaphor differentiating between three dimensions of environmental scarcity based 
+on several qualitative case studies in the early 1990s [@homerdixon1991;@homerdixon1994;@homerdixon1995]. The 
+general size of the pie from which each individual within a society gets a share 
+is determined by the availability of natural resources. Decreasing the availability 
+or quality of a resource will consequently decrease the overall size of the pie. 
+Increasing population numbers or changes in the consumption pattern can lead to 
+a reduced share available per capita. Moreover, discriminatory distributional 
+policies can reduce the share an individual or social group receives in relation 
+to others leading to, e.g., the marginalization of specific linguistic, religious, 
+or ethnic populations. These dimensions of environmental scarcity can be observed 
+in various combinations, eventually increasing the overall conflict risk.
+
+\newpage
+
+However, as @sachs1995 showed, the abundance of natural resources does not
+prevent conflicts from arising. On the contrary, based on empirical evidence, they
+showed that resource-rich countries were more likely to experience
+conflict and impeded economic development than resource-poor countries.
+For countries with the most available natural resources the 
+risk of experiencing conflicts was again reduced to a low level. These findings were 
+coined as the _resource curse_ and inspired their own research line, mostly 
+supporting the original findings [@alexeev2009; @antonakakis2015; @bjorvatn2012; @boschini2013].
+Early on, it was noted that a high level of non-linearity is associated with the 
+analyzed processes. Focusing explicitly on rebellions and 
+insurgencies, @collier1998 showed that an econometric model including the opportunity 
+costs of rebellions could explain observed occurrences. However, they 
+conclude that the relationship between the covariates and the conflict outcome 
+might be non-monotonic. For example, very high rates of ethnic fractionalization 
+do not necessarily increase the conflict risk. Instead, fractionalization into
+two similarly sized groups shows the highest increase. In another study, they showed
+that African countries show a greater baseline risk for conflict compared to other
+world regions due to their economic structure. But the ethnic composition primarily 
+acts as an reduction factor of conflict risk [@collier2002]. 
+
+In the context of increasing awareness of the consequences of climate change and
+its challenges for sustainable development, it is surprising to see
+only a few attempts to link environmental change to violent conflict during the
+last decade. In most of the studies, natural resources are proxied by primary commodity exports
+[@fearon2003; @collier2004; @muchlinski2016]. More recent attempts emphasize 
+capturing non-linearities between predictor variables and the outcome, 
+but a systematic analysis of environmental predictors is mostly absent. @hegre2019 produce an 
+early-warning system for violence using model ensemble forecasts based on different
+spatial aggregation units. Natural resources in terms of different land cover 
+classes and the distance to diamond and oil extraction sides are only
+included for one of the aggregation units and not systematically analyzed.
+@schutte2017 presents an innovative approach based on modeling conflicts
+as point processes on the African continent. However, natural resource variables
+are restricted to accessibility and land cover data and not systematically analyzed.
+@witmer2017 set out to estimate the long-term dynamics of subnational conflict (2015-2065)
+based on different climate scenarios. While their model explicitly analyzes the
+impact of precipitation and temperature changes, long-term scenario simulations,
+due to their nature, do not serve well as early-warning systems for decision-makers
+to prevent conflict. @halkia2020a presented the
+Global Conflict Risk Index (GCRI), a tool used by the European Union for conflict
+prediction. It is based on a simple logistic regression model, nonetheless 
+achieves remarkable accuracy results. However, variables related to natural
+resources are included under the label of economic variables. They are limited
+to indices on food security and water stress as well as raw oil production. 
+Even though not peer-reviewed, the World Resource Institute (WRI) 
+published a technical note reporting on their efforts for a violent conflict
+forecasting tool [@kuzma2020]. By using a Random Forest model and incorporating
+several environmental variables concerned with food production and water 
+availability, they produce promising results for the African continent, the 
+Middle East and parts of Asia. They include an analysis of variable importance
+which only indicates as relevant a few of the environmental predictors.
+@schellens2020 analyze the role of natural resources in violent 
+conflict prediction through modern machine learning techniques. They compare
+a standard logistic regression model versus two types of neural networks and
+a Random Forest model. They particularly test model performance on different sets
+of predictors. One of these sets includes natural resources conceptualized as 
+agricultural production, forest area, primary commodity exports of non-renewable
+resources, water access, withdrawal, and available reserves, as well as resource 
+rents. Their results indicate an improvement of the Random Forest model when
+natural resource variables are included. However, the analysis of the neural networks
+remains rather shallow because only basic network architectures were considered.
+
+
+#### Research Question.
+
+The outlined review of the literature leads to the main research question of this 
+thesis, namely if a modern deep learning framework and the vast availability of 
+open geodata can positively impact the task of spatiotemporal conflict detection. 
+Note that detection and prediction will be used interchangeably in this thesis.
+Continuing with a brief definition of the two basic concepts, open geodata can be 
+defined as freely available and usable data related to some information of space. 
+Very commonly, it is based on remote sensing imagery. Remote sensing enables the 
+collection of spatiotemporal comprehensive measurements. In principle, 
+it works by measuring the spectral reflectance of the Earth's surface in different 
+bands across the electromagnetic spectrum [@dejong2007]. Through physically 
+informed transformation models, the original spectral reflectance values can be 
+translated into measurements of physical variables, e.g., evapotranspiration from 
+the canopy or biomass production of the vegetation cover. Also, land cover can 
+be mapped regularly, informing, e.g., dynamics of deforestation or the extension 
+of agricultural farmland. There are many agencies, research institutions, and 
+companies that provide a wide range of so-called _value-added_ remote sensing 
+products, a lot of them at zero cost [@radocaj2020]. On the other hand, DL is 
+a subcomponent of machine learning, often focusing on solving supervised 
+classification and regression problems by using neural networks 
+[@lecun2015]. These networks consist of varying numbers and architectures of 
+_hidden layers_, mapping a specified input to the desired output through non-linear 
+transformations of the data values. They are supervised because the outcome 
+of specific observations is known, and a model is tasked with optimizing its 
+parameters towards lowering the prediction error. The model performance is 
+evaluated based on an _out-of-sample_ validation set. A suitable parametrization 
+of the model is equivalent to its generalization potential to unseen data and 
+consequently will yield high-performance metrics on the validation set. 
+
+In the context of conflict prediction, DL methods seem promising to deliver 
+accurate predictions in both the temporal and the spatial domain [@emmert2020]. 
+The occurrence of conflict is a highly complex process, with many interdependent variables 
+from the social, economic, and environmental dimensions of human reality. DL could 
+indicate a way to yield accurate conflict predictions despite this complexity. 
+Additionally, the availability of spatial and temporal comprehensive data sets 
+mainly based on remote sensing technology allows gathering predictor variables suited for 
+conflict prediction in a time and cost-efficient manner. For the presents study's
+design, two theoretical grounded assumptions are of particular relevance. First, 
+it is assumed that linkages between environmental variables and conflict are not 
+necessarily observed _in-situ_ nor _instantaneously_. The first aspect of this 
+assumption means that environmental processes in one location might impact the 
+conflict risk at yet a distinct but related location. For example, a bad harvest,
+e.g., through an extensive drought, might aggravate conflict risk in a neighboring 
+urban center due to increased food prices. The same increase in conflict risk is 
+not necessarily observed in the rural areas where the root cause, i.e., the 
+extensive drought, took place. The second aspect emphasizes that the problem at 
+hand is one of a time series. For example, deforestation might not instantaneously 
+negatively impact the livelihoods of the communities. However, ongoing deforestation 
+in the long term can lead to increased soil erosion, undermining the basis of rural 
+livelihoods and eventually increase conflict risk. Second, environmental change 
+does not stop at national borders. Put differently, administrative boundaries 
+rarely follow natural borders, e.g., in the case of a river course separating 
+two nation-states. If environmental dynamics are the subject of analysis, this 
+could mean that administrative districts are not necessarily the optimal choice 
+to study these dynamics. The interdependence between environmental change and 
+the risk of conflict might be better depicted on a different scale, e.g., by 
+aggregating variables based on watersheds.
+
+Guided by these assumptions, a workflow is set up to test for two distinct hypotheses.
+These are:
+
+- H1: _Environmental predictors increase the performance of deep learning models 
+for the conflict prediction task over models based solely on the conflict history and structural variables._
+
+- H2: _Aggregating predictor and response variables on the basis of sub-basin
+watersheds delivers better predictive performance than aggregating on sub-national
+administrative districts._
+
+
+#### General Methodology.
+
+To test for these hypotheses, the study's design is presented in detail in the 
+following section. Briefly, (i) several socio-economic and environmental 
+variables available in spatially explicit formats are collected and aggregated for 
+sub-national administrative districts and sub-basin watersheds, (ii) spatial 
+buffers around these districts are used to account for processes occurring in a 
+district's larger spatial neighborhood, (iii) DL models are trained on different predictor
+sets consisting of the conflict history, structural, and environmental variables 
+to solve the conflict prediction statistically formulated as a time series problem, 
+(iv) model performances are evaluated on an _out-of-sample_ validation set and
+cross-checked with a logistic regression baseline, (v) performance results are comprehensibly 
+reported for all model configurations for different classes of violent conflict, 
+allowing for an analysis of variance in the predictive performance to obtain 
+statistical significant indications in relation to the hypotheses.
+
+\newpage

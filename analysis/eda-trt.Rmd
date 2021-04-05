@@ -1,0 +1,128 @@
+---
+title: "Travel Time"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+bibliography: ../report/references.bib
+csl: ../report/elsevier-harvard.csl
+---
+
+```{r setup, include=FALSE}
+source("../code/workflowr-utils.R")
+```
+
+# Loading the data
+
+```{r read-data}
+files = list.files("../data/vector/extraction/", pattern = "TRT", full.names = T)
+
+data = lapply(files, function(x){
+  filename = str_split(basename(x), "_")[[1]]
+  if(length(filename) == 3){
+    unit = filename[1]
+    buffer = as.numeric(filename[2])
+    var = str_remove(filename[3], ".gpkg")
+  } else {
+    unit = filename[1]
+    buffer = 0
+    var =  str_remove(filename[2], ".gpkg")
+  }
+  
+  layers = ogrListLayers(x)
+  layers = layers[grep("attr_", layers)]
+  data = do.call(cbind, lapply(layers, function(l){
+    tmp = st_read(x, layer = l, quiet = TRUE)
+    names(tmp) = l
+    tmp
+  }))
+  
+  data$id = 1:nrow(data)
+  data %>%
+    as_tibble() %>%
+    mutate(unit = unit, buffer = buffer, var = var) %>%
+    gather("time", "value", -id, -unit, -buffer, -var) %>%
+    mutate(time = str_remove(time, "attr_")) %>%
+    mutate(time = str_sub(time, 1, 4)) %>%
+    distinct(id, unit, buffer, time, value)
+})
+
+data = do.call(rbind, data)
+str(data)
+```
+
+# Missing Values
+
+
+```{r na-analysis}
+data %>%
+  group_by(unit, buffer) %>%
+  summarise(N = n(), isna = sum(is.na(value)), isnotna = sum(!is.na(value)), perc = sum(is.na(value)) / n() * 100)
+```
+
+# Histogramm
+
+```{r time-series}
+data %>%
+  filter(buffer==0) %>%
+  group_by(time, unit, id) %>%
+  summarise(value = mean(value, na.rm = T)) %>%
+  ggplot() +
+  geom_histogram(aes(x=value, color=unit, fill=unit), alpha=.5) +
+  theme_classic() +
+  labs(y="Count", x = "Travel Time", color = "Unit of Analysis", fill = "Unit of Analysis")
+
+```
+
+
+# Spatial Pattern
+
+```{r spatial-join}
+poly_bas = st_read("../data/vector/basins_mask.gpkg", quiet = T)
+crs <- st_crs("EPSG:3857")
+poly_bas <- st_transform(poly_bas, crs)
+poly_bas <- st_simplify(poly_bas, dTolerance = 1000, preserveTopology = T)
+poly_bas$id = 1:nrow(poly_bas)
+poly_adm = st_read("../data/vector/states_mask.gpkg", quiet = T)
+poly_adm <- st_transform(poly_adm, crs)
+poly_adm <- st_simplify(poly_adm, dTolerance = 1500, preserveTopology = T)
+poly_adm$id = 1:nrow(poly_adm)
+
+
+
+data %>%
+  filter(buffer == 0) %>%
+  group_by(unit, id) %>%
+  summarise(obsv = sum(is.na(value))) -> obs_data
+
+
+data %>%
+  filter(buffer == 0) %>%
+  group_by(unit, id) %>%
+  summarise(value = mean(value, na.rm = T)) -> sum_data
+
+poly_adm = left_join(poly_adm, filter(sum_data, unit == "states"))
+poly_bas = left_join(poly_bas, filter(sum_data, unit == "basins"))
+poly_adm = left_join(poly_adm, filter(obs_data, unit == "states"))
+poly_bas = left_join(poly_bas, filter(obs_data, unit == "basins"))
+plt_data = rbind(select(poly_adm, id, unit, value, geom), select(poly_bas, id, unit, value, geom))
+
+```
+
+## Administrative Units by month
+
+### Traveltime map
+
+```{r map-value}
+tm_shape(plt_data) +
+  tm_polygons(col = "value", palette = "-RdYlBu", breaks = c(0,500,1000,2500,5000,+Inf), border.col = "white", lwd = .5) +
+  tm_facets("unit")
+```
+
+
+
+
+
+

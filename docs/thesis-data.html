@@ -1,0 +1,4992 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>thesis-data.utf8</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">masterthesis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    EDA
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="eda-response.html">Response Variable</a>
+    </li>
+    <li>
+      <a href="eda-anom.html">Precipitation Anomalies</a>
+    </li>
+    <li>
+      <a href="eda-dep.html">Dependency Ratio</a>
+    </li>
+    <li>
+      <a href="eda-et.html">Evapotranspiration</a>
+    </li>
+    <li>
+      <a href="eda-gdp.html">Gross Domestic Product</a>
+    </li>
+    <li>
+      <a href="eda-gpp.html">Gross Primary Productivity</a>
+    </li>
+    <li>
+      <a href="eda-lst.html">Land Surface Temperature</a>
+    </li>
+    <li>
+      <a href="eda-lvstk.html">Livestock</a>
+    </li>
+    <li>
+      <a href="eda-pop.html">Population</a>
+    </li>
+    <li>
+      <a href="eda-prec.html">Precipitation</a>
+    </li>
+    <li>
+      <a href="eda-spi.html">Standardized Precipitation Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-spei.html">Standardized Precipitation-Evapotranspiration Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-tri.html">Terrain Roudgeddness Index (TRI)</a>
+    </li>
+    <li>
+      <a href="eda-trt.html">Travel Time</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Thesis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="thesis-intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="thesis-data.html">Data</a>
+    </li>
+    <li>
+      <a href="thesis-methods.html">Methods</a>
+    </li>
+    <li>
+      <a href="thesis-results.html">Results</a>
+    </li>
+    <li>
+      <a href="thesis-discussion.html">Discussion</a>
+    </li>
+    <li>
+      <a href="thesis-conclusion.html">Conclusion</a>
+    </li>
+    <li>
+      <a href="thesis-appendix.html">Appendix</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks">
+Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-03-24
+</p>
+<p>
+<strong>Checks:</strong>
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+5
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>thesis/analysis/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version
+1.6.2). The <em>Checks</em> tab describes the
+reproducibility checks that were applied when the results were created.
+The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Environment:</strong> empty
+</a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global
+environment can affect the analysis in your R Markdown file in unknown ways.
+For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210321code">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Seed:</strong> <code>set.seed(20210321)</code>
+</a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210321code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210321)</code> was run prior to running the code in the R Markdown file.
+Setting a seed ensures that any results that rely on randomness,
+e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Session information:</strong> recorded
+</a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is
+critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Cache:</strong> none
+</a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident
+that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>File paths:</strong> relative
+</a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project
+makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongnoversioncontrol">
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<strong>Repository version:</strong> no version control
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongnoversioncontrol" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Tracking code development and connecting the code version to the results is
+critical for reproducibility. To start using Git, open the Terminal and type
+<code>git init</code> in your project directory.</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+This project is not being versioned with Git. To obtain the full
+reproducibility benefits of using workflowr, please see
+<code>?wflow_start</code>.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="data" class="section level1">
+<h1><span class="header-section-number">1</span> Data</h1>
+<div id="area-of-interest" class="section level2">
+<h2><span class="header-section-number">1.1</span> Area of Interest</h2>
+<p>To account for the hypothesis that aggregating predictor variables on the basis
+of watersheds will lead to higher detection accuracy compared to administrative
+boundaries, two different sets of spatial units are selected.
+The first represents sub-national administrative boundaries (referred to as <em>adm</em> hereafter)
+derived from the Natural Earth project in a vector format <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">South</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>.
+Only polygons on the African continent as well as Madagascar from the third
+administrative level are selected. The procedure results in a total of 847 polygons
+covering the study area (Figure <a href="#fig:02-data-units-map">1.1</a>).</p>
+<pre class="r"><code>adm &lt;- st_read(&quot;../data/vector/states_mask.gpkg&quot;, quiet = T)
+adm &lt;- st_make_valid(adm)
+bas &lt;- st_read(&quot;../data/vector/basins_simple.gpkg&quot;, quiet = T)
+bas &lt;- st_make_valid(bas)
+crs &lt;- st_crs(&quot;EPSG:3857&quot;)
+adm &lt;- st_transform(adm, crs)
+adm &lt;- st_simplify(adm, dTolerance = 1000, preserveTopology = T)
+bas &lt;- st_transform(bas, crs) 
+bas &lt;- st_simplify(bas, dTolerance = 1000, preserveTopology = T)
+
+tmap_options(max.categories = 50)
+
+adm %&lt;&gt;%
+  mutate(group_id = sov_a3) %&gt;%
+  dplyr::select(group_id)
+
+plt1 = tm_shape(adm) +
+  tm_polygons(&quot;group_id&quot;, border.col = &quot;black&quot;, lwd = .2) +
+  tm_legend(show = FALSE) +
+  tm_layout(expression(paste(italic(&quot;adm&quot;), &quot; districts&quot;)),
+            title.size = .8) + 
+  tm_scale_bar(position=c(&quot;left&quot;, &quot;bottom&quot;), width = .5)
+
+
+bas_group = st_read(&quot;../data/raw/hydrosheds/hybas_03_simple.gpkg&quot;, quiet = TRUE)
+bas_group %&lt;&gt;% 
+  st_transform(crs = crs) %&gt;%
+  mutate(group_id = as.factor(HYBAS_ID)) %&gt;% 
+  dplyr::select(group_id) %&gt;%
+  st_simplify() %&gt;%
+  st_crop(bas)
+adm$group_id = NULL
+bas %&lt;&gt;%
+  dplyr::select(geom)
+
+plt2 = tm_shape(bas_group) +
+  tm_polygons(&quot;group_id&quot;, lwd = 0, border.col = &quot;white&quot;) +
+  tm_shape(bas) +
+  tm_borders(&quot;black&quot;, lwd = .2) +
+  tm_legend(show = FALSE) +
+  tm_layout(title = expression(paste(italic(&quot;bas&quot;), &quot; districts&quot;)),
+            title.size = .8)
+
+tmap_arrange(plt1, plt2)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:02-data-units-map"></span>
+<img src="figure/thesis-data.Rmd/02-data-units-map-1.png" alt="Overview of the administrative (left) and sub-basin districts (right) used for data aggregation." width="672" />
+<p class="caption">
+Figure 1.1: Overview of the administrative (left) and sub-basin districts (right) used for data aggregation.
+</p>
+</div>
+<p>The second set of spatial units represents sub-basin watersheds (referred to as <em>bas</em> hereafter)
+which are downloaded from the HydroSHEDS project <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Lehner</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2008</span>)</span></span>. To keep the
+number of polygons comparable to the number of administrative units, the fifth
+level out of a total of 12 levels of watershed delineations is selected.
+The procedure results in a total number of 1013 polygons covering the African
+continent and Madagascar (Figure <a href="#fig:02-data-units-map">1.1</a>).</p>
+<pre class="r"><code>adm_area = st_area(adm) /  1e+6 # to km2
+bas_area = st_area(bas) /  1e+6 # to km2
+
+adm_sum = summary(adm_area)
+bas_sum = summary(bas_area)
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  mutate(N = c(nrow(adm), nrow(bas))) %&gt;%
+  dplyr::select(c(names(.)[1], N, names(.)))
+rm(bas, bas_group, adm)
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics on the area of the spatial aggregation units in km². (*adm* represents administrative units, *bas* represents sub-basin watersheds)&quot;,
+               caption.short = &quot;Descriptive statistics on the area of the spatial aggregation units.&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-table-units-descr">Table 1.1: </span>Descriptive statistics on the area of the spatial aggregation units in km². (<em>adm</em> represents administrative units, <em>bas</em> represents sub-basin watersheds)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:right;">
+Min.
+</th>
+<th style="text-align:right;">
+1st Qu.
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+3rd Qu.
+</th>
+<th style="text-align:right;">
+Max.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+847
+</td>
+<td style="text-align:right;">
+3.697
+</td>
+<td style="text-align:right;">
+3133.327
+</td>
+<td style="text-align:right;">
+10881.78
+</td>
+<td style="text-align:right;">
+39081.95
+</td>
+<td style="text-align:right;">
+39393.61
+</td>
+<td style="text-align:right;">
+734187.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+1013
+</td>
+<td style="text-align:right;">
+0.682
+</td>
+<td style="text-align:right;">
+9298.121
+</td>
+<td style="text-align:right;">
+21232.59
+</td>
+<td style="text-align:right;">
+32614.09
+</td>
+<td style="text-align:right;">
+43165.52
+</td>
+<td style="text-align:right;">
+315931.1
+</td>
+</tr>
+</tbody>
+</table>
+<p>The descriptive statistics of area distribution among the two different
+sets reveals that the sub-basin watersheds have a lower average value of 32,614.09
+km² compared to 39,081.95 km², while the administrative
+units have the highest maximum value of 734,187.2 km²
+which is nearly twice as large as the largest watershed (Table <a href="#tab:02-data-table-units-descr">1.1</a>).</p>
+<p>Three different spatial buffers of 50, 100, and 200 km are processed for each
+district to include information on the geographical neighborhood. It is
+assumed that processes in the larger neighborhood of a district might influence
+the occurrence of conflicts. This influence can take the form of spillover
+effects for which empirical evidence has been found, e.g., for military spending
+<span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Phillips</span></span>, <span style="font-variant:normal;">2015</span>)</span></span>, reducing regional trade volumes <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Murdoch</span> and <span class="smallcaps">Sandler</span></span>, <span style="font-variant:normal;">2004</span>)</span></span> or short-term
+reduction in economic growth <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Murdoch</span> and <span class="smallcaps">Sandler</span></span>, <span style="font-variant:normal;">2002</span>)</span></span>. These effects can manifest in
+environmental changes and reduction of agricultural production, as has been
+the case for Syria and Iraq during the war against the so-called Islamic State <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Eklund</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>.
+For Sub-Saharan Africa, additional evidence has been presented that spillover effects
+are more pronounced than in the rest of the world <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Carmignani</span> and <span class="smallcaps">Kler</span></span>, <span style="font-variant:normal;">2016</span>)</span></span>. For each
+of the buffered areas, the same variables are extracted as for individual districts,
+resulting in a 3-time increase in the data set size.</p>
+</div>
+<div id="spatiotemporal-aggregation" class="section level2">
+<h2><span class="header-section-number">1.2</span> Spatiotemporal Aggregation</h2>
+<p>For the establishment of a regular data set used for the training
+process a number of predictor variables in the raster
+format need to be processed into a regular time series based on the spatial aggregation
+districts used for prediction (Table <a href="#tab:02-data-predictors">1.3</a>). Raw remote
+sensing scenes, as well as <em>value-added</em> raster products, vary greatly in the
+spatiotemporal resolution they are available at (Table <a href="#tab:02-data-predictors">1.3</a>).
+The resolution is a function of the technical prerequisites of a given sensor or
+statistical method in the case of socio-economic variables and design choices by
+the product providers. For example, together, both satellites equipped with the
+Moderate Resolution Imaging Spectroradiometer (MODIS) cover every
+point on earth every 1 to 2 days. However, certain products such as evaporation
+or gross primary productivity are processed to 8-day composites. This design
+choice was made to assure valid measurements of certain variables that might be
+blocked on some day, e.g., through persistent cloud coverage, especially in the tropics <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Steven Running</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>. Other products, such as precipitation data or population counts are available
+at a monthly or yearly temporal resolution, mainly due to the statistical processes
+involved in their production, e.g., in the latter case by relying on yearly survey
+data. To account for this variability in data set characteristics, the decision
+is made to aggregate on a monthly district level (district-months). A pixel-based
+approach, which would require the transformation of all data sets to a common
+spatial resolution, is rejected due to the very low occurrences of the response
+variables and the great variability of spatial resolutions across the data sets.
+That way, all data sets can be processed at or close to their native resolution
+since the final value for a given district-month is obtained by a zonal statistic
+operation. To this end, the R package <em>gdalcubes</em> was used <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Appel</span> and <span class="smallcaps">Pebesma</span></span>, <span style="font-variant:normal;">2019</span>)</span></span>. This
+package was specifically designed for the efficient harmonization of remote sensing
+products with varying spatiotemporal resolutions. It programmatically conducts the
+transformations needed to bring a given raster data set to the desired spatio-temporal
+resolution and provides efficient routines to calculate zonal statistics for the
+intersection areas between rasters and polygons.</p>
+<p>For data sets that are available at a yearly time scale or static over the complete
+time-series a last-observation-carried-forward approach is0 chosen to obtain
+a monthly data set. For data sets that are available at a finer resolution,
+a suitable aggregation operation to the measured variable is chosen
+(Table <a href="#tab:02-data-predictors">1.3</a>). In summary, a vector data cube consisting
+of 847 (1013) districts for <em>adm</em> (<em>bas</em>) for 228 individual months (2001 to 2019)
+and 176 ((40 predictors + 4 responses) x 4 buffers) variables summing up to a
+total of 33,988,416 (40,649,664) individual data points is constructed. The
+individual variables selected for training are explained in detail in the following
+sections.</p>
+</div>
+<div id="response-variable" class="section level2">
+<h2><span class="header-section-number">1.3</span> Response Variable</h2>
+<p>Data from UCDP is used for the response variable <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Pettersson</span> and <span class="smallcaps">Öberg</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.
+The data is an event database, meaning that every
+reported violent conflict with at least 25 fatalities per year is included as a single event.
+Each event is associated with information on involved actors, time, location,
+and estimated fatalities by party involved. Since the data is mainly
+collected automatically, inaccuracies concerning the exact location or the
+number of deaths are frequently observed. However, the information on the
+reliability for each logged event is included.
+The latest version of the database as of the time of writing this thesis
+for the African continent is used. Only events occurring between 2001 and 2019 are
+included. The data is further filtered to contain only events for which the quality of
+the geographic localization is assured to be accurate on the sub-national level.
+Also, only events are included with timestamps which are reported to be accurate
+on a monthly scale. The data is provided distinguishing between three different classes of conflict.
+These are state-based violence (referred to <strong>sb</strong> hereafter), non-state violence
+(<strong>ns</strong>), and one-sided violence (<strong>os</strong>) as defined in <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Gleditsch</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2002</span>)</span></span>, <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Sundberg</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2012</span>)</span></span>,
+and <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Eck</span> and <span style="font-variant:normal;">Hultman</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2007</span>)</span></span>, respectively. UCDP summarizes these definitions as “violence between two organized actors of which
+at least one is the government of a state, violence between actors of which neither
+party is the government of a state, and lastly, violence against unarmed
+civilians perpetrated by organized non-state groups or governments” <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Allansson</span></span>, <span style="font-variant:normal;">2021</span>)</span></span>.
+For each class, a spatiotemporal aggregation based on the different analysis units
+on a monthly time scale is applied. Additionally, by a summation of casulties a fourth class
+representing a combination of the three base classes is introduced (referred to
+as <strong>cb</strong>). These aggregations represent the basic unit of analysis for this
+project and are used as the response objects for the detection algorithm.
+Because the final prediction problem is conceptualized as a binary
+classification task (peace vs. conflict) any district-month with fatalities greater than 0
+is transformed to a value of 1, representing conflict, while district-months with
+no fatalities are assigned a value of 0, representing peace.</p>
+<pre class="r"><code>response_cube = readRDS(&quot;../data/vector/response_cube.rds&quot;)
+
+response_cube %&gt;%
+  as_tibble() %&gt;%
+  filter(!(unit == &quot;states&quot; &amp; id &gt; 847),
+         type %in% c(&quot;all&quot;, &quot;sb&quot;, &quot;ns&quot;, &quot;os&quot;),
+         time &gt; as.Date(&quot;2000-12-31&quot;)) %&gt;%
+  mutate(Dataset = if_else(time &lt;= as.Date(&quot;2016-12-31&quot;), &quot;train&quot;, 
+                           if_else((time &gt; as.Date(&quot;2016-12-31&quot;) &amp; time &lt;= as.Date(&quot;2017-12-31&quot;)), &quot;val&quot;, &quot;test&quot;)),
+         Dataset = factor(Dataset, levels = c(&quot;train&quot;, &quot;val&quot;, &quot;test&quot;), labels = c(&quot;Training&quot;, &quot;Validation&quot;, &quot;Test&quot;)),
+         unit = factor(unit, levels = c(&quot;states&quot;, &quot;basins&quot;), labels = c(&quot;*adm*&quot;,&quot;*bas*&quot;)),
+         type = factor(type, levels = c(&quot;all&quot;, &quot;sb&quot;, &quot;ns&quot;, &quot;os&quot;), 
+                       labels = c(&quot;**cb**&quot;, &quot;**sb**&quot;, &quot;**ns**&quot;, &quot;**os**&quot;)),
+         value = if_else(value&gt;1, 1, 0 )) %&gt;%
+  select(unit,type,value,Dataset) %&gt;%
+  group_by(unit, type, Dataset) %&gt;%
+  summarise(perc = round((sum(value) / n() * 100),3)) %&gt;%
+  ungroup() %&gt;%
+  pivot_wider(id_cols = c(unit,Dataset) , names_from = type, values_from = perc, names_sep = &quot;-&quot;) %&gt;%
+  select(-unit) %&gt;%
+  thesis_kable(
+    escape = F,
+    caption = &quot;Percentage of conflict district-months for different training data sets across aggregation units and classes of conflict.&quot;,
+    caption.short =  &quot;Percentage of conflict district-months for different training data sets.&quot;,
+  ) %&gt;%
+  group_rows(1,3, group_label = &quot;adm&quot;, italic = TRUE) %&gt;%
+  group_rows(4,6, group_label = &quot;bas&quot;, italic = TRUE) %&gt;%
+  kable_styling(latex_options = c(&quot;HOLD_position&quot;)) %&gt;%
+    footnote(general = &quot;Values are given in percent.&quot;,
+           threeparttable = T,
+           escape = FALSE,
+           general_title = &quot;General:&quot;,
+           footnote_as_chunk = T)</code></pre>
+<table class="table table" style="margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+<span id="tab:02-data-response-dist">Table 1.2: </span>Percentage of conflict district-months for different training data sets across aggregation units and classes of conflict.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Dataset
+</th>
+<th style="text-align:right;">
+<strong>cb</strong>
+</th>
+<th style="text-align:right;">
+<strong>sb</strong>
+</th>
+<th style="text-align:right;">
+<strong>ns</strong>
+</th>
+<th style="text-align:right;">
+<strong>os</strong>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="3">
+<td colspan="5" style="border-bottom: 1px solid;">
+<em><strong>adm</strong></em>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Training
+</td>
+<td style="text-align:right;">
+3.102
+</td>
+<td style="text-align:right;">
+1.752
+</td>
+<td style="text-align:right;">
+0.775
+</td>
+<td style="text-align:right;">
+1.130
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Validation
+</td>
+<td style="text-align:right;">
+4.801
+</td>
+<td style="text-align:right;">
+2.607
+</td>
+<td style="text-align:right;">
+1.830
+</td>
+<td style="text-align:right;">
+1.702
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Test
+</td>
+<td style="text-align:right;">
+5.239
+</td>
+<td style="text-align:right;">
+2.986
+</td>
+<td style="text-align:right;">
+1.682
+</td>
+<td style="text-align:right;">
+2.096
+</td>
+</tr>
+<tr grouplength="3">
+<td colspan="5" style="border-bottom: 1px solid;">
+<em><strong>bas</strong></em>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Training
+</td>
+<td style="text-align:right;">
+2.347
+</td>
+<td style="text-align:right;">
+1.282
+</td>
+<td style="text-align:right;">
+0.650
+</td>
+<td style="text-align:right;">
+0.912
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Validation
+</td>
+<td style="text-align:right;">
+4.187
+</td>
+<td style="text-align:right;">
+2.229
+</td>
+<td style="text-align:right;">
+1.571
+</td>
+<td style="text-align:right;">
+1.456
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Test
+</td>
+<td style="text-align:right;">
+4.660
+</td>
+<td style="text-align:right;">
+2.694
+</td>
+<td style="text-align:right;">
+1.493
+</td>
+<td style="text-align:right;">
+1.917
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">General:</span> <sup></sup> Values are given in percent.
+</td>
+</tr>
+</tfoot>
+</table>
+<p>For the <em>adm</em> representation of the data, the total number of district-months is
+193,116 (847 districts x 228 months). For the <em>bas</em> representation it is 230,964
+(1,013 districts x 228 months). To summarize, for each district, a time-series worth of
+228 data points for four different response variables is available. Table
+<a href="#tab:02-data-response-dist">1.2</a> summarizes the occurrence of conflict district-months
+per outcome variable for both aggregation units. The definition of training,
+validation, and testing data set will be further discussed in Section
+<a href="#training-validation-process"><strong>??</strong></a>.</p>
+</div>
+<div id="predictor-variables" class="section level2">
+<h2><span class="header-section-number">1.4</span> Predictor Variables</h2>
+<p>The search of predictor variables was guided by a literature review of quantitative
+studies in the field of conflict research and the selected variables are presented
+in Table <a href="#tab:02-data-predictors">1.3</a>. Variables that have been shown to correlate
+with different forms of conflict and proved useful predictors were of primary
+interest. However, it became evident that most studies were concerned
+with predicting conflict work on a country-year basis <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Halkia</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>; <span style="font-variant:normal;"><span class="smallcaps">Hegre</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>; <span style="font-variant:normal;"><span class="smallcaps">Schellens</span> and <span class="smallcaps">Belyazid</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>.
+In cases the units of analysis were more fine-grained, they are most commonly
+restricted to sub-national administrative boundaries <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Kuzma</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>. For this kind
+of problem formulation, several socio-economic variables that are collected on an
+administrative level are easily adaptable. For example, indicators collected on
+a national level such as a democracy index, literacy rates, or income inequality
+can be disaggregated to the sub-national level or held constant for all districts
+within a nation. However, natural boundaries, such as watersheds, rarely follow
+political boundaries but they often intersect with each other.
+Thus, variables available as national aggregates can not easily be disaggregated at
+the watershed level. The use of such administrative-bound variables was not rendered feasible for this study.</p>
+<p>In a more specific context, this meant that only predictor variables which could
+be aggregated on both the levels of <em>adm</em> and <em>bas</em> are included.
+Additionally, a district’s spatial neighborhood was theorized to serve as a predictor.
+These neighborhood predictors were conceptualized as spatial buffers of 50, 100,
+and 200 km around each district. To enable this line of problem formulation, the
+search for predictors was limited to data sets in the raster format. In the
+current project, raw satellite imagery would not prove very useful to model the
+outcome variable. Instead, the search was concentrated on so-called <em>value-added</em>
+products, e.g. products for which transformations into measurements of physical
+variables already have been applied.</p>
+<p>In the following section, the selected data sets used to extract predictor variables
+are explained in detail. The structure mirrors the experimental design of this study
+in the sense that predictors are grouped into three distinct sets of variables.
+The most basic predictor set only contains information on the past conflict history
+(referred to as CH). Structural predictors (SV) contain the conflict history and
+selected structural variables for which a measurement is available at least once
+every year. The environmental predictor set (EV) contains all variables of the
+two preceding variable sets and selected environmental variables for which a
+data measurement is available every month. Thus, the predictor sets not only
+incorporate different aspects of a district in terms of its structural and
+environmental characteristics, but they also differ in the time-scale observations
+for given predictor variables are recorded.</p>
+<div style="page-break-after: always;"></div>
+<pre class="r"><code>predictor_tab = tibble(Name = 
+                         c(&quot;Conflict history&quot;,
+                           &quot;Terrain Ruggedness Index (log)&quot;,
+                           &quot;Travel time (log)&quot;,
+                           &quot;Livestock (log)&quot;,
+                           &quot;Population (log)&quot;,
+                           &quot;Youth bulge&quot;,
+                           &quot;Dependency ratio&quot;,
+                           &quot;GDP (log)&quot;,
+                           &quot;Cropland&quot;,
+                           &quot;Forest cover&quot;,
+                           &quot;Builtup area&quot;,
+                           &quot;Grassland&quot;,
+                           &quot;Shrubland&quot;,
+                           &quot;Barren land&quot;,
+                           &quot;Water bodies&quot;,
+                           &quot;Precipitation&quot;,
+                           &quot;Precipitation anomaly&quot;,
+                           &quot;SPI&quot;,
+                           &quot;SPEI&quot;,
+                           &quot;Land Surface Temperature&quot;,
+                           &quot;Evapotranspiration&quot;,
+                           &quot;Gross Primary Productivity&quot;,
+                           &quot;Precipitatation agr.&quot;,
+                           &quot;Precipitation anonmaly agr.&quot;,
+                           &quot;SPI agr.&quot;,
+                           &quot;SPEI agr.&quot;,
+                           &quot;Land Surface Temperature agr.&quot;,
+                           &quot;Evapotranspiration agr.&quot;,
+                           &quot;Gross Primary Productivity agr.&quot;),
+                       short = c(
+                         &quot;cnf&quot;,
+                         &quot;TRI&quot;,
+                         &quot;TRT&quot;,
+                         &quot;LVSTK&quot;,
+                         &quot;POP&quot;,
+                         &quot;YBULGE&quot;,
+                         &quot;DEP&quot;,
+                         &quot;GDP&quot;,
+                         &quot;CROP&quot;,
+                         &quot;FOREST&quot;,
+                         &quot;URBAN&quot;,
+                         &quot;GRASS&quot;,
+                         &quot;SHRUB&quot;,
+                         &quot;BARE&quot;,
+                         &quot;WATER&quot;,
+                         &quot;PREC&quot;,
+                         &quot;ANOM&quot;,
+                         &quot;SPI&quot;,
+                         &quot;SPEI&quot;,
+                         &quot;LST&quot;,
+                         &quot;ET&quot;,
+                         &quot;GPP&quot;,
+                         &quot;AGRPREC&quot;,
+                         &quot;AGRANOM&quot;,
+                         &quot;AGRSPI&quot;,
+                         &quot;AGRSPEI&quot;,
+                         &quot;AGRLST&quot;,
+                         &quot;AGRET&quot;,
+                         &quot;AGRGPP&quot;
+                       ),
+                       &#39;\\shortstack{Spatial\\\\Resolution}&#39; =
+                         c(&quot;-&quot;,
+                           &quot;0.0008°&quot;, # TRI
+                           &quot;0.008°&quot;, # TRT
+                           &quot;0.08°&quot;, # LVSTK
+                           &quot;0.008°&quot;, # POP
+                           &quot;0.008°&quot;, # YBULGE
+                           &quot;0.008°&quot;, # DEP
+                           &quot;0.08°&quot;, # GDP
+                           &quot;0.005°&quot;, # cropland
+                           &quot;0.005°&quot;, # forest
+                           &quot;0.005°&quot;, # builtup
+                           &quot;0.005°&quot;, # grassland
+                           &quot;0.005°&quot;, # shrubland
+                           &quot;0.005°&quot;, # barren
+                           &quot;0.005°&quot;, # water
+                           &quot;0.05°&quot;, # prec
+                           &quot;0.05°&quot;, # anom
+                           &quot;0.05°&quot;, # spi
+                           &quot;0.05°&quot;, # spei
+                           &quot;0.05°&quot;, # lst
+                           &quot;0.01°&quot;, # et
+                           &quot;0.01°&quot;, # gpp
+                           &quot;0.05°&quot;, # prec agr
+                           &quot;0.05&quot;, # anom agr
+                           &quot;0.05°&quot;, # spi agr
+                           &quot;0.05°&quot;, # spei agr
+                           &quot;0.005°&quot;, # lst agr
+                           &quot;0.005°&quot;, # et agr
+                           &quot;0.005°&quot;), # gpp agr
+                       &#39;\\shortstack{Temporal\\\\Resolution}&#39; =
+                         c(&quot;monthly&quot;,
+                           &quot;static&quot;,
+                           &quot;static&quot;,
+                           &quot;static&quot;,
+                           &quot;yearly&quot;,
+                           &quot;yearly&quot;,
+                           &quot;yearly&quot;,
+                           &quot;yearly&quot;,
+                           &quot;yearly&quot;,
+                           &quot;yearly&quot;,
+                           &quot;yearly&quot;,
+                           &quot;yearly&quot;,
+                           &quot;yearly&quot;,
+                           &quot;yearly&quot;,
+                           &quot;yearly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;,
+                           &quot;monthly&quot;),
+                       Unit = 
+                         c(&quot;binary&quot;,
+                           &quot;m&quot;,
+                           &quot;minutes&quot;,
+                           &quot;2010 heads&quot;,
+                           &quot;persons&quot;,
+                           &quot;\\%&quot;,
+                           &quot;\\%&quot;,
+                           &quot;2011 USD&quot;,
+                           &quot;\\%&quot;,
+                           &quot;\\%&quot;,
+                           &quot;\\%&quot;,
+                           &quot;\\%&quot;,
+                           &quot;\\%&quot;,
+                           &quot;\\%&quot;,
+                           &quot;\\%&quot;,
+                           &quot;mm&quot;,
+                           &quot;mm&quot;,
+                           &quot;-&quot;,
+                           &quot;-&quot;,
+                           &quot;K&quot;,
+                           &quot;kg/m²&quot;,
+                           &quot;kg C/m²&quot;,
+                           &quot;mm&quot;,
+                           &quot;mm&quot;,
+                           &quot;-&quot;,
+                           &quot;-&quot;,
+                           &quot;K&quot;,
+                           &quot;kg/m²&quot;,
+                           &quot;kg C/m²&quot;),
+                       Aggregation = 
+                         c(&quot;-&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;sum&quot;,
+                           &quot;sum&quot;,
+                           &quot;sum&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;sum&quot;,
+                           &quot;sum&quot;,
+                           &quot;sum&quot;,
+                           &quot;sum&quot;,
+                           &quot;sum&quot;,
+                           &quot;sum&quot;,
+                           &quot;sum&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;,
+                           &quot;mean&quot;))
+predictor_tab %&gt;%
+  dplyr::select(-short) %&gt;%
+  thesis_kable(linesep = c(&quot;&quot;),
+        align = &quot;lcccl&quot;,
+        caption = &quot;Spatio-temporal properties of predictor variables.&quot;,
+        caption.short = &quot;Spatio-temporal properties of predictor variables.&quot;,
+        #style = list(latex_options = c(&quot;HOLD_position&quot;)),
+        escape = F,
+        longtable = T) %&gt;% 
+  kable_styling(latex_options = c(&quot;HOLD_position&quot;, &quot;repeat_header&quot;),
+                font_size = 10) %&gt;%
+  group_rows(&quot;Baseline&quot;, 1, 1) %&gt;%
+  group_rows(&quot;Structural&quot;, 2, 15) %&gt;% 
+  group_rows(&quot;Environmental&quot;, 16, 29) %&gt;%
+  footnote(general = &quot;Variables denoted with \\\\emph{agr.} were calculated by a multiplicative interaction with a binary cropland mask.&quot;,
+           threeparttable = T,
+           escape = FALSE,
+           general_title = &quot;General:&quot;,
+           footnote_as_chunk = T)</code></pre>
+<table class="table table" style="margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption style="font-size: initial !important;">
+<span id="tab:02-data-predictors">Table 1.3: </span>Spatio-temporal properties of predictor variables.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Name
+</th>
+<th style="text-align:center;">
+
+</th>
+<th style="text-align:center;">
+
+</th>
+<th style="text-align:center;">
+Unit
+</th>
+<th style="text-align:left;">
+Aggregation
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="1">
+<td colspan="5" style="border-bottom: 1px solid;">
+<strong>Baseline</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Conflict history
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+binary
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr grouplength="14">
+<td colspan="5" style="border-bottom: 1px solid;">
+<strong>Structural</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Terrain Ruggedness Index (log)
+</td>
+<td style="text-align:center;">
+0.0008°
+</td>
+<td style="text-align:center;">
+static
+</td>
+<td style="text-align:center;">
+m
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Travel time (log)
+</td>
+<td style="text-align:center;">
+0.008°
+</td>
+<td style="text-align:center;">
+static
+</td>
+<td style="text-align:center;">
+minutes
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Livestock (log)
+</td>
+<td style="text-align:center;">
+0.08°
+</td>
+<td style="text-align:center;">
+static
+</td>
+<td style="text-align:center;">
+2010 heads
+</td>
+<td style="text-align:left;">
+sum
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Population (log)
+</td>
+<td style="text-align:center;">
+0.008°
+</td>
+<td style="text-align:center;">
+yearly
+</td>
+<td style="text-align:center;">
+persons
+</td>
+<td style="text-align:left;">
+sum
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Youth bulge
+</td>
+<td style="text-align:center;">
+0.008°
+</td>
+<td style="text-align:center;">
+yearly
+</td>
+<td style="text-align:center;">
+%
+</td>
+<td style="text-align:left;">
+sum
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Dependency ratio
+</td>
+<td style="text-align:center;">
+0.008°
+</td>
+<td style="text-align:center;">
+yearly
+</td>
+<td style="text-align:center;">
+%
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+GDP (log)
+</td>
+<td style="text-align:center;">
+0.08°
+</td>
+<td style="text-align:center;">
+yearly
+</td>
+<td style="text-align:center;">
+2011 USD
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Cropland
+</td>
+<td style="text-align:center;">
+0.005°
+</td>
+<td style="text-align:center;">
+yearly
+</td>
+<td style="text-align:center;">
+%
+</td>
+<td style="text-align:left;">
+sum
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Forest cover
+</td>
+<td style="text-align:center;">
+0.005°
+</td>
+<td style="text-align:center;">
+yearly
+</td>
+<td style="text-align:center;">
+%
+</td>
+<td style="text-align:left;">
+sum
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Builtup area
+</td>
+<td style="text-align:center;">
+0.005°
+</td>
+<td style="text-align:center;">
+yearly
+</td>
+<td style="text-align:center;">
+%
+</td>
+<td style="text-align:left;">
+sum
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Grassland
+</td>
+<td style="text-align:center;">
+0.005°
+</td>
+<td style="text-align:center;">
+yearly
+</td>
+<td style="text-align:center;">
+%
+</td>
+<td style="text-align:left;">
+sum
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Shrubland
+</td>
+<td style="text-align:center;">
+0.005°
+</td>
+<td style="text-align:center;">
+yearly
+</td>
+<td style="text-align:center;">
+%
+</td>
+<td style="text-align:left;">
+sum
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Barren land
+</td>
+<td style="text-align:center;">
+0.005°
+</td>
+<td style="text-align:center;">
+yearly
+</td>
+<td style="text-align:center;">
+%
+</td>
+<td style="text-align:left;">
+sum
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Water bodies
+</td>
+<td style="text-align:center;">
+0.005°
+</td>
+<td style="text-align:center;">
+yearly
+</td>
+<td style="text-align:center;">
+%
+</td>
+<td style="text-align:left;">
+sum
+</td>
+</tr>
+<tr grouplength="14">
+<td colspan="5" style="border-bottom: 1px solid;">
+<strong>Environmental</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Precipitation
+</td>
+<td style="text-align:center;">
+0.05°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+mm
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Precipitation anomaly
+</td>
+<td style="text-align:center;">
+0.05°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+mm
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+SPI
+</td>
+<td style="text-align:center;">
+0.05°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+SPEI
+</td>
+<td style="text-align:center;">
+0.05°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Land Surface Temperature
+</td>
+<td style="text-align:center;">
+0.05°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+K
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Evapotranspiration
+</td>
+<td style="text-align:center;">
+0.01°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+kg/m²
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Gross Primary Productivity
+</td>
+<td style="text-align:center;">
+0.01°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+kg C/m²
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Precipitatation agr.
+</td>
+<td style="text-align:center;">
+0.05°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+mm
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Precipitation anonmaly agr.
+</td>
+<td style="text-align:center;">
+0.05
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+mm
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+SPI agr.
+</td>
+<td style="text-align:center;">
+0.05°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+SPEI agr.
+</td>
+<td style="text-align:center;">
+0.05°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Land Surface Temperature agr.
+</td>
+<td style="text-align:center;">
+0.005°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+K
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Evapotranspiration agr.
+</td>
+<td style="text-align:center;">
+0.005°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+kg/m²
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Gross Primary Productivity agr.
+</td>
+<td style="text-align:center;">
+0.005°
+</td>
+<td style="text-align:center;">
+monthly
+</td>
+<td style="text-align:center;">
+kg C/m²
+</td>
+<td style="text-align:left;">
+mean
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">General:</span> <sup></sup> Variables denoted with \emph{agr.} were calculated by a multiplicative interaction with a binary cropland mask.
+</td>
+</tr>
+</tfoot>
+</table></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<pre class="r"><code>predictors = readRDS(&quot;../data/vector/predictor_cube.rds&quot;)</code></pre>
+<div id="conflict-history-ch" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> Conflict History (CH)</h3>
+<p>The most basic predictor set consists only of the past conflict history for every
+district. Depending on which outcome variable is predicted (e.g. <strong>cb</strong>, <strong>sb</strong>, <strong>ns</strong>, or <strong>os</strong>),
+four different predictors are available. These are the conflict history for the
+unit itself and its three spatial buffers of 50, 100, and 200 km representing
+the conflict history in the spatial neighborhood. The value of measurement
+is a binary encoding whether a given district-month experienced conflict
+or not.</p>
+</div>
+<div id="structural-variables-sv" class="section level3">
+<h3><span class="header-section-number">1.4.2</span> Structural Variables (SV)</h3>
+<div id="terrain-ruggedness-index-tri." class="section level4">
+<h4><span class="header-section-number">1.4.2.1</span> Terrain Ruggedness Index (TRI).</h4>
+<p>The TRI is used as an indicator for the landscape organization of a given district.
+Several studies have found significant correlations between mountainous
+areas and conflict. However, a clear definition of the parameter is hardly found
+in any of these publications <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Collier</span> and <span class="smallcaps">Hoeffler</span></span>, <span style="font-variant:normal;">2004</span>; <span style="font-variant:normal;"><span class="smallcaps">Fearon</span> and <span class="smallcaps">Laitin</span></span>, <span style="font-variant:normal;">2003</span>; <span style="font-variant:normal;"><span class="smallcaps">Hegre</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>; <span style="font-variant:normal;"><span class="smallcaps">Muchlinski</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2016</span>)</span></span>.
+Here, the TRI is used as an indicator of the ruggedness of the terrain based on
+the calculation of a digital elevation model (DEM). The TRI estimates the landscape
+heterogeneity in a grid cell’s neighborhood, calculating the sum of change in
+elevation to all eight neighbors of a cell <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Riley</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">1999</span>)</span></span>. The DEM from the
+Shuttle Radar Topography Mission (SRTM) is used <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Jarvis</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2008</span>)</span></span>. This DEM comes at
+a resolution of 0.0008° and it is processed at its native resolution. The unit of
+measurement is in meters. This variable represents a static value and does not
+change within the time series. There are no missing values for land areas.
+The mean of all pixels within a district is extracted as a zonal statistic for
+the district level aggregation. Due to the great variance of the TRI between the
+districts, this predictor’s natural logarithm is used during training.
+The distribution of values between <em>adm</em> and <em>bas</em> are quite similar with the
+administrative districts showing slightly higher average and maximal values
+(Table <a href="#tab:02-data-tri">1.4</a>).</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;TRI&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+na_present = &quot;NA&#39;s&quot; %in% descr$col_names
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.))) %&gt;%
+  mutate_all(as.character) %&gt;%
+  {if(na_present) mutate(., &quot;NA&#39;s&quot; = if_else(is.na(.[[8]]), &quot;-&quot;, .[[8]])) else . }
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of the Terrain Ruggedness Index based on different spatial aggregation units. (Unit of measurment: meters)&quot;, 
+               caption.short = &quot;Descriptive statistics of the Terrain Ruggedness Index (TRI).&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-tri">Table 1.4: </span>Descriptive statistics of the Terrain Ruggedness Index based on different spatial aggregation units. (Unit of measurment: meters)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:left;">
+Min.
+</th>
+<th style="text-align:left;">
+1st Qu.
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+3rd Qu.
+</th>
+<th style="text-align:left;">
+Max.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:left;">
+0.839
+</td>
+<td style="text-align:left;">
+2.101
+</td>
+<td style="text-align:left;">
+3.584
+</td>
+<td style="text-align:left;">
+5.175
+</td>
+<td style="text-align:left;">
+6.993
+</td>
+<td style="text-align:left;">
+28.539
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:left;">
+0.842
+</td>
+<td style="text-align:left;">
+1.999
+</td>
+<td style="text-align:left;">
+2.853
+</td>
+<td style="text-align:left;">
+3.913
+</td>
+<td style="text-align:left;">
+4.801
+</td>
+<td style="text-align:left;">
+21.346
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="travel-time." class="section level4">
+<h4><span class="header-section-number">1.4.2.2</span> Travel Time.</h4>
+<p>This predictor is used as an indicator of the centrality or remoteness of a district.
+The data set used indicates the travel time from a given cell to the closest
+city of 50,000 or more inhabitants <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Nelson</span></span>, <span style="font-variant:normal;">2008</span>)</span></span>. It is calculated based on a cost-distance
+model incorporating various variables contributing to the accessibility of a location
+such as roads, railways, land-cover, slope, and others <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Nelson</span></span>, <span style="font-variant:normal;">2008</span>)</span></span>. This indicator
+has been found a valuable predictor for the intensity of violence <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Schutte</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>.
+The native resolution of the data set is 0.008°. It is static and does not
+change within the time series. The unit of measurement is in minutes of travel time
+to the nearest city. There are no missing values on land areas. For the aggregation
+on the district level, the mean travel time is calculated. Due to the great variance
+of travel time between the districts, this predictor’s natural logarithm is used
+during training. The <em>bas</em> districts show an average travel time nearly twice as
+high compared to the <em>adm</em> districts (Table <a href="#tab:02-data-trt">1.5</a>).</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;TRT&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+
+na_present = &quot;NA&#39;s&quot; %in% descr$col_names
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.))) %&gt;%
+  mutate_all(as.character) %&gt;%
+  {if(na_present) mutate(., &quot;NA&#39;s&quot; = if_else(is.na(.[[8]]), &quot;-&quot;, .[[8]])) else . }
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of travel time to cities $\\geq 50,000$ inhabitants based on different spatial
+               aggregation units. (Unit of measurement: minutes)&quot;,
+               caption.short = &quot;Descriptive statistics of travel time to cities $\\geq 50,000$ inhabitants.&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-trt">Table 1.5: </span>Descriptive statistics of travel time to cities <span class="math inline">\(\geq 50,000\)</span> inhabitants based on different spatial
+aggregation units. (Unit of measurement: minutes)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:left;">
+Min.
+</th>
+<th style="text-align:left;">
+1st Qu.
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+3rd Qu.
+</th>
+<th style="text-align:left;">
+Max.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:left;">
+4.312
+</td>
+<td style="text-align:left;">
+161.133
+</td>
+<td style="text-align:left;">
+264.22
+</td>
+<td style="text-align:left;">
+353.441
+</td>
+<td style="text-align:left;">
+416.073
+</td>
+<td style="text-align:left;">
+2571.178
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:left;">
+45.8
+</td>
+<td style="text-align:left;">
+290.209
+</td>
+<td style="text-align:left;">
+459.661
+</td>
+<td style="text-align:left;">
+690.55
+</td>
+<td style="text-align:left;">
+848.293
+</td>
+<td style="text-align:left;">
+5004.453
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="livestock." class="section level4">
+<h4><span class="header-section-number">1.4.2.3</span> Livestock.</h4>
+<p>Numbers on livestock are used as an indicator for the characteristics of the
+agricultural sector in a district. A data set containing the global distribution
+for cattle, buffaloes, horses, sheep, goats, pigs, chicken, and ducks representing
+the condition in the year 2010 is used <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Gilbert</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>. The data set comes at a
+spatial resolution of 0.08°. There are some missing values for districts in the
+Sahara desert. The numbers for different species are summed on a pixel basis, and
+the total sum of livestock heads is calculated for each district. The literature
+review revealed that this indicator has not been used in previous studies on
+conflict prediction. Due to the great variance of livestock numbers between the
+districts, the natural logarithm of this predictor is used during training.
+The aggregation of <em>adm</em> and <em>bas</em> districts generally shows an equal distribution
+with <em>adm</em> being characterized by slightly higher livestock counts
+(Table <a href="#tab:02-data-lvstk">1.6</a>).</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;LVSTK&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+descr$values = round(descr$values)
+na_present = &quot;NA&#39;s&quot; %in% descr$col_names
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.))) %&gt;%
+  mutate_all(as.character) %&gt;%
+  {if(na_present) mutate(., &quot;NA&#39;s&quot; = if_else(is.na(.[[8]]), &quot;-&quot;, .[[8]])) else . }
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of total livestock numbers based on different spatial
+               aggregation units. (Unit of measurement: 2010 heads)&quot;, 
+               caption.short = &quot;Descriptive statistics of total livestock numbers.&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-lvstk">Table 1.6: </span>Descriptive statistics of total livestock numbers based on different spatial
+aggregation units. (Unit of measurement: 2010 heads)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:left;">
+Min.
+</th>
+<th style="text-align:left;">
+1st Qu.
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+3rd Qu.
+</th>
+<th style="text-align:left;">
+Max.
+</th>
+<th style="text-align:left;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+439279
+</td>
+<td style="text-align:left;">
+1197960
+</td>
+<td style="text-align:left;">
+3009761
+</td>
+<td style="text-align:left;">
+3411511
+</td>
+<td style="text-align:left;">
+128835648
+</td>
+<td style="text-align:left;">
+1680
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+73380
+</td>
+<td style="text-align:left;">
+442958
+</td>
+<td style="text-align:left;">
+2510632
+</td>
+<td style="text-align:left;">
+1937566
+</td>
+<td style="text-align:left;">
+104541794
+</td>
+<td style="text-align:left;">
+1440
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="population." class="section level4">
+<h4><span class="header-section-number">1.4.2.4</span> Population.</h4>
+<p>The total number of the population is frequently used as a predictor across
+different conflict studies <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Collier</span> and <span class="smallcaps">Hoeffler</span></span>, <span style="font-variant:normal;">2004</span>; <span style="font-variant:normal;"><span class="smallcaps">Fearon</span> and <span class="smallcaps">Laitin</span></span>, <span style="font-variant:normal;">2003</span>; <span style="font-variant:normal;"><span class="smallcaps">Halkia</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>; <span style="font-variant:normal;"><span class="smallcaps">Hegre</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>)</span></span>.
+A spatially explicit data set produced by the WorldPOP project is used in this study <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">WorldPop</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>.
+This data set is produced following the methodology reported in <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Pezzulo</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2017</span>)</span></span>. Based on
+over 6,000 sub-national data records, a spatially continuous high-resolution gridded
+data set of female and male population counts by age cohorts was produced at a
+resolution of 0.008°. The unit of measurement is the total number of persons irrespective
+of the sex. Per district, the sum of the total population is calculated as a zonal statistic.
+There is one district for the <em>bas</em> representation with missing data.
+During training, the population count’s natural logarithm was used because the
+scale of the population counts varies greatly between districts.
+The values are generally comparable between the <em>adm</em> and <em>bas</em> districts
+though <em>adm</em> shows a higher average value while <em>bas</em> shows the highest maximum
+value (Table <a href="#tab:02-data-pop">1.7</a>).</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;POP&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+descr$values = round(descr$values)
+na_present = &quot;NA&#39;s&quot; %in% descr$col_names
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.))) %&gt;%
+  mutate_all(as.character) %&gt;%
+  {if(na_present) mutate(., &quot;NA&#39;s&quot; = if_else(is.na(.[[8]]), &quot;-&quot;, .[[8]])) else . }
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of total population numbers based on different spatial
+               aggregation units. (Unit of measurement: persons)&quot;, 
+               caption.short = &quot;Descriptive statistics of total population numbers.&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-pop">Table 1.7: </span>Descriptive statistics of total population numbers based on different spatial
+aggregation units. (Unit of measurement: persons)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:left;">
+Min.
+</th>
+<th style="text-align:left;">
+1st Qu.
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+3rd Qu.
+</th>
+<th style="text-align:left;">
+Max.
+</th>
+<th style="text-align:left;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:left;">
+586
+</td>
+<td style="text-align:left;">
+210917
+</td>
+<td style="text-align:left;">
+481571
+</td>
+<td style="text-align:left;">
+1192672
+</td>
+<td style="text-align:left;">
+1256860
+</td>
+<td style="text-align:left;">
+38961168
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+11689
+</td>
+<td style="text-align:left;">
+141719
+</td>
+<td style="text-align:left;">
+998214
+</td>
+<td style="text-align:left;">
+787904
+</td>
+<td style="text-align:left;">
+49778275
+</td>
+<td style="text-align:left;">
+240
+</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div id="youth-bulge." class="section level4">
+<h4><span class="header-section-number">1.4.2.5</span> Youth Bulge.</h4>
+<p><span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Halkia</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2020</span>)</span></span> and <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Schellens</span> and <span style="font-variant:normal;">Belyazid</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2020</span>)</span></span> recently used this predictor to characterize
+the age structure of a country. They define the youth bulge as the percentage of
+the population aged between 15 and 24 divided by the population older than 25.
+In this thesis, it is calculated using data from the WorldPop project <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">WorldPop</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>.
+For every pixel, the total number of people for the respective age groups is calculated.
+Then, the sum of persons per age group is extracted for every district to finally
+calculate the youth bulge percentage. There are no missing values. The distribution
+of values between <em>adm</em> and <em>bas</em> is relatively similar (Table <a href="#tab:02-data-ybulge">1.8</a>)
+ranging from 0 % for <em>bas</em> districts and a minimum value of 19% for <em>adm</em> districts
+to maximum values of 104 % and 115 %, respectively. The average value is comparable
+between the spatial units between 54.7 % to 57 %.</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;YBULGE&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+
+na_present = &quot;NA&#39;s&quot; %in% descr$col_names
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.))) %&gt;%
+  mutate_all(as.character) %&gt;%
+  {if(na_present) mutate(., &quot;NA&#39;s&quot; = if_else(is.na(.[[8]]), &quot;-&quot;, .[[8]])) else . }
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of the youth bulge based on different spatial
+               aggregation units. (Unit of measurement: percent)&quot;, 
+               caption.short = &quot;Descriptive statistics of the youth bulge.&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-ybulge">Table 1.8: </span>Descriptive statistics of the youth bulge based on different spatial
+aggregation units. (Unit of measurement: percent)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:left;">
+Min.
+</th>
+<th style="text-align:left;">
+1st Qu.
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+3rd Qu.
+</th>
+<th style="text-align:left;">
+Max.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:left;">
+19.142
+</td>
+<td style="text-align:left;">
+51.194
+</td>
+<td style="text-align:left;">
+58.057
+</td>
+<td style="text-align:left;">
+56.977
+</td>
+<td style="text-align:left;">
+64.523
+</td>
+<td style="text-align:left;">
+115.117
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+49.142
+</td>
+<td style="text-align:left;">
+56.041
+</td>
+<td style="text-align:left;">
+54.66
+</td>
+<td style="text-align:left;">
+62.041
+</td>
+<td style="text-align:left;">
+103.923
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="dependency-ratio." class="section level4">
+<h4><span class="header-section-number">1.4.2.6</span> Dependency Ratio.</h4>
+<p>This variable describes the ratio between dependents to the working-age persons in a
+population. It is used as an official indicator by the World Bank, and it was
+chosen here in addition to the youth bulge predictor to include some information
+on the elderly of a given population. Dependents are defined as being younger
+than 15 or older than 64. People between these age classes are considered as
+the working-age population. The procedure to calculate this variable is the same
+as for the youth bulge variable, except that different age groups were chosen.
+There are no missing values. The distribution of values between <em>adm</em> and <em>bas</em>
+is relatively similar (Table <a href="#tab:02-data-dep">1.9</a>) ranging from 0 % for
+<em>bas</em> districts and 28 % for <em>adm</em> districts to a maximum value of 157 % for <em>adm</em>
+districts and 150 % for <em>bas</em> districts.</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;DEP&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+
+na_present = &quot;NA&#39;s&quot; %in% descr$col_names
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.))) %&gt;%
+  mutate_all(as.character) %&gt;%
+  {if(na_present) mutate(., &quot;NA&#39;s&quot; = if_else(is.na(.[[8]]), &quot;-&quot;, .[[8]])) else . }
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of the dependency ratio based on different spatial
+               aggregation units. (Unit of measurement: percent)&quot;, 
+               caption.short = &quot;Descriptive statistics of the dependency ratio.&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-dep">Table 1.9: </span>Descriptive statistics of the dependency ratio based on different spatial
+aggregation units. (Unit of measurement: percent)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:left;">
+Min.
+</th>
+<th style="text-align:left;">
+1st Qu.
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+3rd Qu.
+</th>
+<th style="text-align:left;">
+Max.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:left;">
+27.865
+</td>
+<td style="text-align:left;">
+73.846
+</td>
+<td style="text-align:left;">
+96.74
+</td>
+<td style="text-align:left;">
+91.647
+</td>
+<td style="text-align:left;">
+108.656
+</td>
+<td style="text-align:left;">
+157.408
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+70.011
+</td>
+<td style="text-align:left;">
+94.09
+</td>
+<td style="text-align:left;">
+88.617
+</td>
+<td style="text-align:left;">
+107.447
+</td>
+<td style="text-align:left;">
+150.318
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="gross-domestic-product-gdp." class="section level4">
+<h4><span class="header-section-number">1.4.2.7</span> Gross Domestic Product (GDP).</h4>
+<p>In most studies concerned with conflict prediction, GDP is found as a valuable predictor
+<span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Collier</span> and <span class="smallcaps">Hoeffler</span></span>, <span style="font-variant:normal;">2004</span>; <span style="font-variant:normal;"><span class="smallcaps">Halkia</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>; <span style="font-variant:normal;"><span class="smallcaps">Hegre</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>; <span style="font-variant:normal;"><span class="smallcaps">Muchlinski</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2016</span>; <span style="font-variant:normal;"><span class="smallcaps">Rost</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2009</span>; <span style="font-variant:normal;"><span class="smallcaps">Schellens</span> and <span class="smallcaps">Belyazid</span></span>, <span style="font-variant:normal;">2020</span>; <span style="font-variant:normal;"><span class="smallcaps">Schutte</span></span>, <span style="font-variant:normal;">2017</span>; <span style="font-variant:normal;"><span class="smallcaps">Ward</span> and <span class="smallcaps">Bakke</span></span>, <span style="font-variant:normal;">2005</span>)</span></span>.
+The variable is included in different forms, e.g., the natural logarithm, GDP
+per capita, or the growth of GDP between time steps. In this project, a
+yearly available gridded data set spanning the years 1990 to 2015 at a spatial
+resolution of 0.08° is used <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Kummu</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>. Missing values from 2016 to 2019 are
+interpolated by a simple linear interpolation on a pixel basis. There are some
+missing values, mainly for very small districts located at the coastal zones
+across the whole continent where the raster data set showed no values. The unit
+of measurement is 2011 international US Dollars. The average GDP value is calculated
+as a zonal statistic. Because the values vary greatly between districts, the
+natural logarithm of GDP is used as a predictor during training.
+Both <em>adm</em> and <em>bas</em> show very similar descriptive statistics ranging from
+about 280 USD to about 44,800 USD (Table <a href="#tab:02-data-gdp">1.10</a>).</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;GDP&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of the Gross Domestic Product based on different spatial
+               aggregation units. (Unit of measurement: 2011 USD)&quot;, 
+               caption.short = &quot;Descriptive statistics of the Gross Domestic Product (GDP).&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-gdp">Table 1.10: </span>Descriptive statistics of the Gross Domestic Product based on different spatial
+aggregation units. (Unit of measurement: 2011 USD)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:right;">
+Min.
+</th>
+<th style="text-align:right;">
+1st Qu.
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+3rd Qu.
+</th>
+<th style="text-align:right;">
+Max.
+</th>
+<th style="text-align:right;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+284.04
+</td>
+<td style="text-align:right;">
+1228.172
+</td>
+<td style="text-align:right;">
+1889.668
+</td>
+<td style="text-align:right;">
+4439.684
+</td>
+<td style="text-align:right;">
+5569.510
+</td>
+<td style="text-align:right;">
+44808.06
+</td>
+<td style="text-align:right;">
+1680
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+278.97
+</td>
+<td style="text-align:right;">
+1501.878
+</td>
+<td style="text-align:right;">
+3206.946
+</td>
+<td style="text-align:right;">
+5855.363
+</td>
+<td style="text-align:right;">
+9346.887
+</td>
+<td style="text-align:right;">
+44808.06
+</td>
+<td style="text-align:right;">
+960
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="land-cover." class="section level4">
+<h4><span class="header-section-number">1.4.2.8</span> Land Cover.</h4>
+<p>In order to include information on the spatial structure of a district,
+several land cover classes were included as predictors in the training process.
+Different forms of land cover have been included in prior studies of conflict
+prediction. <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Hegre</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2019</span>)</span></span> include areal statistics on agriculture, barren land,
+shrubland, pasture, urban areas, and forest cover in their prediction
+model. <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Schellens</span> and <span style="font-variant:normal;">Belyazid</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2020</span>)</span></span> include the percentage of arable land and forest cover in
+their analysis, while <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Schutte</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2017</span>)</span></span> decided to include a remote sensing based
+proxy for green vegetation. In this thesis, several broad classes of land cover are included.
+These are cropland, forest cover, built-up area, grassland, shrubland, barren land,
+and water bodies. All of these predictors are delineated using the MCD12Q1 product
+generated yearly from the Terra and Aqua MODIS satellites <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Friedl</span> and <span class="smallcaps">Sulla-Menashe, Damien</span></span>, <span style="font-variant:normal;">2019</span>)</span></span>. The
+product is delivered with five different land cover classification schemes,
+of which only two are selected due to the suitability of their classification
+scheme <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Sulla-Menashe</span> and <span class="smallcaps">Friedl</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>. These are the classifications of the International
+Geosphere-Biosphere Programme (IGBP) and the University of Maryland (UMD).
+For a pixel to be assigned one of the target classes listed above, both the IGBP
+and UMD classification need to correspond to the same class. The data set is
+processed at a spatial resolution of 0.005°. For each district, the count of
+pixels for each class is extracted. The percentage of coverage is calculated,
+with 0 representing a valid value for cases when the respective class is not
+present. The data is available every year. Missing values occur for districts,
+where neither of the target land cover classes are present.
+Concerning the distribution of values, very low and high coverages are observed
+(Table <a href="#tab:02-data-lcc">1.11</a>). The average values reveal some differences between
+<em>adm</em> and <em>bas</em> districts, for example, that the coverage with barren land is almost
+three times as high for <em>bas</em> districts compared to <em>adm</em>. Also, higher rates
+of cropland coverage are observed with <em>adm</em> districts.</p>
+<pre class="r"><code>vars &lt;- c(&quot;CROP&quot;, &quot;BARE&quot;, &quot;FOREST&quot;, &quot;GRASS&quot;, &quot;SHRUB&quot;, &quot;URBAN&quot;, &quot;WATER&quot;)
+predictors %&gt;% 
+  filter(var %in% vars) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, var, value) %&gt;%
+  filter(!(unit == &quot;states&quot; &amp; id &gt; 847)) %&gt;%
+  group_by(unit, var) %&gt;%
+  summarise(&quot;Min.&quot; = min(value, na.rm = T),
+            &quot;1st Qu.&quot; = quantile(value, 0.25, na.rm = T),
+            &quot;Median&quot; = median(value, na.rm = T),
+            &quot;Mean&quot; = mean(value, na.rm = T),
+            &quot;3rd Qu.&quot; = quantile(value, 0.75, na.rm = T),
+            &quot;Max.&quot; = max(value, na.rm = T),
+            &quot;NA&#39;s&quot; = sum(is.na(value))) %&gt;%
+  ungroup() %&gt;%
+  mutate(unit = if_else(unit == &quot;basins&quot;,&quot;*bas*&quot;, &quot;*adm*&quot;)) %&gt;%
+  mutate(unit = factor(unit, levels = c(&quot;*adm*&quot;, &quot;*bas*&quot;),
+                       labels = c(&quot;*adm*&quot;, &quot;*bas*&quot;))) %&gt;%
+  arrange(var, unit) %&gt;%
+  dplyr::select(-var) %&gt;%
+  rename(&quot;Spatial Unit&quot; = unit) %&gt;%
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of different land cover classes based on different spatial
+               aggregation units. (Unit of measurement: percent)&quot;, 
+               caption.short = &quot;Descriptive statistics of different land cover classes.&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;, &quot;repeat_header&quot;)),
+               linesep = c(&quot;&quot;, &quot;\\addlinespace&quot;),
+               longtable = T) %&gt;%
+  group_rows(&quot;Barren land&quot;, 1, 2) %&gt;%
+  group_rows(&quot;Cropland&quot;, 3, 4) %&gt;% 
+  group_rows(&quot;Forest&quot;, 5, 6) %&gt;%
+  group_rows(&quot;Grassland&quot;, 7, 8) %&gt;%
+  group_rows(&quot;Shrubland&quot;, 9, 10) %&gt;%
+  group_rows(&quot;Built-up&quot;, 11, 12) %&gt;%
+  group_rows(&quot;Water&quot;, 13, 14)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-lcc">Table 1.11: </span>Descriptive statistics of different land cover classes based on different spatial
+aggregation units. (Unit of measurement: percent)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial Unit
+</th>
+<th style="text-align:right;">
+Min.
+</th>
+<th style="text-align:right;">
+1st Qu.
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+3rd Qu.
+</th>
+<th style="text-align:right;">
+Max.
+</th>
+<th style="text-align:right;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Barren land</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+10.6738625
+</td>
+<td style="text-align:right;">
+0.14146
+</td>
+<td style="text-align:right;">
+99.99545
+</td>
+<td style="text-align:right;">
+10164
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+0.02318
+</td>
+<td style="text-align:right;">
+32.2734785
+</td>
+<td style="text-align:right;">
+98.59107
+</td>
+<td style="text-align:right;">
+100.00000
+</td>
+<td style="text-align:right;">
+12156
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Cropland</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.04878
+</td>
+<td style="text-align:right;">
+2.97109
+</td>
+<td style="text-align:right;">
+20.2042559
+</td>
+<td style="text-align:right;">
+35.22953
+</td>
+<td style="text-align:right;">
+99.68764
+</td>
+<td style="text-align:right;">
+10164
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+0.02545
+</td>
+<td style="text-align:right;">
+6.0829911
+</td>
+<td style="text-align:right;">
+2.57099
+</td>
+<td style="text-align:right;">
+89.23104
+</td>
+<td style="text-align:right;">
+12156
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Forest</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+0.07553
+</td>
+<td style="text-align:right;">
+7.5630393
+</td>
+<td style="text-align:right;">
+5.19282
+</td>
+<td style="text-align:right;">
+99.30686
+</td>
+<td style="text-align:right;">
+10164
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+6.8620305
+</td>
+<td style="text-align:right;">
+2.32165
+</td>
+<td style="text-align:right;">
+99.93229
+</td>
+<td style="text-align:right;">
+12156
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Grassland</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.27006
+</td>
+<td style="text-align:right;">
+12.92306
+</td>
+<td style="text-align:right;">
+29.6158713
+</td>
+<td style="text-align:right;">
+55.24245
+</td>
+<td style="text-align:right;">
+100.00000
+</td>
+<td style="text-align:right;">
+10164
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.08412
+</td>
+<td style="text-align:right;">
+12.74015
+</td>
+<td style="text-align:right;">
+29.3516104
+</td>
+<td style="text-align:right;">
+57.14479
+</td>
+<td style="text-align:right;">
+100.00000
+</td>
+<td style="text-align:right;">
+12156
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Shrubland</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.44282
+</td>
+<td style="text-align:right;">
+15.51877
+</td>
+<td style="text-align:right;">
+27.7411470
+</td>
+<td style="text-align:right;">
+47.93473
+</td>
+<td style="text-align:right;">
+99.73342
+</td>
+<td style="text-align:right;">
+10164
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00992
+</td>
+<td style="text-align:right;">
+6.88072
+</td>
+<td style="text-align:right;">
+24.1363455
+</td>
+<td style="text-align:right;">
+46.26372
+</td>
+<td style="text-align:right;">
+100.00000
+</td>
+<td style="text-align:right;">
+12156
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Built-up</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.01929
+</td>
+<td style="text-align:right;">
+0.08562
+</td>
+<td style="text-align:right;">
+2.2936831
+</td>
+<td style="text-align:right;">
+0.43554
+</td>
+<td style="text-align:right;">
+100.00000
+</td>
+<td style="text-align:right;">
+10164
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+0.02036
+</td>
+<td style="text-align:right;">
+0.2668843
+</td>
+<td style="text-align:right;">
+0.11210
+</td>
+<td style="text-align:right;">
+35.74467
+</td>
+<td style="text-align:right;">
+12156
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Water</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+0.09216
+</td>
+<td style="text-align:right;">
+1.9081408
+</td>
+<td style="text-align:right;">
+1.19737
+</td>
+<td style="text-align:right;">
+82.05121
+</td>
+<td style="text-align:right;">
+10164
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+1.0266599
+</td>
+<td style="text-align:right;">
+0.34510
+</td>
+<td style="text-align:right;">
+78.57147
+</td>
+<td style="text-align:right;">
+12156
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="environmental-variables-ev" class="section level3">
+<h3><span class="header-section-number">1.4.3</span> Environmental Variables (EV)</h3>
+<div id="precipitation." class="section level4">
+<h4><span class="header-section-number">1.4.3.1</span> Precipitation.</h4>
+<p>A global data set with monthly precipitation amount is provided by the Climate Hazards
+Group Infrared Precipitation with Station data (CHIRPS) <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Funk</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2015</span>)</span></span>.
+Precipitation has been used previously as an indicator for long-term conflict risk <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Witmer</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>.
+The data set does not solely rely on the in-situ measurement of rainfall, instead
+available station measurements are extrapolated to unknown areas using different sources
+of remotely sensed imagery <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Funk</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2015</span>)</span></span>. It consists of quasi-global rainfall estimates
+starting from 1981 to the near-present at a spatial resolution of 0.05° and a
+temporal resoulution of one month. The unit of measurement is <em>mm</em>, and the data is
+processed at its native resolution. The average rainfall estimate is extracted
+per district. Due to the data set’s statistical generation process, there are no
+missing values for areas on land. Some coastal districts do not align with the
+raster’s spatial extent, resulting in a few missing values. <em>adm</em> districts show
+higher average and maximum rainfall rates compared to <em>bas</em> districts
+(Table <a href="#tab:02-data-prec">1.12</a>). Maximum values above 1000 mm within a month are
+observed for both aggregation units.</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;PREC&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of precipitation amounts based on different spatial
+               aggregation units. (Unit of measurement: mm)&quot;, 
+               caption.short = &quot;Descriptive statistics of precipitation amounts.&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-prec">Table 1.12: </span>Descriptive statistics of precipitation amounts based on different spatial
+aggregation units. (Unit of measurement: mm)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:right;">
+Min.
+</th>
+<th style="text-align:right;">
+1st Qu.
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+3rd Qu.
+</th>
+<th style="text-align:right;">
+Max.
+</th>
+<th style="text-align:right;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5.951
+</td>
+<td style="text-align:right;">
+43.221
+</td>
+<td style="text-align:right;">
+82.598
+</td>
+<td style="text-align:right;">
+131.588
+</td>
+<td style="text-align:right;">
+1563.218
+</td>
+<td style="text-align:right;">
+720
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.250
+</td>
+<td style="text-align:right;">
+10.364
+</td>
+<td style="text-align:right;">
+53.394
+</td>
+<td style="text-align:right;">
+77.110
+</td>
+<td style="text-align:right;">
+1124.251
+</td>
+<td style="text-align:right;">
+720
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="precipitation-anomalies." class="section level4">
+<h4><span class="header-section-number">1.4.3.2</span> Precipitation Anomalies.</h4>
+<p>This variable describes the observed anomalies in precipitation in relation
+to a long-term observed monthly average precipitation at a specific location.
+It is calculated using the CHIRPS data set <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Funk</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2015</span>)</span></span>. Because rainfall estimates
+are available starting in 1981 (see above), the average rainfall can be calculated
+on a pixel basis for a 30-year period (1981 - 2010) for every month. This averaged
+value is then subtracted from each pixel for the period of interest (2001 - 2019).
+The unit of measurement is <em>mm</em>, and the data is processed at its native resolution.
+As a zonal statistic, the mean of all pixels within a district is extracted.
+Similar to the precipitation variable, for some coastal districts missing data
+is present. The average anomaly for <em>adm</em> districts is with 1.4 mm more than twice
+as high as for <em>bas</em> districts with 0.6 mm (Table <a href="#tab:02-data-anom">1.13</a>).</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;ANOM&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of precipitation anomalies based on different spatial
+               aggregation units. (Unit of measurement: mm)&quot;,
+               caption.short = &quot;Descriptive statistics of precipitation anomalies.&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-anom">Table 1.13: </span>Descriptive statistics of precipitation anomalies based on different spatial
+aggregation units. (Unit of measurement: mm)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:right;">
+Min.
+</th>
+<th style="text-align:right;">
+1st Qu.
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+3rd Qu.
+</th>
+<th style="text-align:right;">
+Max.
+</th>
+<th style="text-align:right;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+-363.784
+</td>
+<td style="text-align:right;">
+-9.176
+</td>
+<td style="text-align:right;">
+-0.062
+</td>
+<td style="text-align:right;">
+1.404
+</td>
+<td style="text-align:right;">
+8.01
+</td>
+<td style="text-align:right;">
+1214.561
+</td>
+<td style="text-align:right;">
+720
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+-274.300
+</td>
+<td style="text-align:right;">
+-3.447
+</td>
+<td style="text-align:right;">
+-0.021
+</td>
+<td style="text-align:right;">
+0.635
+</td>
+<td style="text-align:right;">
+1.34
+</td>
+<td style="text-align:right;">
+852.608
+</td>
+<td style="text-align:right;">
+720
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="standardized-precipitation-index-spi." class="section level4">
+<h4><span class="header-section-number">1.4.3.3</span> Standardized Precipitation Index (SPI).</h4>
+<p>This index was developed by <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">McKee</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">1993</span>)</span></span> and is widely used in research as an indicator
+for droughts. For its calculation solely data on precipitation is needed. That is why
+it is sometimes referred to as an indicator for meteorological drought <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Hayes</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2011</span>)</span></span>.
+For a time-series of a location, different sets of averaging periods of variable length
+are calculated. For each month in the desired output sequence, a Gamma function
+is fitted on the averaging period to capture the probability of precipitation <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">McKee</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">1993</span>)</span></span>.
+This probability is then used to calculate deviation of the observed precipitation
+from the normally distributed probability density. <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">McKee</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">1993</span>)</span></span> use arbitrary but
+regular reference periods of up to 48 months, which they interpret as representing
+short- to long-term precipitation deficits and surpluses. However, because
+increasing the length of the reference period means fewer data points at the
+beginning of the time series, here the SPI is calculated for 1, 3, 6, and 12
+month reference periods only using the R package SPEI <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Begueria</span> and <span class="smallcaps">Vicente-Serrano</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>. The
+calculation is based on the native resolution of the CHIRPS data set. Even though
+the value of measurement is dimensionless, because it is standardized comparisons
+across time and spatial districts are possible. The mean of all pixels within
+a district is extracted for each reference period as a zonal statistic.
+Missing values are increasing from the 1 month to 12 month reference
+period because of the cut-off behavior of the SPI calculation (Table <a href="#tab:02-data-spi">1.14</a>).
+The distribution behaves similar between <em>adm</em> and <em>bas</em> districts, with the
+lowest values present for SPI1 between -6 and -7. Maximum values are also quite
+similar reaching values between 6 and 8, while the average SPI values are only
+slightly above 0.</p>
+<div style="page-break-after: always;"></div>
+<pre class="r"><code>vars &lt;- c(&quot;SPI1&quot;, &quot;SPI3&quot;, &quot;SPI6&quot;, &quot;SPI12&quot;)
+predictors %&gt;% 
+  filter(var %in% vars) %&gt;%
+  as_tibble() %&gt;%
+  mutate(var = factor(var,
+                      labels = vars,
+                      levels = vars)) %&gt;%
+  dplyr::select(id, unit, var, value) %&gt;%
+  filter(!(unit == &quot;states&quot; &amp; id &gt; 847)) %&gt;%
+  group_by(unit, var) %&gt;%
+  summarise(&quot;Min.&quot; = round(min(value, na.rm = T),3),
+            &quot;1st Qu.&quot; = round(quantile(value, 0.25, na.rm = T),3),
+            &quot;Median&quot; = round(median(value, na.rm = T),3),
+            &quot;Mean&quot; = round(mean(value, na.rm = T),3),
+            &quot;3rd Qu.&quot; = round(quantile(value, 0.75, na.rm = T),3),
+            &quot;Max.&quot; = round(max(value, na.rm = T),3),
+            &quot;NA&#39;s&quot; = round(sum(is.na(value)),3)) %&gt;%
+  ungroup() %&gt;%
+  mutate(unit = if_else(unit == &quot;basins&quot;,&quot;*bas*&quot;, &quot;*adm*&quot;)) %&gt;%
+  mutate(unit = factor(unit, levels = c(&quot;*adm*&quot;, &quot;*bas*&quot;),
+                       labels = c(&quot;*adm*&quot;, &quot;*bas*&quot;))) %&gt;%
+  arrange(var, unit) %&gt;%
+  dplyr::select(-var) %&gt;%
+  rename(&quot;Spatial Unit&quot; = unit) %&gt;%
+  thesis_kable(escape = FALSE,
+        caption = &quot;Descriptive statistics of the Standardized Precipitation Index (SPI) based on different spatial
+               aggregation units. (Unit of measurement: dimensionless)&quot;, 
+        caption.short = &quot;Descriptive statistics of the Standardized Precipitation Index (SPI).&quot;,
+        linesep = c(&quot;&quot;, &quot;\\addlinespace&quot;),
+        longtable = T) %&gt;%
+  kable_styling(latex_options = c(&quot;HOLD_position&quot;, &quot;repeat_header&quot;)) %&gt;%
+  group_rows(&quot;SPI1&quot;, 1, 2) %&gt;%
+  group_rows(&quot;SPI3&quot;, 3, 4) %&gt;% 
+  group_rows(&quot;SPI6&quot;, 5, 6) %&gt;%
+  group_rows(&quot;SPI12&quot;, 7, 8)</code></pre>
+<table class="table table" style="margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-spi">Table 1.14: </span>Descriptive statistics of the Standardized Precipitation Index (SPI) based on different spatial
+aggregation units. (Unit of measurement: dimensionless)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial Unit
+</th>
+<th style="text-align:right;">
+Min.
+</th>
+<th style="text-align:right;">
+1st Qu.
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+3rd Qu.
+</th>
+<th style="text-align:right;">
+Max.
+</th>
+<th style="text-align:right;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>SPI1</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+-6.021
+</td>
+<td style="text-align:right;">
+-0.579
+</td>
+<td style="text-align:right;">
+-0.051
+</td>
+<td style="text-align:right;">
+0.040
+</td>
+<td style="text-align:right;">
+0.607
+</td>
+<td style="text-align:right;">
+8.045
+</td>
+<td style="text-align:right;">
+1100
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+-6.863
+</td>
+<td style="text-align:right;">
+-0.589
+</td>
+<td style="text-align:right;">
+-0.138
+</td>
+<td style="text-align:right;">
+0.031
+</td>
+<td style="text-align:right;">
+0.536
+</td>
+<td style="text-align:right;">
+8.067
+</td>
+<td style="text-align:right;">
+2571
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>SPI3</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+-5.241
+</td>
+<td style="text-align:right;">
+-0.580
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.640
+</td>
+<td style="text-align:right;">
+7.984
+</td>
+<td style="text-align:right;">
+2654
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+-4.987
+</td>
+<td style="text-align:right;">
+-0.592
+</td>
+<td style="text-align:right;">
+-0.073
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+0.586
+</td>
+<td style="text-align:right;">
+8.142
+</td>
+<td style="text-align:right;">
+3331
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>SPI6</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+-4.360
+</td>
+<td style="text-align:right;">
+-0.577
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:right;">
+0.040
+</td>
+<td style="text-align:right;">
+0.647
+</td>
+<td style="text-align:right;">
+6.977
+</td>
+<td style="text-align:right;">
+5180
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+-4.490
+</td>
+<td style="text-align:right;">
+-0.599
+</td>
+<td style="text-align:right;">
+-0.018
+</td>
+<td style="text-align:right;">
+0.037
+</td>
+<td style="text-align:right;">
+0.621
+</td>
+<td style="text-align:right;">
+8.210
+</td>
+<td style="text-align:right;">
+6005
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>SPI12</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+-5.726
+</td>
+<td style="text-align:right;">
+-0.570
+</td>
+<td style="text-align:right;">
+0.025
+</td>
+<td style="text-align:right;">
+0.044
+</td>
+<td style="text-align:right;">
+0.652
+</td>
+<td style="text-align:right;">
+5.829
+</td>
+<td style="text-align:right;">
+10233
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+-4.917
+</td>
+<td style="text-align:right;">
+-0.591
+</td>
+<td style="text-align:right;">
+0.003
+</td>
+<td style="text-align:right;">
+0.047
+</td>
+<td style="text-align:right;">
+0.644
+</td>
+<td style="text-align:right;">
+6.565
+</td>
+<td style="text-align:right;">
+12059
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="standardized-precipitation-evaporation-index-spei." class="section level4">
+<h4><span class="header-section-number">1.4.3.4</span> Standardized Precipitation Evaporation Index (SPEI).</h4>
+<p>The SPEI can be understood as an extension of the SPI in the sense that,
+in addition to precipitation, Potential Evaportranspiration (PET) is included in
+the calculation. Consequently, changes in the water balance due to varying
+temperatures, a major issue in the context of global warming, can be accounted for
+<span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Vicente-Serrano</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2010</span>)</span></span>. For the calculation, the PET is subtracted from the
+precipitation values. PET data are obtained using the MxD16A2 products,
+which provide 8-Day estimates of PET <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Steve Running</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017a</span>, 2017b)</span></span>. To
+construct a monthly data set, the 8-day composites are firstly divided by 8 to
+retrieve a specific value for each day of the year. Then, the daily data is
+aggregated to a monthly scale by taking
+the sum of daily values. Even though the data comes at a higher spatial resolution,
+it is processed on the resolution at which precipitation data from CHIRPS
+is available (i.e., 0.05°). After the subtraction of PET from precipitation,
+SPEI is calculated for 1, 3, 6, and 12 month reference periods as explained in
+the section above. PET is not available for large parts of the Sahara
+because the algorithm used to calculate it is not specified for desert areas.
+As a zonal statistic, the mean of all pixels within a district is extracted.
+The SPEI distribution between <em>adm</em> and <em>bas</em> districts is very similar, with
+value ranges between approximately -5 to 6 and mean values slightly above 0
+(Table <a href="#tab:02-data-spei">1.15</a>).</p>
+<pre class="r"><code>vars &lt;- c(&quot;SPEI1&quot;, &quot;SPEI3&quot;, &quot;SPEI6&quot;, &quot;SPEI12&quot;)
+predictors %&gt;% 
+  filter(var %in% vars) %&gt;%
+  as_tibble() %&gt;%
+  mutate(var = factor(var,
+                      labels = vars,
+                      levels = vars)) %&gt;%
+  dplyr::select(id, unit, var, value) %&gt;%
+  filter(!(unit == &quot;states&quot; &amp; id &gt; 847)) %&gt;%
+  group_by(unit, var) %&gt;%
+  summarise(&quot;Min.&quot; = round(min(value, na.rm = T),3),
+            &quot;1st Qu.&quot; = round(quantile(value, 0.25, na.rm = T),3),
+            &quot;Median&quot; = round(median(value, na.rm = T),3),
+            &quot;Mean&quot; = round(mean(value, na.rm = T),3),
+            &quot;3rd Qu.&quot; = round(quantile(value, 0.75, na.rm = T),3),
+            &quot;Max.&quot; = round(max(value, na.rm = T),3),
+            &quot;NA&#39;s&quot; = round(sum(is.na(value)),3)) %&gt;%
+  ungroup() %&gt;%
+  mutate(unit = if_else(unit == &quot;basins&quot;,&quot;*bas*&quot;, &quot;*adm*&quot;)) %&gt;%
+  mutate(unit = factor(unit, levels = c(&quot;*adm*&quot;, &quot;*bas*&quot;),
+                       labels = c(&quot;*adm*&quot;, &quot;*bas*&quot;))) %&gt;%
+  arrange(var, unit) %&gt;%
+  dplyr::select(-var) %&gt;%
+  rename(&quot;Spatial Unit&quot; = unit) %&gt;%
+  thesis_kable(escape = FALSE,
+        caption = &quot;Descriptive statistics of the Standardized Precipitation-Evapotranspiration Index (SPEI) based on different spatial
+               aggregation units. (Unit of measurement: dimensionless)&quot;, 
+        caption.short = &quot;Descriptive statistics of the Standardized Precipitation-Evapotranspiration Index (SPEI).&quot;,
+        linesep = c(&quot;&quot;, &quot;\\addlinespace&quot;),
+        longtable = T) %&gt;%
+  kable_styling(latex_options = c(&quot;HOLD_position&quot;, &quot;repeat_header&quot;)) %&gt;%
+  group_rows(&quot;SPEI1&quot;, 1, 2) %&gt;%
+  group_rows(&quot;SPEI3&quot;, 3, 4) %&gt;% 
+  group_rows(&quot;SPEI6&quot;, 5, 6) %&gt;%
+  group_rows(&quot;SPEI12&quot;, 7, 8)</code></pre>
+<table class="table table" style="margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-spei">Table 1.15: </span>Descriptive statistics of the Standardized Precipitation-Evapotranspiration Index (SPEI) based on different spatial
+aggregation units. (Unit of measurement: dimensionless)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial Unit
+</th>
+<th style="text-align:right;">
+Min.
+</th>
+<th style="text-align:right;">
+1st Qu.
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+3rd Qu.
+</th>
+<th style="text-align:right;">
+Max.
+</th>
+<th style="text-align:right;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>SPEI1</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+-4.850
+</td>
+<td style="text-align:right;">
+-0.601
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:right;">
+0.648
+</td>
+<td style="text-align:right;">
+5.938
+</td>
+<td style="text-align:right;">
+973
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+-4.566
+</td>
+<td style="text-align:right;">
+-0.594
+</td>
+<td style="text-align:right;">
+-0.012
+</td>
+<td style="text-align:right;">
+0.047
+</td>
+<td style="text-align:right;">
+0.652
+</td>
+<td style="text-align:right;">
+6.388
+</td>
+<td style="text-align:right;">
+2230
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>SPEI3</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+-4.218
+</td>
+<td style="text-align:right;">
+-0.614
+</td>
+<td style="text-align:right;">
+0.016
+</td>
+<td style="text-align:right;">
+0.036
+</td>
+<td style="text-align:right;">
+0.672
+</td>
+<td style="text-align:right;">
+5.006
+</td>
+<td style="text-align:right;">
+2651
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+-3.841
+</td>
+<td style="text-align:right;">
+-0.600
+</td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:right;">
+0.673
+</td>
+<td style="text-align:right;">
+5.133
+</td>
+<td style="text-align:right;">
+3310
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>SPEI6</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+-5.158
+</td>
+<td style="text-align:right;">
+-0.616
+</td>
+<td style="text-align:right;">
+0.020
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:right;">
+0.668
+</td>
+<td style="text-align:right;">
+4.426
+</td>
+<td style="text-align:right;">
+5183
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+-4.092
+</td>
+<td style="text-align:right;">
+-0.614
+</td>
+<td style="text-align:right;">
+0.016
+</td>
+<td style="text-align:right;">
+0.044
+</td>
+<td style="text-align:right;">
+0.684
+</td>
+<td style="text-align:right;">
+5.131
+</td>
+<td style="text-align:right;">
+6005
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>SPEI12</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+-3.607
+</td>
+<td style="text-align:right;">
+-0.616
+</td>
+<td style="text-align:right;">
+0.026
+</td>
+<td style="text-align:right;">
+0.034
+</td>
+<td style="text-align:right;">
+0.687
+</td>
+<td style="text-align:right;">
+3.815
+</td>
+<td style="text-align:right;">
+10246
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+-3.446
+</td>
+<td style="text-align:right;">
+-0.614
+</td>
+<td style="text-align:right;">
+0.026
+</td>
+<td style="text-align:right;">
+0.050
+</td>
+<td style="text-align:right;">
+0.705
+</td>
+<td style="text-align:right;">
+4.122
+</td>
+<td style="text-align:right;">
+12059
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="evapotranspiration-et." class="section level4">
+<h4><span class="header-section-number">1.4.3.5</span> Evapotranspiration (ET).</h4>
+<p>This variable is extracted from the MxD16A2 product, as explained in the section above.
+However, in contrast to PET, the data is processed at a resolution of 0.01°.
+Evapotranspiration measures the amount of water that evaporates
+from the soil and plants to the atmosphere and is an essential variable in analyzing
+plant productivity, water consumption, and drought conditions <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Senay</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>. ET is
+not available for large parts of the Sahara because the algorithm used to calculate
+ET is not specified for desert areas. For every pixel, the total sum of
+ET is calculated per month. The average ET is extracted per district.
+The unit of measurement is kg/m². <em>bas</em> districts show a lower average ET
+compared to <em>adm</em> districts resulting in a difference of about 100 mm (Table <a href="#tab:02-data-et">1.16</a>).</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;ET&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of evapotranspiration (ET) based on different spatial
+               aggregation units. (Unit of measurement: kg/m²)&quot;,
+               caption.short = &quot;Descriptive statistics of evapotranspiration (ET).&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-et">Table 1.16: </span>Descriptive statistics of evapotranspiration (ET) based on different spatial
+aggregation units. (Unit of measurement: kg/m²)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:right;">
+Min.
+</th>
+<th style="text-align:right;">
+1st Qu.
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+3rd Qu.
+</th>
+<th style="text-align:right;">
+Max.
+</th>
+<th style="text-align:right;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+151.834
+</td>
+<td style="text-align:right;">
+441.748
+</td>
+<td style="text-align:right;">
+504.116
+</td>
+<td style="text-align:right;">
+831.892
+</td>
+<td style="text-align:right;">
+1724.832
+</td>
+<td style="text-align:right;">
+644
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+63.408
+</td>
+<td style="text-align:right;">
+248.074
+</td>
+<td style="text-align:right;">
+396.118
+</td>
+<td style="text-align:right;">
+705.162
+</td>
+<td style="text-align:right;">
+1751.375
+</td>
+<td style="text-align:right;">
+39598
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="land-surface-temperature-lst." class="section level4">
+<h4><span class="header-section-number">1.4.3.6</span> Land Surface Temperature (LST).</h4>
+<p>Several studies have analyzed the effect of temperature on conflicts, e.g. for
+long-term projections <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Witmer</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>. Temperature is an essential climatic component
+that substantially influences the interaction between other measurable components
+such as ET and PET <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Vicente-Serrano</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2010</span>)</span></span>. LST is obtained by the MxD11CV
+monthly LST data sets, which provides temperature estimates for land areas
+during day and nighttime <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Wan</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2015a</span>, 2015b)</span></span>.
+Here, only daytime LST is used as a predictor. The data set is processed at
+a spatial resolution of 0.05°. It irregularly contains missing data
+concentrated at tropical locations due to persistent cloud coverage within an
+observation window. The unit of measurement is Kelvin.
+As a zonal statistic, the mean of all pixels within a district is extracted.
+The distribution between <em>bas</em> and <em>adm</em> districts is quite similar, with <em>bas</em>
+districts showing slightly higher daytime LST on average (Table <a href="#tab:02-data-lst">1.17</a>).</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;LST&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of land surface temperature (LST) based on different spatial
+               aggregation units. (Unit of measurement: Kelvin)&quot;, 
+               caption.short = &quot;Descriptive statistics of land surface temperature (LST).&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-lst">Table 1.17: </span>Descriptive statistics of land surface temperature (LST) based on different spatial
+aggregation units. (Unit of measurement: Kelvin)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:right;">
+Min.
+</th>
+<th style="text-align:right;">
+1st Qu.
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+3rd Qu.
+</th>
+<th style="text-align:right;">
+Max.
+</th>
+<th style="text-align:right;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+281.086
+</td>
+<td style="text-align:right;">
+299.803
+</td>
+<td style="text-align:right;">
+303.002
+</td>
+<td style="text-align:right;">
+304.329
+</td>
+<td style="text-align:right;">
+308.934
+</td>
+<td style="text-align:right;">
+327.465
+</td>
+<td style="text-align:right;">
+1597
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+269.420
+</td>
+<td style="text-align:right;">
+300.942
+</td>
+<td style="text-align:right;">
+306.416
+</td>
+<td style="text-align:right;">
+307.223
+</td>
+<td style="text-align:right;">
+312.981
+</td>
+<td style="text-align:right;">
+329.598
+</td>
+<td style="text-align:right;">
+1766
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="gross-primary-productivity-gpp." class="section level4">
+<h4><span class="header-section-number">1.4.3.7</span> Gross Primary Productivity (GPP).</h4>
+<p>As a proxy for biomass production, GPP is included in this study. It measures the amount
+of carbon produced within in a grid cell. It is extracted using the MxD17A2H
+Gross Primary Productivity 8-Day data sets <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Steve Running</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2015a</span>, 2015b)</span></span>.
+The same procedure to obtain a monthly set as with the ET variable explained
+above is conducted. For GPP, the monthly sum is calculated. Similar
+to PET and ET, there are missing data in the Sahara region because the production
+algorithm is not specified to calculate GPP over desert areas. The data is
+processed at a spatial resolution of 0.01° and is available at a monthly time-scale.
+The unit of measurement is kg C/m². On average, <em>adm</em> districts are characterized
+with higher GPP compared to <em>bas</em> districts (Table <a href="#tab:02-data-gpp">1.18</a>).</p>
+<pre class="r"><code>predictors %&gt;%
+  filter(var == &quot;GPP&quot;) %&gt;%
+  as_tibble() %&gt;%
+  dplyr::select(id, unit, value) %&gt;%
+  group_split(unit) -&gt; dfs
+
+dfs[[1]] %&gt;%
+  pull(value) %&gt;%
+  summary() -&gt; bas_sum
+
+dfs[[2]] %&gt;%
+  filter(id &lt;= 847) %&gt;% # filter ids because we got max 847 features in adm
+  pull(value) %&gt;%
+  summary() -&gt; adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum[&quot;Spatial unit&quot;] &lt;- &quot;*adm*&quot;
+bas_sum[&quot;Spatial unit&quot;] &lt;- &quot;*bas*&quot;
+
+descr &lt;- rbind(adm_sum, bas_sum)
+
+descr %&lt;&gt;%
+  pivot_wider(id_cols = &quot;Spatial unit&quot;, 
+              values_from = values, names_from = col_names) %&gt;%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %&gt;%  
+  thesis_kable(escape = FALSE,
+               caption = &quot;Descriptive statistics of gross primary productivity (GPP) based on different spatial
+               aggregation units. (Unit of measurement: kg C/m²)&quot;,
+               caption.short = &quot;Descriptive statistics of gross primary productivity (GPP).&quot;,
+               style = list(latex_options = c(&quot;HOLD_position&quot;)))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:02-data-gpp">Table 1.18: </span>Descriptive statistics of gross primary productivity (GPP) based on different spatial
+aggregation units. (Unit of measurement: kg C/m²)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Spatial unit
+</th>
+<th style="text-align:right;">
+Min.
+</th>
+<th style="text-align:right;">
+1st Qu.
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+3rd Qu.
+</th>
+<th style="text-align:right;">
+Max.
+</th>
+<th style="text-align:right;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<em>adm</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+287.909
+</td>
+<td style="text-align:right;">
+906.974
+</td>
+<td style="text-align:right;">
+971.592
+</td>
+<td style="text-align:right;">
+1573.883
+</td>
+<td style="text-align:right;">
+3628.234
+</td>
+<td style="text-align:right;">
+480
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>bas</em>
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+166.240
+</td>
+<td style="text-align:right;">
+543.187
+</td>
+<td style="text-align:right;">
+777.121
+</td>
+<td style="text-align:right;">
+1334.267
+</td>
+<td style="text-align:right;">
+3474.603
+</td>
+<td style="text-align:right;">
+39360
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="interaction-variables." class="section level4">
+<h4><span class="header-section-number">1.4.3.8</span> Interaction Variables.</h4>
+<p>For environmental variables available at a monthly time scale, interaction
+variables with a binary mask for cropland are created. This interaction is
+expected to represent better productivity changes in the agricultural sector
+than the averaged variables for the entire district. Capturing these variables
+over time might translate into an accurate description of the agricultural sector’s
+development in terms of productivity in- or decreases, crop failure, and
+drought stress. It should be noted that the cropland mask is relatively coarse in
+resolution. Small-scale agriculture or agroforestry systems are not likely
+to be captured due to spectral mixture with other land cover classes at these
+locations. For reasons of brevity, the descriptive statistics of these interaction
+variables are reported in the Appendix (Table <a href="#tab:appendix-agr-table"><strong>??</strong></a>).</p>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div id="references" class="section level2">
+<h2><span class="header-section-number">1.5</span> References</h2>
+<div id="refs">
+<div id="ref-allansson">
+<p><span class="smallcaps">Allansson, M.</span>, 2021. Methodology - Department of Peace and Conflict Research [WWW Document]. URL <a href="https://www.pcr.uu.se/research/ucdp/methodology/">https://www.pcr.uu.se/research/ucdp/methodology/</a></p>
+</div>
+<div id="ref-appel2019">
+<p><span class="smallcaps">Appel, M., Pebesma, E.</span>, 2019. On-Demand Processing of Data Cubes from Satellite Image Collections with the gdalcubes Library. Data 4, 92. <a href="https://doi.org/10.3390/data4030092">https://doi.org/10.3390/data4030092</a></p>
+</div>
+<div id="ref-begueria2017">
+<p><span class="smallcaps">Begueria, S., Vicente-Serrano, S.M.</span>, 2017. SPEI: Calculation of the Standardised Precipitation-Evapotranspiration Index [WWW Document]. URL <a href="https://sac.csic.es/spei">https://sac.csic.es/spei</a></p>
+</div>
+<div id="ref-carmignani2016">
+<p><span class="smallcaps">Carmignani, F., Kler, P.</span>, 2016. The geographical spillover of armed conflict in Sub-Saharan Africa. Economic Systems 40, 109–119. <a href="https://doi.org/10.1016/j.ecosys.2015.08.002">https://doi.org/10.1016/j.ecosys.2015.08.002</a></p>
+</div>
+<div id="ref-collier2004">
+<p><span class="smallcaps">Collier, P., Hoeffler, A.</span>, 2004. Greed and grievance in civil war 56, 563–595. <a href="https://doi.org/10.1093/oep/gpf064">https://doi.org/10.1093/oep/gpf064</a></p>
+</div>
+<div id="ref-eck2007">
+<p><span class="smallcaps">Eck, K., Hultman, L.</span>, 2007. One-Sided Violence Against Civilians in War: Insights from New Fatality Data. Journal of Peace Research 44, 233–246. <a href="https://doi.org/10.1177/0022343307075124">https://doi.org/10.1177/0022343307075124</a></p>
+</div>
+<div id="ref-eklund2017">
+<p><span class="smallcaps">Eklund, L., Degerald, M., Brandt, M., Prishchepov, A.V., ö, P.P.</span>, 2017. How conflict affects land use: Agricultural activity in areas seized by the Islamic State. Environmental Research Letters 12, 054004. <a href="https://doi.org/10.1088/1748-9326/aa673a">https://doi.org/10.1088/1748-9326/aa673a</a></p>
+</div>
+<div id="ref-fearon2003">
+<p><span class="smallcaps">Fearon, J.D., Laitin, D.D.</span>, 2003. Ethnicity, Insurgency, and Civil War. American Political Science Review 97, 75–90. <a href="https://doi.org/10.1017/S0003055403000534">https://doi.org/10.1017/S0003055403000534</a></p>
+</div>
+<div id="ref-friedlmark2019">
+<p><span class="smallcaps">Friedl, M., Sulla-Menashe, Damien</span>, 2019. MCD12Q1 MODIS/Terra+Aqua Land Cover Type Yearly L3 Global 500m SIN Grid V006. <a href="https://doi.org/10.5067/MODIS/MCD12Q1.006">https://doi.org/10.5067/MODIS/MCD12Q1.006</a></p>
+</div>
+<div id="ref-funk2015">
+<p><span class="smallcaps">Funk, C., Peterson, P., Landsfeld, M., Pedreros, D., Verdin, J., Shukla, S., Husak, G., Rowland, J., Harrison, L., Hoell, A., Michaelsen, J.</span>, 2015. The climate hazards infrared precipitation with stations—a new environmental record for monitoring extremes 2, 150066. <a href="https://doi.org/10.1038/sdata.2015.66">https://doi.org/10.1038/sdata.2015.66</a></p>
+</div>
+<div id="ref-gilbert2018">
+<p><span class="smallcaps">Gilbert, M., Nicolas, G., Cinardi, G., Van Boeckel, T.P., Vanwambeke, S.O., Wint, G.R.W., Robinson, T.P.</span>, 2018. Global distribution data for cattle, buffaloes, horses, sheep, goats, pigs, chickens and ducks in 2010. Scientific Data 5, 180227. <a href="https://doi.org/10.1038/sdata.2018.227">https://doi.org/10.1038/sdata.2018.227</a></p>
+</div>
+<div id="ref-gleditsch2002a">
+<p><span class="smallcaps">Gleditsch, N.P., Wallensteen, P., Eriksson, M., Sollenberg, M., Strand, H.</span>, 2002. Armed Conflict 1946-2001: A New Dataset. Journal of Peace Research 39, 615–637. <a href="https://doi.org/10.1177/0022343302039005007">https://doi.org/10.1177/0022343302039005007</a></p>
+</div>
+<div id="ref-halkia2020a">
+<p><span class="smallcaps">Halkia, M., Ferri, S., Schellens, M.K., Papazoglou, M., Thomakos, D.</span>, 2020. The Global Conflict Risk Index: A quantitative tool for policy support on conflict prevention. Progress in Disaster Science 6, 100069. <a href="https://doi.org/10.1016/j.pdisas.2020.100069">https://doi.org/10.1016/j.pdisas.2020.100069</a></p>
+</div>
+<div id="ref-hayes2011">
+<p><span class="smallcaps">Hayes, M., Svoboda, M., Wall, N., Widhalm, M.</span>, 2011. The Lincoln Declaration on Drought Indices: Universal Meteorological Drought Index Recommended. Bulletin of the American Meteorological Society 92, 485–488. <a href="https://doi.org/10.1175/2010BAMS3103.1">https://doi.org/10.1175/2010BAMS3103.1</a></p>
+</div>
+<div id="ref-hegre2019">
+<p><span class="smallcaps">Hegre, H., Allansson, M., Basedau, M., Colaresi, M., Croicu, M., Fjelde, H., Hoyles, F., Hultman, L., Högbladh, S., Jansen, R., Mouhleb, N., Muhammad, S.A., Nilsson, D., Nygård, H.M., Olafsdottir, G., Petrova, K., Randahl, D., Rød, E.G., Schneider, G., von Uexkull, N., Vestby, J.</span>, 2019. ViEWS: A political violence early-warning system. Journal of Peace Research 56, 155–174. <a href="https://doi.org/10.1177/0022343319823860">https://doi.org/10.1177/0022343319823860</a></p>
+</div>
+<div id="ref-jarvis2008">
+<p><span class="smallcaps">Jarvis, A., Reuter, H., Nelson, A., Guevara, E.</span>, 2008. Hole-filled seamless SRTM data V4. Tech. Rep. International Centre for Tropical Agriculture (CIAT).</p>
+</div>
+<div id="ref-kummu2018">
+<p><span class="smallcaps">Kummu, M., Taka, M., Guillaume, J.H.A.</span>, 2018. Gridded global datasets for Gross Domestic Product and Human Development Index over 19902015. Scientific Data 5, 180004. <a href="https://doi.org/10.1038/sdata.2018.4">https://doi.org/10.1038/sdata.2018.4</a></p>
+</div>
+<div id="ref-kuzma2020">
+<p><span class="smallcaps">Kuzma, S., Kerins, P., Saccoccia, E., Whiteside, C., Roos, H., Iceland, C.</span>, 2020. Leveraging Water Data in a Machine Learning-Based Model for Forecasting Violent Conflict. Technical note. [WWW Document]. URL <a href="https://www.wri.org/publication/leveraging-water-data">https://www.wri.org/publication/leveraging-water-data</a></p>
+</div>
+<div id="ref-lehner2008">
+<p><span class="smallcaps">Lehner, B., Verdin, K., Jarvis, A.</span>, 2008. New global hydrography derived from spaceborne elevation data 89, 2. <a href="https://doi.org/10.1029/2008EO100001">https://doi.org/10.1029/2008EO100001</a></p>
+</div>
+<div id="ref-mckee1993">
+<p><span class="smallcaps">McKee, T.B., Doesken, N.J., Kleist, J.</span>, 1993. The Relationship of Drought Frequency and Duration to Time Scales, in: Proceedings of the 8th Conference on Applied Climatology. Anaheim, California.</p>
+</div>
+<div id="ref-muchlinski2016">
+<p><span class="smallcaps">Muchlinski, D., Siroky, D., He, J., Kocher, M.</span>, 2016. Comparing Random Forest with Logistic Regression for Predicting Class-Imbalanced Civil War Onset Data. Political Analysis 24, 87–103. <a href="https://doi.org/10.1093/pan/mpv024">https://doi.org/10.1093/pan/mpv024</a></p>
+</div>
+<div id="ref-murdoch2004">
+<p><span class="smallcaps">Murdoch, J.C., Sandler, T.</span>, 2004. Civil Wars and Economic Growth: Spatial Dispersion. American Journal of Political Science 48, 138–151. <a href="https://doi.org/10.1111/j.0092-5853.2004.00061.x">https://doi.org/10.1111/j.0092-5853.2004.00061.x</a></p>
+</div>
+<div id="ref-murdoch2002">
+<p><span class="smallcaps">Murdoch, J.C., Sandler, T.</span>, 2002. Economic Growth, Civil Wars, and Spatial Spillovers. Journal of Conflict Resolution 46, 91–110. <a href="https://doi.org/10.1177/0022002702046001006">https://doi.org/10.1177/0022002702046001006</a></p>
+</div>
+<div id="ref-nelson2008">
+<p><span class="smallcaps">Nelson, A.</span>, 2008. Estimated Travel Time to the Nearest City of 50000 or More People in Year 2000 [WWW Document]. URL <a href="https://forobs.jrc.ec.europa.eu/products/gam/index.php">https://forobs.jrc.ec.europa.eu/products/gam/index.php</a></p>
+</div>
+<div id="ref-pettersson2020">
+<p><span class="smallcaps">Pettersson, T., Öberg, M.</span>, 2020. Organized violence, 1989–2019. Journal of Peace Research 57, 597–613. <a href="https://doi.org/10.1177/0022343320934986">https://doi.org/10.1177/0022343320934986</a></p>
+</div>
+<div id="ref-pezzulo2017">
+<p><span class="smallcaps">Pezzulo, C., Hornby, G.M., Sorichetta, A., Gaughan, A.E., Linard, C., Bird, T.J., Kerr, D., Lloyd, C.T., Tatem, A.J.</span>, 2017. Sub-national mapping of population pyramids and dependency ratios in Africa and Asia. Scientific Data 4, 170089. <a href="https://doi.org/10.1038/sdata.2017.89">https://doi.org/10.1038/sdata.2017.89</a></p>
+</div>
+<div id="ref-phillips2015">
+<p><span class="smallcaps">Phillips, B.J.</span>, 2015. Civil war, spillover and neighbors’ military spending. Conflict Management and Peace Science 32, 425–442. <a href="https://doi.org/10.1177/0738894214530853">https://doi.org/10.1177/0738894214530853</a></p>
+</div>
+<div id="ref-riley1999">
+<p><span class="smallcaps">Riley, S., Degloria, S., Elliot, S.</span>, 1999. A Terrain Ruggedness Index that Quantifies Topographic Heterogeneity. Intermountain Journal of Sciences 5, 23–27.</p>
+</div>
+<div id="ref-rost2009">
+<p><span class="smallcaps">Rost, N., Schneider, G., Kleibl, J.</span>, 2009. A global risk assessment model for civil wars. Konstanzer Online-Publikations-System (KOPS). University of Konstanz, Germany. 13.</p>
+</div>
+<div id="ref-runningsteve2017">
+<p><span class="smallcaps">Running, S., Mu, Q., Zhao, M.</span>, 2017a. MOD16A2 MODIS/Terra Net Evapotranspiration 8-Day L4 Global 500m SIN Grid V006. <a href="https://doi.org/10.5067/MODIS/MOD16A2.006">https://doi.org/10.5067/MODIS/MOD16A2.006</a></p>
+</div>
+<div id="ref-runningsteve2017a">
+<p><span class="smallcaps">Running, S., Mu, Q., Zhao, M.</span>, 2017b. MYD16A2 MODIS/Aqua Net Evapotranspiration 8-Day L4 Global 500m SIN Grid V006. <a href="https://doi.org/10.5067/MODIS/MYD16A2.006">https://doi.org/10.5067/MODIS/MYD16A2.006</a></p>
+</div>
+<div id="ref-runningsteve2015">
+<p><span class="smallcaps">Running, S., Mu, Q., Zhao, M.</span>, 2015a. MOD17A2H MODIS/Terra Gross Primary Productivity 8-Day L4 Global 500m SIN Grid V006. <a href="https://doi.org/10.5067/MODIS/MOD17A2H.006">https://doi.org/10.5067/MODIS/MOD17A2H.006</a></p>
+</div>
+<div id="ref-runningsteve2015a">
+<p><span class="smallcaps">Running, S., Mu, Q., Zhao, M.</span>, 2015b. MYD17A2H MODIS/Aqua Gross Primary Productivity 8-Day L4 Global 500m SIN Grid V006. <a href="https://doi.org/10.5067/MODIS/MYD17A2H.006">https://doi.org/10.5067/MODIS/MYD17A2H.006</a></p>
+</div>
+<div id="ref-running2017">
+<p><span class="smallcaps">Running, S., Mu, Q., Zhao, M., Moreno, A.</span>, 2017. MODIS Global Terrestrial Evapotranspiration (ET) Product (NASA MOD16A2/A3) NASA Earth Observing System MODIS Land Algorithm 34.</p>
+</div>
+<div id="ref-schellens2020">
+<p><span class="smallcaps">Schellens, M.K., Belyazid, S.</span>, 2020. Revisiting the Contested Role of Natural Resources in Violent Conflict Risk through Machine Learning. Sustainability 12, 6574. <a href="https://doi.org/10.3390/su12166574">https://doi.org/10.3390/su12166574</a></p>
+</div>
+<div id="ref-schutte2017">
+<p><span class="smallcaps">Schutte, S.</span>, 2017. Regions at Risk: Predicting Conflict Zones in African Insurgencies. Political Science Research and Methods 5, 447–465. <a href="https://doi.org/10.1017/psrm.2015.84">https://doi.org/10.1017/psrm.2015.84</a></p>
+</div>
+<div id="ref-senay2020">
+<p><span class="smallcaps">Senay, G.B., Kagone, S., Velpuri, N.M.</span>, 2020. Operational Global Actual Evapotranspiration: Development, Evaluation, and Dissemination. Sensors 20, 1915. <a href="https://doi.org/10.3390/s20071915">https://doi.org/10.3390/s20071915</a></p>
+</div>
+<div id="ref-south2017">
+<p><span class="smallcaps">South, A.</span>, 2017. Rnaturalearth: World Map Data from Natural Earth [WWW Document]. URL <a href="https://CRAN.R-project.org/package=rnaturalearth">https://CRAN.R-project.org/package=rnaturalearth</a></p>
+</div>
+<div id="ref-sulla2018">
+<p><span class="smallcaps">Sulla-Menashe, D., Friedl, M.A.</span>, 2018. User Guide to Collection 6 MODIS Land Cover (MCD12Q1 and MCD12C1) Product [WWW Document]. URL <a href="https://lpdaac.usgs.gov/documents/101/MCD12_User_Guide_V6.pdf">https://lpdaac.usgs.gov/documents/101/MCD12_User_Guide_V6.pdf</a></p>
+</div>
+<div id="ref-sundberg2012">
+<p><span class="smallcaps">Sundberg, R., Eck, K., Kreutz, J.</span>, 2012. Introducing the UCDP Non-State Conflict Dataset. Journal of Peace Research 49, 351–362. <a href="https://doi.org/10.1177/0022343311431598">https://doi.org/10.1177/0022343311431598</a></p>
+</div>
+<div id="ref-vicente2010">
+<p><span class="smallcaps">Vicente-Serrano, S.M., Beguer’ıa, S., L’opez-Moreno, J.I.</span>, 2010. A Multiscalar Drought Index Sensitive to Global Warming: The Standardized Precipitation Evapotranspiration Index. Journal of Climate 23, 1696–1718. <a href="https://doi.org/10.1175/2009JCLI2909.1">https://doi.org/10.1175/2009JCLI2909.1</a></p>
+</div>
+<div id="ref-wanzhengming2015">
+<p><span class="smallcaps">Wan, Z., Hook, S., Hulley, G.</span>, 2015a. MOD11C3 MODIS/Terra Land Surface Temperature/Emissivity Monthly L3 Global 0.05Deg CMG V006. <a href="https://doi.org/10.5067/MODIS/MOD11C3.006">https://doi.org/10.5067/MODIS/MOD11C3.006</a></p>
+</div>
+<div id="ref-wanzhengming2015a">
+<p><span class="smallcaps">Wan, Z., Hook, S., Hulley, G.</span>, 2015b. MYD11C3 MODIS/Aqua Land Surface Temperature/Emissivity Monthly L3 Global 0.05Deg CMG V006. <a href="https://doi.org/10.5067/MODIS/MYD11C3.006">https://doi.org/10.5067/MODIS/MYD11C3.006</a></p>
+</div>
+<div id="ref-ward2005a">
+<p><span class="smallcaps">Ward, M.D., Bakke, K.</span>, 2005. Predicting Civil Conflicts: On the Utility of Empirical Research, in: Proccedings of the Conference on Disaggregating the Study of Civil War and Transnational Violence. University of California. San Diego, Usa. p. 22.</p>
+</div>
+<div id="ref-witmer2017">
+<p><span class="smallcaps">Witmer, F.D., Linke, A.M., O’Loughlin, J., Gettelman, A., Laing, A.</span>, 2017. Subnational violent conflict forecasts for sub-Saharan Africa, 201565, using climate-sensitive models. Journal of Peace Research 54, 175–192. <a href="https://doi.org/10.1177/0022343316682064">https://doi.org/10.1177/0022343316682064</a></p>
+</div>
+<div id="ref-worldpop2018">
+<p><span class="smallcaps">WorldPop</span>, 2018. Global High Resolution Population Denominators Project [WWW Document]. URL <a href="https://doi.org/10.5258/SOTON/WP00654">https://doi.org/10.5258/SOTON/WP00654</a></p>
+</div>
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.3 (2020-02-29)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Debian GNU/Linux 10 (buster)
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.3.5.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] lubridate_1.7.9.2  rgdal_1.5-18       countrycode_1.2.0  welchADF_0.3.2    
+ [5] rstatix_0.6.0      ggpubr_0.4.0       scales_1.1.1       RColorBrewer_1.1-2
+ [9] latex2exp_0.4.0    cubelyr_1.0.0      gridExtra_2.3      ggtext_0.1.1      
+[13] magrittr_2.0.1     tmap_3.2           sf_0.9-7           raster_3.4-5      
+[17] sp_1.4-4           forcats_0.5.0      stringr_1.4.0      purrr_0.3.4       
+[21] readr_1.4.0        tidyr_1.1.2        tibble_3.0.6       tidyverse_1.3.0   
+[25] huwiwidown_0.0.1   kableExtra_1.3.1   knitr_1.31         rmarkdown_2.7.3   
+[29] bookdown_0.21      ggplot2_3.3.3      dplyr_1.0.2        devtools_2.3.2    
+[33] usethis_2.0.0     
+
+loaded via a namespace (and not attached):
+  [1] readxl_1.3.1       backports_1.2.0    workflowr_1.6.2   
+  [4] lwgeom_0.2-5       splines_3.6.3      crosstalk_1.1.0.1 
+  [7] leaflet_2.0.3      digest_0.6.27      htmltools_0.5.1.1 
+ [10] memoise_1.1.0      openxlsx_4.2.3     remotes_2.2.0     
+ [13] modelr_0.1.8       prettyunits_1.1.1  colorspace_2.0-0  
+ [16] rvest_0.3.6        haven_2.3.1        xfun_0.21         
+ [19] leafem_0.1.3       callr_3.5.1        crayon_1.4.0      
+ [22] jsonlite_1.7.2     lme4_1.1-26        glue_1.4.2        
+ [25] stars_0.4-3        gtable_0.3.0       webshot_0.5.2     
+ [28] car_3.0-10         pkgbuild_1.2.0     abind_1.4-5       
+ [31] DBI_1.1.0          Rcpp_1.0.5         viridisLite_0.3.0 
+ [34] gridtext_0.1.4     units_0.6-7        foreign_0.8-71    
+ [37] htmlwidgets_1.5.3  httr_1.4.2         ellipsis_0.3.1    
+ [40] pkgconfig_2.0.3    XML_3.99-0.3       dbplyr_2.0.0      
+ [43] tidyselect_1.1.0   rlang_0.4.10       later_1.1.0.1     
+ [46] tmaptools_3.1      munsell_0.5.0      cellranger_1.1.0  
+ [49] tools_3.6.3        cli_2.3.0          generics_0.1.0    
+ [52] broom_0.7.2        evaluate_0.14      yaml_2.2.1        
+ [55] processx_3.4.5     leafsync_0.1.0     fs_1.5.0          
+ [58] zip_2.1.1          nlme_3.1-150       xml2_1.3.2        
+ [61] compiler_3.6.3     rstudioapi_0.13    curl_4.3          
+ [64] png_0.1-7          e1071_1.7-4        testthat_3.0.1    
+ [67] ggsignif_0.6.0     reprex_0.3.0       statmod_1.4.35    
+ [70] stringi_1.5.3      highr_0.8          ps_1.5.0          
+ [73] desc_1.2.0         lattice_0.20-41    Matrix_1.2-18     
+ [76] nloptr_1.2.2.2     classInt_0.4-3     vctrs_0.3.6       
+ [79] pillar_1.4.7       lifecycle_0.2.0    data.table_1.13.2 
+ [82] httpuv_1.5.5       R6_2.5.0           promises_1.1.1    
+ [85] KernSmooth_2.23-18 rio_0.5.16         sessioninfo_1.1.1 
+ [88] codetools_0.2-16   dichromat_2.0-0    boot_1.3-25       
+ [91] MASS_7.3-53        assertthat_0.2.1   pkgload_1.1.0     
+ [94] rprojroot_2.0.2    withr_2.4.1        parallel_3.6.3    
+ [97] hms_1.0.0          grid_3.6.3         minqa_1.2.4       
+[100] class_7.3-17       carData_3.0-4      git2r_0.27.1      
+[103] base64enc_0.1-3   </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

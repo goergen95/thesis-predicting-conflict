@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>thesis-discussion.utf8</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">masterthesis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    EDA
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="eda-response.html">Response Variable</a>
+    </li>
+    <li>
+      <a href="eda-anom.html">Precipitation Anomalies</a>
+    </li>
+    <li>
+      <a href="eda-dep.html">Dependency Ratio</a>
+    </li>
+    <li>
+      <a href="eda-et.html">Evapotranspiration</a>
+    </li>
+    <li>
+      <a href="eda-gdp.html">Gross Domestic Product</a>
+    </li>
+    <li>
+      <a href="eda-gpp.html">Gross Primary Productivity</a>
+    </li>
+    <li>
+      <a href="eda-lst.html">Land Surface Temperature</a>
+    </li>
+    <li>
+      <a href="eda-lvstk.html">Livestock</a>
+    </li>
+    <li>
+      <a href="eda-pop.html">Population</a>
+    </li>
+    <li>
+      <a href="eda-prec.html">Precipitation</a>
+    </li>
+    <li>
+      <a href="eda-spi.html">Standardized Precipitation Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-spei.html">Standardized Precipitation-Evapotranspiration Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-tri.html">Terrain Roudgeddness Index (TRI)</a>
+    </li>
+    <li>
+      <a href="eda-trt.html">Travel Time</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Thesis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="thesis-intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="thesis-data.html">Data</a>
+    </li>
+    <li>
+      <a href="thesis-methods.html">Methods</a>
+    </li>
+    <li>
+      <a href="thesis-results.html">Results</a>
+    </li>
+    <li>
+      <a href="thesis-discussion.html">Discussion</a>
+    </li>
+    <li>
+      <a href="thesis-conclusion.html">Conclusion</a>
+    </li>
+    <li>
+      <a href="thesis-appendix.html">Appendix</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks">
+Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-03-24
+</p>
+<p>
+<strong>Checks:</strong>
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+5
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>thesis/analysis/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version
+1.6.2). The <em>Checks</em> tab describes the
+reproducibility checks that were applied when the results were created.
+The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Environment:</strong> empty
+</a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global
+environment can affect the analysis in your R Markdown file in unknown ways.
+For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210321code">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Seed:</strong> <code>set.seed(20210321)</code>
+</a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210321code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210321)</code> was run prior to running the code in the R Markdown file.
+Setting a seed ensures that any results that rely on randomness,
+e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Session information:</strong> recorded
+</a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is
+critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Cache:</strong> none
+</a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident
+that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>File paths:</strong> relative
+</a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project
+makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongnoversioncontrol">
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<strong>Repository version:</strong> no version control
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongnoversioncontrol" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Tracking code development and connecting the code version to the results is
+critical for reproducibility. To start using Git, open the Terminal and type
+<code>git init</code> in your project directory.</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+This project is not being versioned with Git. To obtain the full
+reproducibility benefits of using workflowr, please see
+<code>?wflow_start</code>.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="limitations-and-recommendations" class="section level1">
+<h1><span class="header-section-number">1</span> Limitations and Recommendations</h1>
+
+<div id="trade-off-decisions." class="section level2">
+<h2><span class="header-section-number">1.1</span> Trade-off Decisions.</h2>
+<p>This thesis’s results reveal that there are several trade-offs to consider in
+predicting violent conflict. The most obvious trade-off is balancing a model’s
+precision with its sensitivity. For a given model, an increase in one metric will
+lead to a decrease in the other. Thus, it is the context the model is to be
+applied in governing the decision for either one of these metrics. In the present
+thesis, the decision has been made to give more weight to sensitivity than to
+precision, realized by optimizing towards the <span class="math inline">\(F_2\)</span>-score. The argument for this
+decision is that not to miss actual occurrences of conflict is more critical than
+falsely flagging peaceful district-months as conflict. This comes at the cost that
+the models tend to predict the occurrence of conflict more frequently. Once a
+district has crossed a certain threshold, the models predict conflict for almost
+the entire prediction horizon, resulting in a very low precision in the temporal
+distribution of conflicts. However, based on the performances of existing
+early-warning tools, it is evident that quantitative models should not be relied
+on as the sole instrument in practical conflict prevention efforts <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Cederman</span> and <span class="smallcaps">Weidmann</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>.
+Instead, predicting the risk of conflict occurrence should be considered as one
+link in a chain of tools for conflict prevention. Predictive models can serve the
+purpose of delivering information on focus areas where additional quantitative
+and qualitative analysis would prove as most valuable and this way helps to use
+limited resources more efficiently.</p>
+<p>In this context, another trade-off becomes evident by comparing the DL models’
+performance with related studies. Compared to studies focusing on country-month
+data sets, the performance of the proposed method is substantially reduced. In
+relation to <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Kuzma</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2020</span>)</span></span>, who used similar aggregation units on the sub-national
+scale, the performance is comparable. For a confirmation of this finding beyond
+doubt, a thorough investigation on the effect of scale is needed. However, there
+is some indication that a model’s performance will decrease for increasing the spatial
+detail. Scientists, as well as policymakers, require highly detailed information
+on future conflicts in the spatial and temporal domain <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Chadefaux</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>. The
+proposed method of only using data sets that are available in a gridded format
+allows for almost arbitrary spatial aggregation. It also reduces the complexity
+of data preparation because data sets with differing spatiotemporal dimensions
+can easily be harmonized by free and open source tools provided by the spatial
+research community <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Brovelli</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>. Additionally, for research focusing on the
+interaction between environmental change and human societies, remote sensing
+provides spatial and temporal comprehensive data sets that are currently used to
+derive a sheer magnitude of different environmental variables <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Kwok</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>. The
+proposed method thus seems beneficial to tailor prediction models to the specific
+spatiotemporal demands of real-world applications.</p>
+<p>However, implementing DL models leads to reduced interpretability of a model’s
+prediction. While it is relatively easy to demonstrate why and how a linear model
+predicts a particular outcome, DL models are sometimes referred to as black-box models <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Gilpin</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>)</span></span>.
+This metaphor indicates that due to the complex internal structure of DL networks,
+it is not always explicable how a network predicts a specific outcome. This seriously
+limits the effective use of DL in conflict prevention efforts because political
+decision-makers require recommendations on how to lower the conflict risk
+at a particular location. The research community has not yet fully agreed on a
+concise definition of interpretability. It often depends strongly on the
+research domain <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Molnar</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>. In conflict research, relatively few studies apply
+machine learning techniques, so robust standards of interpretability
+have yet to be defined.</p>
+<p>Another trade-off is found in the comparison between <em>adm</em> and <em>bas</em> districts.
+Given the presented problem formulation and predictor variables, evidence has been
+presented that <em>bas</em> districts perform better on the conflict prediction task.
+However, most humans are more familiar with administrative boundaries. Familiarity
+is an essential factor that helps people to more quickly process visual information
+<span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Manahova</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>)</span></span>. Changing the representation of data to something people do not
+expect or are less familiar with makes it harder to interpret the data. In this
+sense, the trade-off consists of achieving higher performances versus making data
+interpretation more challenging for the audience. Again, this trade-off decision
+needs to be based on the application context of a model. The presented results
+show that the difference in performance between <em>adm</em> and <em>bas</em> districts can be
+quite substantial, indicating that changing to a less familiar representation of
+the Earth’s surface could prove beneficial for the conflict prediction task.</p>
+</div>
+<div id="framing-the-response-variable." class="section level2">
+<h2><span class="header-section-number">1.2</span> Framing the Response Variable.</h2>
+<p>Within the literature of conflict prediction, various definitions of events of
+interest exist. Some have been focused on violent conflict <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Rost</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2009</span>)</span></span>, terrorism
+<span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Uddin</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>, rebellions and insurgencies <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Collier</span> and <span class="smallcaps">Hoeffler</span></span>, <span style="font-variant:normal;">2004</span>)</span></span>, others on international
+wars <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Beck</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2000</span>)</span></span> and irregular leadership changes <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Ward</span> and <span class="smallcaps">Beger</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>. All of these
+applications require a careful semantic differentiation between different types
+of events. Besides focusing on a specific type of violence, various thresholds
+in terms of casualties have been applied to determine if an event is included in
+a study. In this thesis, a district-month was considered as belonging to the
+conflict class if at least one event in the UCDP data base was found. UCDP only
+includes events with at least 25 casualties <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Pettersson</span> and <span class="smallcaps">Öberg</span></span>, <span style="font-variant:normal;">2020</span>)</span></span>. The distinction
+between three different conflict classes found in the data base allows for some
+interpretation, however, a more profound semantic differentiation, e.g., in terms of involved
+actors, political goals, etc., was considered out of scope for the present analysis.
+However, backed by the finding that for <strong>cb</strong> and <strong>os</strong> conflict classes, the
+EV predictor set has a higher impact on increasing the prediction performance,
+some types of violence seem to be better predictable by environmental variables
+compared to others. Concentrating future investigations on these types of conflict
+seems promising to increase predictive performance. Additionally, the presented
+results do not distinguish between different modes of conflict, i.e., between a
+newly occurring conflict in a given district or the continuance of an ongoing
+conflict history. Analyzing these conflict modes distinctly can generate insights
+into a model’s ability to differentiate between emerging and ongoing conflicts,
+as shown by <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Kuzma</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2020</span>)</span></span>, thereby increasing the confidence one can have in a model’s
+prediction. It requires an additional definition of emerging and ongoing conflicts
+to be applied to the response variable, increasing the complexity of the modeling
+approach, which is why it was not conducted in this thesis. Future improvements
+of the current approach should consider this distinction since the CH theme
+already, to some extent, proves capable of predicting conflict. Thus, a model’s
+ability to capture emerging conflicts is of high relevance, comparing the
+performance of different model configurations.</p>
+</div>
+<div id="selection-of-predictor-variables." class="section level2">
+<h2><span class="header-section-number">1.3</span> Selection of Predictor Variables.</h2>
+<p>As it has been stated above, most of the previously cited studies rely on data
+sets which are collected per year on a national scale and are comprehensively
+provided by institutions such as the World Bank. One reason to refrain from sub-national
+analysis might be that considering sub-national units complicates the
+collection of predictor variables. Spatially disaggregated variables are hard to
+collect on a large scale and while disaggregating national statistics to a smaller
+scale is possible, it adds additional complexity in data preparation and is
+associated with additional assumptions not necessarily matchin real-world processes <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Verstraete</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>.
+Disaggregating these administrative-bound variables to sub-basin watersheds is
+even more challenging because these units tend to cross administrative boundaries.
+The presented approach of variable selection was thus restricted to gridded data
+formats at the consequence of the deliberate exclusion of several variables which
+have been found valuable predictors of violent conflict. Among these are variables
+associated with a population’s health and education status, such as infant mortality
+or rate of secondary education, the economic structure on the country level, such
+as the rate of primary commodity exports in terms of GDP, as well as information
+on the political system and ethnolinguistic composition of a society, represented
+by indicators such as the democracy index, level of repression, or the exclusion
+of power for certain groups. On the one hand, evidence has been presented that
+despite these simplifications notable performances in conflict prediction can be
+achieved. On the other hand, ignoring these indicators might have reduced the
+overall potential of the DL models to predict conflicts more accurately.</p>
+<p>While most of the indicators mentioned above could have been easily collected for
+the <em>adm</em> representation of the data, this would have hindered the direct comparison
+to the performance to the <em>bas</em> representation. However, there are variables
+originating from the research on integrated water resource management that could
+be collected exclusively for <em>bas</em> districts, such as indicators on the (non-)consumptive
+use of water, water quality, and governance as well as additional hydrological
+indicators characterizing water availability <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Pires</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>. In the future the
+current approach could be augmented by including <em>adm</em> and <em>bas</em> specific
+indicators to compare the resulting predictive performance of these approaches.</p>
+<p>Most of the environmental predictors were derived from the MODIS twin satellites.
+These were chosen because their mission time started in 2001 and is still ongoing,
+therefore covering an extensive time window by only two instruments. Mixing
+measurements on the same variable from multiple instruments with differing
+spatiotemporal extents would have opened additional complexities during data
+preparation <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Pasetto</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>. This underlines the importance that
+<em>value-added</em> remote sensing products play in research questions such as conflict
+prediction. Different research questions can be investigated much quicker and
+rigorously when institutions deliver standardized products ready for analysis.
+Currently, such efforts are observed moving towards digital twins of processes
+on the Earth’s surface and in the atmosphere <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Bauer</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2021</span>)</span></span>. The importance of
+analysis ready data sets holds for the spatial mapping of socio-economic variables
+such as populations counts and GDP, for which continuance and improvement over
+the next decades will play a decisive role in enabling innovative spatiotemporal
+analysis in many research fields <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Head</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>.</p>
+</div>
+<div id="model-architecture-and-training-process." class="section level2">
+<h2><span class="header-section-number">1.4</span> Model Architecture and Training Process.</h2>
+<p>The basic CNN-LSTM architecture as presented in this thesis proved capable of
+learning the prediction task. The task has been formulated as a time series
+problem with an increasing length starting from 48 months. Other possibilities
+to frame the problem exist. For example, evaluating the predictive model with
+a fixed size of the time window could be one option. The window size would need
+optimization, but the results could inform conflict theory on how much knowledge
+of the past is needed to make accurate conflict predictions for the future.
+The training strategy was based on batch gradient descent, meaning that all
+districts are presented to the network before weights are updated. Optimizing
+for different batch sizes was deemed unfeasible for this thesis because it would
+considerably increase training time. Additionally, because the model is not
+expected to generalize beyond its current spatial extent, spatial-cross validation
+was not considered necessary. However, regionalized models, as shown by <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Kuzma</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2020</span>)</span></span>,
+could improve performance because the conflict pathways can not be expected to be
+the same in the entire study domain.</p>
+<p>There is potential for improvement in the network design choices especially
+considering the latest advances in DL. <span class="citation"><span class="smallcaps"><span style="font-variant:normal;">Shih</span> <span style="font-variant:normal;">et al.</span></span> <span class="smallcaps">(<span style="font-variant:normal;">2019</span>)</span></span> proposed a mechanism of temporal
+pattern attention for multivariate time series forecasting to overcome the shortcoming
+of recurrent networks to memorize long-term dependencies in the data. Their attention
+mechanism applies convolutional filters onto the hidden state of a recurrent layer
+at each time step so that the network can learn which variables to pay attention
+to and which variables to ignore. They achieve promising results for several
+multivariate time series problems with this approach. Since the conflict prediction
+task’s data structure is very similar, temporal pattern attention would lend
+itself to future investigations to improve performance. Another recurrent-based
+network architecture worth to be investigated for the conflict prediction task
+is Echo State Networks (ESN). These networks consist of a high number of randomly
+initiated recurrent cells with a trainable output layer. They are more light-weight
+during training than traditional LSTM and can model chaotic time-dependent systems <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Jaeger</span></span>, <span style="font-variant:normal;">2001</span>)</span></span>. ESN
+have been successfully applied to highly complex time series prediction problems
+such as wind power forecasting <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">L’opez</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2018</span>)</span></span>, rainfall estimation <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">Yen</span> <span class="smallcaps">et al.</span></span>, <span style="font-variant:normal;">2019</span>)</span></span>, or
+spatiotemporal modeling of sea surface temperature <span class="citation"><span class="smallcaps">(<span style="font-variant:normal;"><span class="smallcaps">McDermott</span> and <span class="smallcaps">Wikle</span></span>, <span style="font-variant:normal;">2017</span>)</span></span>. Because of
+the high complexity associated with the occurrence of violent conflicts, ESNs
+could be tested as a viable alternative model architecture.</p>
+</div>
+<div id="anova." class="section level2">
+<h2><span class="header-section-number">1.5</span> ANOVA.</h2>
+<p>The influence of different model architectures on the observed differences in
+mean performance measured by the <span class="math inline">\(F_2\)</span>-score can not completely be neglected with
+the current study setup. To account for variances due to model architecture,
+training all models on exactly the same architecture would be beneficial. However,
+the question would arise if there exists a model architecture which performs equally
+well for all model configurations and how to find it. DL, like many other research
+activities, is a process constrained by available computation power and time.
+In the setup of this study, hyperparameter optimization was implemented based
+on the most complex predictors sets. The rationale for this decision was that
+a model architecture capable of learning in a complex setting would also be
+capable of learning in simpler contexts and not necesarily vice-versa.
+Additionally, hyperparameter optimization was applied for <em>adm</em> and <em>bas</em> districts
+under the same computational constraints simoltaniously. With fewer constraints on
+computational resources, a more elaborated investigation on the influence of
+model architechture could yield interesting results. However, in the context of
+this thesis, the presented evidence should not be considered as a closure on the
+question of the importance of environmental variables in conflict prediction,
+but rather as the optimized outcome of a research process associated with
+computational and methodological constraints.</p>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1><span class="header-section-number">2</span> References</h1>
+<div id="refs">
+<div id="ref-bauer2021">
+<p><span class="smallcaps">Bauer, P., Dueben, P.D., Hoefler, T., Quintino, T., Schulthess, T.C., Wedi, N.P.</span>, 2021. The digital revolution of Earth-system science. Nature Computational Science 1, 104–113. <a href="https://doi.org/10.1038/s43588-021-00023-0">https://doi.org/10.1038/s43588-021-00023-0</a></p>
+</div>
+<div id="ref-beck2000">
+<p><span class="smallcaps">Beck, N., King, G., Zeng, L.</span>, 2000. Improving Quantitative Studies of International Conflict: A Conjecture. American Political Science Review 94, 21–35. <a href="https://doi.org/10.1017/S0003055400220078">https://doi.org/10.1017/S0003055400220078</a></p>
+</div>
+<div id="ref-brovelli2017">
+<p><span class="smallcaps">Brovelli, M.A., Minghini, M., Moreno-Sanchez, R., Oliveira, R.</span>, 2017. Free and open source software for geospatial applications (FOSS4G) to support Future Earth. International Journal of Digital Earth 10, 386–404. <a href="https://doi.org/10.1080/17538947.2016.1196505">https://doi.org/10.1080/17538947.2016.1196505</a></p>
+</div>
+<div id="ref-cederman2017">
+<p><span class="smallcaps">Cederman, L.-E., Weidmann, N.B.</span>, 2017. Predicting armed conflict: Time to adjust our expectations? Science 355, 474–476. <a href="https://doi.org/10.1126/science.aal4483">https://doi.org/10.1126/science.aal4483</a></p>
+</div>
+<div id="ref-chadefaux2017">
+<p><span class="smallcaps">Chadefaux, T.</span>, 2017. Conflict forecasting and its limits. Data Science 1, 7–17. <a href="https://doi.org/10.3233/DS-170002">https://doi.org/10.3233/DS-170002</a></p>
+</div>
+<div id="ref-collier2004">
+<p><span class="smallcaps">Collier, P., Hoeffler, A.</span>, 2004. Greed and grievance in civil war 56, 563–595. <a href="https://doi.org/10.1093/oep/gpf064">https://doi.org/10.1093/oep/gpf064</a></p>
+</div>
+<div id="ref-gilpin2019">
+<p><span class="smallcaps">Gilpin, L.H., Bau, D., Yuan, B.Z., Bajwa, A., Specter, M., Kagal, L.</span>, 2019. Explaining Explanations: An Overview of Interpretability of Machine Learning. arXiv:1806.00069 [cs, stat].</p>
+</div>
+<div id="ref-head2017">
+<p><span class="smallcaps">Head, A., Manguin, M., Tran, N., Blumenstock, J.E.</span>, 2017. Can Human Development be Measured with Satellite Imagery?, in: Proceedings of the Ninth International Conference on Information and Communication Technologies and Development, ICTD ’17. Association for Computing Machinery, New York, NY, USA, pp. 1–11. <a href="https://doi.org/10.1145/3136560.3136576">https://doi.org/10.1145/3136560.3136576</a></p>
+</div>
+<div id="ref-jaeger2001">
+<p><span class="smallcaps">Jaeger, H.</span>, 2001. The &quot;Echo state&quot; approach to analysing and training recurrent neural networks-with an erratum note’. German National Research Center for Information Technology GMD. Technical Report. Bonn, Germany. 148.</p>
+</div>
+<div id="ref-kuzma2020">
+<p><span class="smallcaps">Kuzma, S., Kerins, P., Saccoccia, E., Whiteside, C., Roos, H., Iceland, C.</span>, 2020. Leveraging Water Data in a Machine Learning-Based Model for Forecasting Violent Conflict. Technical note. [WWW Document]. URL <a href="https://www.wri.org/publication/leveraging-water-data">https://www.wri.org/publication/leveraging-water-data</a></p>
+</div>
+<div id="ref-kwok2018">
+<p><span class="smallcaps">Kwok, R.</span>, 2018. Ecology’s remote-sensing revolution. Nature 556, 137–138. <a href="https://doi.org/10.1038/d41586-018-03924-9">https://doi.org/10.1038/d41586-018-03924-9</a></p>
+</div>
+<div id="ref-lopez2018">
+<p><span class="smallcaps">L’opez, E., Valle, C., Allende, H., Gil, E., Madsen, H.</span>, 2018. Wind Power Forecasting Based on Echo State Networks and Long Short-Term Memory. Energies 11, 526. <a href="https://doi.org/10.3390/en11030526">https://doi.org/10.3390/en11030526</a></p>
+</div>
+<div id="ref-manahova2019">
+<p><span class="smallcaps">Manahova, M.E., Spaak, E., de Lange, F.P.</span>, 2019. Familiarity Increases Processing Speed in the Visual System. Journal of Cognitive Neuroscience 32, 722–733. <a href="https://doi.org/10.1162/jocn_a_01507">https://doi.org/10.1162/jocn_a_01507</a></p>
+</div>
+<div id="ref-mcdermott2017">
+<p><span class="smallcaps">McDermott, P.L., Wikle, C.K.</span>, 2017. An Ensemble Quadratic Echo State Network for Nonlinear Spatio-Temporal Forecasting. arXiv:1708.05094 [stat].</p>
+</div>
+<div id="ref-molnar2020">
+<p><span class="smallcaps">Molnar, C., Casalicchio, G., Bischl, B.</span>, 2020. Interpretable Machine Learning – A Brief History, State-of-the-Art and Challenges. arXiv:2010.09337 [cs, stat].</p>
+</div>
+<div id="ref-pasetto2018">
+<p><span class="smallcaps">Pasetto, D., Arenas-Castro, S., Bustamante, J., Casagrandi, R., Chrysoulakis, N., Cord, A.F., Dittrich, A., Domingo-Marimon, C., Serafy, G.E., Karnieli, A., Kordelas, G.A., Manakos, I., Mari, L., Monteiro, A., Palazzi, E., Poursanidis, D., Rinaldo, A., Terzago, S., Ziemba, A., Ziv, G.</span>, 2018. Integration of satellite remote sensing data in ecosystem modelling at local scales: Practices and trends. Methods in Ecology and Evolution 9, 1810–1821. <a href="https://doi.org/10.1111/2041-210X.13018">https://doi.org/10.1111/2041-210X.13018</a></p>
+</div>
+<div id="ref-pettersson2020">
+<p><span class="smallcaps">Pettersson, T., Öberg, M.</span>, 2020. Organized violence, 1989–2019. Journal of Peace Research 57, 597–613. <a href="https://doi.org/10.1177/0022343320934986">https://doi.org/10.1177/0022343320934986</a></p>
+</div>
+<div id="ref-pires2017">
+<p><span class="smallcaps">Pires, A., Morato, J., Peixoto, H., Botero, V., Zuluaga, L., Figueroa, A.</span>, 2017. Sustainability Assessment of indicators for integrated water resources management. Science of The Total Environment 578, 139–147. <a href="https://doi.org/10.1016/j.scitotenv.2016.10.217">https://doi.org/10.1016/j.scitotenv.2016.10.217</a></p>
+</div>
+<div id="ref-rost2009">
+<p><span class="smallcaps">Rost, N., Schneider, G., Kleibl, J.</span>, 2009. A global risk assessment model for civil wars. Konstanzer Online-Publikations-System (KOPS). University of Konstanz, Germany. 13.</p>
+</div>
+<div id="ref-shih2019">
+<p><span class="smallcaps">Shih, S.-Y., Sun, F.-K., Lee, H.-y.</span>, 2019. Temporal Pattern Attention for Multivariate Time Series Forecasting. arXiv:1809.04206 [cs, stat].</p>
+</div>
+<div id="ref-uddin2020">
+<p><span class="smallcaps">Uddin, M.I., Zada, N., Aziz, F., Saeed, Y., Zeb, A., Ali Shah, S.A., Al-Khasawneh, M.A., Mahmoud, M.</span>, 2020. Prediction of Future Terrorist Activities Using Deep Neural Networks. Complexity. <a href="https://doi.org/10.1155/2020/1373087">https://doi.org/10.1155/2020/1373087</a></p>
+</div>
+<div id="ref-verstraete2017">
+<p><span class="smallcaps">Verstraete, J.</span>, 2017. The Spatial Disaggregation Problem: Simulating Reasoning Using a Fuzzy Inference System. IEEE Transactions on Fuzzy Systems 25, 627–641. <a href="https://doi.org/10.1109/TFUZZ.2016.2567452">https://doi.org/10.1109/TFUZZ.2016.2567452</a></p>
+</div>
+<div id="ref-ward2017">
+<p><span class="smallcaps">Ward, M.D., Beger, A.</span>, 2017. Lessons from near real-time forecasting of irregular leadership changes. Journal of Peace Research 54, 141–156. <a href="https://doi.org/10.1177/0022343316680858">https://doi.org/10.1177/0022343316680858</a></p>
+</div>
+<div id="ref-yen2019">
+<p><span class="smallcaps">Yen, M.-H., Liu, D.-W., Hsin, Y.-C., Lin, C.-E., Chen, C.-C.</span>, 2019. Application of the deep learning for the prediction of rainfall in Southern Taiwan. Scientific Reports 9. <a href="https://doi.org/10.1038/s41598-019-49242-6">https://doi.org/10.1038/s41598-019-49242-6</a></p>
+</div>
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.3 (2020-02-29)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Debian GNU/Linux 10 (buster)
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.3.5.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] lubridate_1.7.9.2  rgdal_1.5-18       countrycode_1.2.0  welchADF_0.3.2    
+ [5] rstatix_0.6.0      ggpubr_0.4.0       scales_1.1.1       RColorBrewer_1.1-2
+ [9] latex2exp_0.4.0    cubelyr_1.0.0      gridExtra_2.3      ggtext_0.1.1      
+[13] magrittr_2.0.1     tmap_3.2           sf_0.9-7           raster_3.4-5      
+[17] sp_1.4-4           forcats_0.5.0      stringr_1.4.0      purrr_0.3.4       
+[21] readr_1.4.0        tidyr_1.1.2        tibble_3.0.6       tidyverse_1.3.0   
+[25] huwiwidown_0.0.1   kableExtra_1.3.1   knitr_1.31         rmarkdown_2.7.3   
+[29] bookdown_0.21      ggplot2_3.3.3      dplyr_1.0.2        devtools_2.3.2    
+[33] usethis_2.0.0     
+
+loaded via a namespace (and not attached):
+  [1] readxl_1.3.1       backports_1.2.0    workflowr_1.6.2   
+  [4] lwgeom_0.2-5       splines_3.6.3      crosstalk_1.1.0.1 
+  [7] leaflet_2.0.3      digest_0.6.27      htmltools_0.5.1.1 
+ [10] memoise_1.1.0      openxlsx_4.2.3     remotes_2.2.0     
+ [13] modelr_0.1.8       prettyunits_1.1.1  colorspace_2.0-0  
+ [16] rvest_0.3.6        haven_2.3.1        xfun_0.21         
+ [19] leafem_0.1.3       callr_3.5.1        crayon_1.4.0      
+ [22] jsonlite_1.7.2     lme4_1.1-26        glue_1.4.2        
+ [25] stars_0.4-3        gtable_0.3.0       webshot_0.5.2     
+ [28] car_3.0-10         pkgbuild_1.2.0     abind_1.4-5       
+ [31] DBI_1.1.0          Rcpp_1.0.5         viridisLite_0.3.0 
+ [34] gridtext_0.1.4     units_0.6-7        foreign_0.8-71    
+ [37] htmlwidgets_1.5.3  httr_1.4.2         ellipsis_0.3.1    
+ [40] pkgconfig_2.0.3    XML_3.99-0.3       dbplyr_2.0.0      
+ [43] tidyselect_1.1.0   rlang_0.4.10       later_1.1.0.1     
+ [46] tmaptools_3.1      munsell_0.5.0      cellranger_1.1.0  
+ [49] tools_3.6.3        cli_2.3.0          generics_0.1.0    
+ [52] broom_0.7.2        evaluate_0.14      yaml_2.2.1        
+ [55] processx_3.4.5     leafsync_0.1.0     fs_1.5.0          
+ [58] zip_2.1.1          nlme_3.1-150       xml2_1.3.2        
+ [61] compiler_3.6.3     rstudioapi_0.13    curl_4.3          
+ [64] png_0.1-7          e1071_1.7-4        testthat_3.0.1    
+ [67] ggsignif_0.6.0     reprex_0.3.0       statmod_1.4.35    
+ [70] stringi_1.5.3      ps_1.5.0           desc_1.2.0        
+ [73] lattice_0.20-41    Matrix_1.2-18      nloptr_1.2.2.2    
+ [76] classInt_0.4-3     vctrs_0.3.6        pillar_1.4.7      
+ [79] lifecycle_0.2.0    data.table_1.13.2  httpuv_1.5.5      
+ [82] R6_2.5.0           promises_1.1.1     KernSmooth_2.23-18
+ [85] rio_0.5.16         sessioninfo_1.1.1  codetools_0.2-16  
+ [88] dichromat_2.0-0    boot_1.3-25        MASS_7.3-53       
+ [91] assertthat_0.2.1   pkgload_1.1.0      rprojroot_2.0.2   
+ [94] withr_2.4.1        parallel_3.6.3     hms_1.0.0         
+ [97] grid_3.6.3         minqa_1.2.4        class_7.3-17      
+[100] carData_3.0-4      git2r_0.27.1       base64enc_0.1-3   </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

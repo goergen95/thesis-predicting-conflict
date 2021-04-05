@@ -1,0 +1,23 @@
+---
+title: ""
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: true
+editor_options:
+  chunk_output_type: console
+bibliography: ../report/references.bib
+csl: ../report/elsevier-harvard.csl
+---
+  
+```{r setup, include=FALSE}
+source("../code/workflowr-utils.R")
+```
+
+```{r read-intro, include=FALSE}
+read_lines("../report/06-conclusion.Rmd") -> chunk
+```
+
+`r knitr::knit(text = chunk)`
+
+

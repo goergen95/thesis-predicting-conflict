@@ -1,0 +1,59 @@
+---
+title: "Predicting Violent Conflict in Africa \\linebreak - \\linebreak Leveraging Open Geodata and Deep Learning for Spatio-Temporal Event Detection"
+type: "Master's Thesis"
+author: "Darius A. Görgen"
+matriculation_number: "2622343"
+date: |
+  `r format(Sys.time(), "%d %B, %Y")`
+university: "University of Marburg"
+institute: "Department of Geography" 
+chair: "Climatology and Environmental Modelling"
+advisor1: "Dr. Boris Thies"
+advisor2: "Prof. Dr. Thomas Nauss"            
+program: "Master of Science Physical Geography"
+chair2: "Ecoinformatics"
+abstract: |  
+  `r if(knitr:::is_latex_output()) paste(readLines("prelim/00-abstract.Rmd", warn=FALSE), collapse = '\n  ')`
+abbreviations: |  
+  `r if(knitr:::is_latex_output()) paste(readLines(knitr::knit("prelim/00-abbreviations.Rmd", output = tempfile(fileext = ".txt"))), collapse = '\n  ')`
+lot: true # list of tables
+lof: true # list of figures
+link-citations: true
+bibliography: references.bib
+nocite: '@*'
+csl: elsevier-harvard.csl
+knit: "bookdown::render_book"
+output: 
+  huwiwidown::thesis_pdf
+space_between_paragraphs: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r include_packages, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = 'H', fig.width = 6, fig.height = 5, fig.align = "center")
+library(huwiwidown)
+library(tidyverse)
+library(raster, exclude = c("select", "filter"))
+library(sf)
+library(knitr)
+library(tmap)
+library(magrittr)
+library(ggtext)
+library(gridExtra)
+library(cubelyr)
+library(kableExtra)
+library(latex2exp)
+library(RColorBrewer)
+library(scales)
+library(ggpubr)
+library(rstatix)
+library(welchADF)
+library(countrycode)
+```
+
+```{r, include=FALSE}
+source("thesis-output/thesis-utils.R")
+```
+<!-- @wang2016 -->
+\nocite{@wang2016}

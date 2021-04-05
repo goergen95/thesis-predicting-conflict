@@ -1,0 +1,1400 @@
+# Data
+
+## Area of Interest
+
+To account for the hypothesis that aggregating predictor variables on the basis
+of watersheds will lead to higher detection accuracy compared to administrative 
+boundaries, two different sets of spatial units are selected. 
+The first represents sub-national administrative boundaries (referred to as *adm* hereafter) 
+derived from the Natural Earth project in a vector format [@south2017].
+Only polygons on the African continent as well as Madagascar from the third 
+administrative level are selected. The procedure results in a total of 847 polygons 
+covering the study area (Figure \@ref(fig:02-data-units-map)).
+
+```{r 02-data-units-map, fig.cap="Overview of the administrative (left) and sub-basin districts (right) used for data aggregation.", fig.scap="Overview of the administrative and sub-basin districts used for data aggregation.", fig.align="center"}
+
+adm <- st_read("../data/vector/states_mask.gpkg", quiet = T)
+adm <- st_make_valid(adm)
+bas <- st_read("../data/vector/basins_simple.gpkg", quiet = T)
+bas <- st_make_valid(bas)
+crs <- st_crs("EPSG:3857")
+adm <- st_transform(adm, crs)
+adm <- st_simplify(adm, dTolerance = 1000, preserveTopology = T)
+bas <- st_transform(bas, crs) 
+bas <- st_simplify(bas, dTolerance = 1000, preserveTopology = T)
+
+tmap_options(max.categories = 50)
+
+adm %<>%
+  mutate(group_id = sov_a3) %>%
+  dplyr::select(group_id)
+
+plt1 = tm_shape(adm) +
+  tm_polygons("group_id", border.col = "black", lwd = .2) +
+  tm_legend(show = FALSE) +
+  tm_layout(expression(paste(italic("adm"), " districts")),
+            title.size = .8) + 
+  tm_scale_bar(position=c("left", "bottom"), width = .5)
+
+
+bas_group = st_read("../data/raw/hydrosheds/hybas_03_simple.gpkg", quiet = TRUE)
+bas_group %<>% 
+  st_transform(crs = crs) %>%
+  mutate(group_id = as.factor(HYBAS_ID)) %>% 
+  dplyr::select(group_id) %>%
+  st_simplify() %>%
+  st_crop(bas)
+adm$group_id = NULL
+bas %<>%
+  dplyr::select(geom)
+
+plt2 = tm_shape(bas_group) +
+  tm_polygons("group_id", lwd = 0, border.col = "white") +
+  tm_shape(bas) +
+  tm_borders("black", lwd = .2) +
+  tm_legend(show = FALSE) +
+  tm_layout(title = expression(paste(italic("bas"), " districts")),
+            title.size = .8)
+
+tmap_arrange(plt1, plt2)
+
+```
+
+The second set of spatial units represents sub-basin watersheds (referred to as *bas* hereafter)
+which are downloaded from the HydroSHEDS project [@lehner2008]. To keep the
+number of polygons comparable to the number of administrative units, the fifth 
+level out of a total of 12 levels of watershed delineations is selected.
+The procedure results in a total number of 1013 polygons covering the African 
+continent and Madagascar (Figure \@ref(fig:02-data-units-map)).
+
+```{r 02-data-table-units-descr}
+adm_area = st_area(adm) /  1e+6 # to km2
+bas_area = st_area(bas) /  1e+6 # to km2
+
+adm_sum = summary(adm_area)
+bas_sum = summary(bas_area)
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  mutate(N = c(nrow(adm), nrow(bas))) %>%
+  dplyr::select(c(names(.)[1], N, names(.)))
+rm(bas, bas_group, adm)
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics on the area of the spatial aggregation units in km². (\\textit{adm} represents administrative units, \\textit{bas} represents sub-basin watersheds)",
+               caption.short = "Descriptive statistics on the area of the spatial aggregation units.",
+               style = list(latex_options = c("HOLD_position")))
+```
+
+The descriptive statistics of area distribution among the two different
+sets reveals that the sub-basin watersheds have a lower average value of `r format_num(unlist(descr[2,"Mean"]))` 
+km² compared to `r format_num(unlist(descr[1,"Mean"]))` km², while the administrative 
+units have the highest maximum value of `r format_num(unlist(descr[1,"Max."]))` km² 
+which is nearly twice as large as the largest watershed (Table \@ref(tab:02-data-table-units-descr)).
+
+Three different spatial buffers of 50, 100, and 200 km are processed for each 
+district to include information on the geographical neighborhood. It is
+assumed that processes in the larger neighborhood of a district might influence
+the occurrence of conflicts. This influence can take the form of spillover 
+effects for which empirical evidence has been found, e.g., for military spending 
+[@phillips2015], reducing regional trade volumes [@murdoch2004] or short-term
+reduction in economic growth [@murdoch2002]. These effects can manifest in
+environmental changes and reduction of agricultural production, as has been 
+the case for Syria and Iraq during the war against the so-called Islamic State [@eklund2017].
+For Sub-Saharan Africa, additional evidence has been presented that spillover effects 
+are more pronounced than in the rest of the world [@carmignani2016]. For each 
+of the buffered areas, the same variables are extracted as for individual districts, 
+resulting in a 3-time increase in the data set size. 
+
+## Spatiotemporal Aggregation
+
+For the establishment of a regular data set used for the training 
+process a number of predictor variables in the raster 
+format need to be processed into a regular time series based on the spatial aggregation 
+districts used for prediction (Table \@ref(tab:02-data-predictors)). Raw remote 
+sensing scenes, as well as *value-added* raster products, vary greatly in the 
+spatiotemporal resolution they are available at (Table \@ref(tab:02-data-predictors)).
+The resolution is a function of the technical prerequisites of a given sensor or
+statistical method in the case of socio-economic variables and design choices by 
+the product providers. For example, together, both satellites equipped with the
+Moderate Resolution Imaging Spectroradiometer (MODIS) cover every 
+point on earth every 1 to 2 days. However, certain products such as evaporation 
+or gross primary productivity are processed to 8-day composites. This design 
+choice was made to assure valid measurements of certain variables that might be 
+blocked on some day, e.g., through persistent cloud coverage, especially in the tropics [@running2017]. Other products, such as precipitation data or population counts are available 
+at a monthly or yearly temporal resolution, mainly due to the statistical processes 
+involved in their production, e.g., in the latter case by relying on yearly survey 
+data. To account for this variability in data set characteristics, the decision 
+is made to aggregate on a monthly district level (district-months). A pixel-based 
+approach, which would require the transformation of all data sets to a common 
+spatial resolution, is rejected due to the very low occurrences of the response 
+variables and the great variability of spatial resolutions across the data sets. 
+That way, all data sets can be processed at or close to their native resolution 
+since the final value for a given district-month is obtained by a zonal statistic 
+operation. To this end, the R package *gdalcubes* was used [@appel2019]. This 
+package was specifically designed for the efficient harmonization of remote sensing 
+products with varying spatiotemporal resolutions. It programmatically conducts the 
+transformations needed to bring a given raster data set to the desired spatio-temporal 
+resolution and provides efficient routines to calculate zonal statistics for the 
+intersection areas between rasters and polygons.
+
+For data sets that are available at a yearly time scale or static over the complete
+time-series a last-observation-carried-forward approach is0 chosen to obtain
+a monthly data set. For data sets that are available at a finer resolution,
+a suitable aggregation operation to the measured variable is chosen 
+(Table \@ref(tab:02-data-predictors)). In summary, a vector data cube consisting 
+of 847 (1013) districts for *adm* (*bas*) for 228 individual months (2001 to 2019) 
+and 176 ((40 predictors + 4 responses) x 4 buffers) variables summing up to a 
+total of 33,988,416 (40,649,664) individual data points is constructed. The 
+individual variables selected for training are explained in detail in the following 
+sections.
+
+## Response Variable
+
+Data from UCDP is used for the response variable [@pettersson2020]. 
+The data is an event database, meaning that every 
+reported violent conflict with at least 25 fatalities per year is included as a single event. 
+Each event is associated with information on involved actors, time, location, 
+and estimated fatalities by party involved. Since the data is mainly 
+collected automatically, inaccuracies concerning the exact location or the 
+number of deaths are frequently observed. However, the information on the 
+reliability for each logged event is included.
+The latest version of the database as of the time of writing this thesis
+for the African continent is used. Only events occurring between 2001 and 2019 are
+included. The data is further filtered to contain only events for which the quality of
+the geographic localization is assured to be accurate on the sub-national level. 
+Also, only events are included with timestamps which are reported to be accurate 
+on a monthly scale. The data is provided distinguishing between three different classes of conflict.
+These are state-based violence (referred to **sb** hereafter), non-state violence
+(**ns**), and one-sided violence (**os**) as defined in @gleditsch2002a, @sundberg2012, 
+and @eck2007, respectively. UCDP summarizes these definitions as "violence between two organized actors of which
+at least one is the government of a state, violence between actors of which neither 
+party is the government of a state, and lastly, violence against unarmed 
+civilians perpetrated by organized non-state groups or governments" [@allansson].
+For each class, a spatiotemporal aggregation based on the different analysis units 
+on a monthly time scale is applied. Additionally, by a summation of casulties a fourth class
+representing a combination of the three base classes is introduced (referred to
+as **cb**). These aggregations represent the basic unit of analysis for this 
+project and are used as the response objects for the detection algorithm.
+Because the final prediction problem is conceptualized as a binary
+classification task (peace vs. conflict) any district-month with fatalities greater than 0
+is transformed to a value of 1, representing conflict, while district-months with 
+no fatalities are assigned a value of 0, representing peace. 
+
+```{r 02-data-response-dist}
+response_cube = readRDS("../data/vector/response_cube.rds")
+
+response_cube %>%
+  as_tibble() %>%
+  filter(!(unit == "states" & id > 847),
+         type %in% c("all", "sb", "ns", "os"),
+         time > as.Date("2000-12-31")) %>%
+  mutate(Dataset = if_else(time <= as.Date("2016-12-31"), "train", 
+                           if_else((time > as.Date("2016-12-31") & time <= as.Date("2017-12-31")), "val", "test")),
+         Dataset = factor(Dataset, levels = c("train", "val", "test"), labels = c("Training", "Validation", "Test")),
+         unit = factor(unit, levels = c("states", "basins"), labels = c("\\textit{adm}","\\textit{bas}")),
+         type = factor(type, levels = c("all", "sb", "ns", "os"), 
+                       labels = c("\\textbf{cb}", "\\textbf{sb}", "\\textbf{ns}", "\\textbf{os}")),
+         value = if_else(value>1, 1, 0 )) %>%
+  select(unit,type,value,Dataset) %>%
+  group_by(unit, type, Dataset) %>%
+  summarise(perc = round((sum(value) / n() * 100),3)) %>%
+  ungroup() %>%
+  pivot_wider(id_cols = c(unit,Dataset) , names_from = type, values_from = perc, names_sep = "-") %>%
+  select(-unit) %>%
+  thesis_kable(
+    escape = F,
+    caption = "Percentage of conflict district-months for different training data sets across aggregation units and classes of conflict.",
+    caption.short =  "Percentage of conflict district-months for different training data sets.",
+  ) %>%
+  group_rows(1,3, group_label = "adm", italic = TRUE) %>%
+  group_rows(4,6, group_label = "bas", italic = TRUE) %>%
+  kable_styling(latex_options = c("HOLD_position")) %>%
+    footnote(general = "Values are given in percent.",
+           threeparttable = T,
+           escape = FALSE,
+           general_title = "General:",
+           footnote_as_chunk = T)
+  
+
+```
+
+For the *adm* representation of the data, the total number of district-months is
+193,116 (847 districts x 228 months). For the *bas* representation it is 230,964
+(1,013 districts x 228 months). To summarize, for each district, a time-series worth of 
+228 data points for four different response variables is available. Table
+\@ref(tab:02-data-response-dist) summarizes the occurrence of conflict district-months 
+per outcome variable for both aggregation units. The definition of training, 
+validation, and testing data set will be further discussed in Section
+\@ref(training-validation-process). 
+
+## Predictor Variables
+
+The search of predictor variables was guided by a literature review of quantitative 
+studies in the field of conflict research and the selected variables are presented 
+in Table \@ref(tab:02-data-predictors). Variables that have been shown to correlate 
+with different forms of conflict and proved useful predictors were of primary 
+interest. However, it became evident that most studies were concerned 
+with predicting conflict work on a country-year basis [@hegre2019; @halkia2020a; @schellens2020]. 
+In cases the units of analysis were more fine-grained, they are most commonly 
+restricted to sub-national administrative boundaries [@kuzma2020]. For this kind 
+of problem formulation, several socio-economic variables that are collected on an
+administrative level are easily adaptable. For example, indicators collected on 
+a national level such as a democracy index, literacy rates, or income inequality
+can be disaggregated to the sub-national level or held constant for all districts
+within a nation. However, natural boundaries, such as watersheds, rarely follow 
+political boundaries but they often intersect with each other. 
+Thus, variables available as national aggregates can not easily be disaggregated at 
+the watershed level. The use of such administrative-bound variables was not rendered feasible for this study. 
+
+In a more specific context, this meant that only predictor variables which could 
+be aggregated on both the levels of *adm* and *bas* are included. 
+Additionally, a district's spatial neighborhood was theorized to serve as a predictor. 
+These neighborhood predictors were conceptualized as spatial buffers of 50, 100, 
+and 200 km around each district. To enable this line of problem formulation, the 
+search for predictors was limited to data sets in the raster format. In the 
+current project, raw satellite imagery would not prove very useful to model the 
+outcome variable. Instead, the search was concentrated on so-called *value-added* 
+products, e.g. products for which transformations into measurements of physical 
+variables already have been applied.
+
+In the following section, the selected data sets used to extract predictor variables 
+are explained in detail. The structure mirrors the experimental design of this study 
+in the sense that predictors are grouped into three distinct sets of variables. 
+The most basic predictor set only contains information on the past conflict history 
+(referred to as CH). Structural predictors (SV) contain the conflict history and 
+selected structural variables for which a measurement is available at least once 
+every year. The environmental predictor set (EV) contains all variables of the 
+two preceding variable sets and selected environmental variables for which a 
+data measurement is available every month. Thus, the predictor sets not only 
+incorporate different aspects of a district in terms of its structural and 
+environmental characteristics, but they also differ in the time-scale observations 
+for given predictor variables are recorded.
+
+\newpage
+
+```{r 02-data-predictors}
+predictor_tab = tibble(Name = 
+                         c("Conflict history",
+                           "Terrain Ruggedness Index (log)",
+                           "Travel time (log)",
+                           "Livestock (log)",
+                           "Population (log)",
+                           "Youth bulge",
+                           "Dependency ratio",
+                           "GDP (log)",
+                           "Cropland",
+                           "Forest cover",
+                           "Builtup area",
+                           "Grassland",
+                           "Shrubland",
+                           "Barren land",
+                           "Water bodies",
+                           "Precipitation",
+                           "Precipitation anomaly",
+                           "SPI",
+                           "SPEI",
+                           "Land Surface Temperature",
+                           "Evapotranspiration",
+                           "Gross Primary Productivity",
+                           "Precipitatation agr.",
+                           "Precipitation anonmaly agr.",
+                           "SPI agr.",
+                           "SPEI agr.",
+                           "Land Surface Temperature agr.",
+                           "Evapotranspiration agr.",
+                           "Gross Primary Productivity agr."),
+                       short = c(
+                         "cnf",
+                         "TRI",
+                         "TRT",
+                         "LVSTK",
+                         "POP",
+                         "YBULGE",
+                         "DEP",
+                         "GDP",
+                         "CROP",
+                         "FOREST",
+                         "URBAN",
+                         "GRASS",
+                         "SHRUB",
+                         "BARE",
+                         "WATER",
+                         "PREC",
+                         "ANOM",
+                         "SPI",
+                         "SPEI",
+                         "LST",
+                         "ET",
+                         "GPP",
+                         "AGRPREC",
+                         "AGRANOM",
+                         "AGRSPI",
+                         "AGRSPEI",
+                         "AGRLST",
+                         "AGRET",
+                         "AGRGPP"
+                       ),
+                       '\\shortstack{Spatial\\\\Resolution}' =
+                         c("-",
+                           "0.0008°", # TRI
+                           "0.008°", # TRT
+                           "0.08°", # LVSTK
+                           "0.008°", # POP
+                           "0.008°", # YBULGE
+                           "0.008°", # DEP
+                           "0.08°", # GDP
+                           "0.005°", # cropland
+                           "0.005°", # forest
+                           "0.005°", # builtup
+                           "0.005°", # grassland
+                           "0.005°", # shrubland
+                           "0.005°", # barren
+                           "0.005°", # water
+                           "0.05°", # prec
+                           "0.05°", # anom
+                           "0.05°", # spi
+                           "0.05°", # spei
+                           "0.05°", # lst
+                           "0.01°", # et
+                           "0.01°", # gpp
+                           "0.05°", # prec agr
+                           "0.05", # anom agr
+                           "0.05°", # spi agr
+                           "0.05°", # spei agr
+                           "0.005°", # lst agr
+                           "0.005°", # et agr
+                           "0.005°"), # gpp agr
+                       '\\shortstack{Temporal\\\\Resolution}' =
+                         c("monthly",
+                           "static",
+                           "static",
+                           "static",
+                           "yearly",
+                           "yearly",
+                           "yearly",
+                           "yearly",
+                           "yearly",
+                           "yearly",
+                           "yearly",
+                           "yearly",
+                           "yearly",
+                           "yearly",
+                           "yearly",
+                           "monthly",
+                           "monthly",
+                           "monthly",
+                           "monthly",
+                           "monthly",
+                           "monthly",
+                           "monthly",
+                           "monthly",
+                           "monthly",
+                           "monthly",
+                           "monthly",
+                           "monthly",
+                           "monthly",
+                           "monthly"),
+                       Unit = 
+                         c("binary",
+                           "m",
+                           "minutes",
+                           "2010 heads",
+                           "persons",
+                           "\\%",
+                           "\\%",
+                           "2011 USD",
+                           "\\%",
+                           "\\%",
+                           "\\%",
+                           "\\%",
+                           "\\%",
+                           "\\%",
+                           "\\%",
+                           "mm",
+                           "mm",
+                           "-",
+                           "-",
+                           "K",
+                           "kg/m²",
+                           "kg C/m²",
+                           "mm",
+                           "mm",
+                           "-",
+                           "-",
+                           "K",
+                           "kg/m²",
+                           "kg C/m²"),
+                       Aggregation = 
+                         c("-",
+                           "mean",
+                           "mean",
+                           "sum",
+                           "sum",
+                           "sum",
+                           "mean",
+                           "mean",
+                           "sum",
+                           "sum",
+                           "sum",
+                           "sum",
+                           "sum",
+                           "sum",
+                           "sum",
+                           "mean",
+                           "mean",
+                           "mean",
+                           "mean",
+                           "mean",
+                           "mean",
+                           "mean",
+                           "mean",
+                           "mean",
+                           "mean",
+                           "mean",
+                           "mean",
+                           "mean",
+                           "mean"))
+predictor_tab %>%
+  dplyr::select(-short) %>%
+  thesis_kable(linesep = c(""),
+        align = "lcccl",
+        caption = "Spatio-temporal properties of predictor variables.",
+        caption.short = "Spatio-temporal properties of predictor variables.",
+        #style = list(latex_options = c("HOLD_position")),
+        escape = F,
+        longtable = T) %>% 
+  kable_styling(latex_options = c("HOLD_position", "repeat_header"),
+                font_size = 10) %>%
+  group_rows("Baseline", 1, 1) %>%
+  group_rows("Structural", 2, 15) %>% 
+  group_rows("Environmental", 16, 29) %>%
+  footnote(general = "Variables denoted with \\\\emph{agr.} were calculated by a multiplicative interaction with a binary cropland mask.",
+           threeparttable = T,
+           escape = FALSE,
+           general_title = "General:",
+           footnote_as_chunk = T)
+
+```
+
+
+```{r 02-data-read-predictors}
+predictors = readRDS("../data/vector/predictor_cube.rds")
+```
+
+### Conflict History (CH)
+
+The most basic predictor set consists only of the past conflict history for every
+district. Depending on which outcome variable is predicted (e.g. __cb__, __sb__, __ns__, or __os__),
+four different predictors are available. These are the conflict history for the 
+unit itself and its three spatial buffers of 50, 100, and 200 km representing
+the conflict history in the spatial neighborhood. The value of measurement
+is a binary encoding whether a given district-month experienced conflict
+or not.
+
+
+### Structural Variables (SV)
+
+#### Terrain Ruggedness Index (TRI).
+
+The TRI is used as an indicator for the landscape organization of a given district. 
+Several studies have found significant correlations between mountainous
+areas and conflict. However, a clear definition of the parameter is hardly found
+in any of these publications [@muchlinski2016;@fearon2003;@collier2004;@hegre2019].
+Here, the TRI is used as an indicator of the ruggedness of the terrain based on
+the calculation of a digital elevation model (DEM). The TRI estimates the landscape 
+heterogeneity in a grid cell's neighborhood, calculating the sum of change in 
+elevation to all eight neighbors of a cell [@riley1999]. The DEM from the 
+Shuttle Radar Topography Mission (SRTM) is used [@jarvis2008]. This DEM comes at 
+a resolution of 0.0008° and it is processed at its native resolution. The unit of 
+measurement is in meters. This variable represents a static value and does not 
+change within the time series. There are no missing values for land areas. 
+The mean of all pixels within a district is extracted as a zonal statistic for 
+the district level aggregation. Due to the great variance of the TRI between the 
+districts, this predictor's natural logarithm is used during training.
+The distribution of values between _adm_ and _bas_ are quite similar with the 
+administrative districts showing slightly higher average and maximal values 
+(Table \@ref(tab:02-data-tri)). 
+
+```{r 02-data-tri}
+predictors %>%
+  filter(var == "TRI") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+na_present = "NA's" %in% descr$col_names
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.))) %>%
+  mutate_all(as.character) %>%
+  {if(na_present) mutate(., "NA's" = if_else(is.na(.[[8]]), "-", .[[8]])) else . }
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of the Terrain Ruggedness Index based on different spatial aggregation units. (Unit of measurment: meters)", 
+               caption.short = "Descriptive statistics of the Terrain Ruggedness Index (TRI).",
+               style = list(latex_options = c("HOLD_position")))
+
+```
+
+
+#### Travel Time.
+
+This predictor is used as an indicator of the centrality or remoteness of a district. 
+The data set used indicates the travel time from a given cell to the closest 
+city of 50,000 or more inhabitants [@nelson2008]. It is calculated based on a cost-distance
+model incorporating various variables contributing to the accessibility of a location
+such as roads, railways, land-cover, slope, and others [@nelson2008]. This indicator
+has been found a valuable predictor for the intensity of violence [@schutte2017].
+The native resolution of the data set is 0.008°. It is static and does not 
+change within the time series. The unit of measurement is in minutes of travel time
+to the nearest city. There are no missing values on land areas. For the aggregation 
+on the district level, the mean travel time is calculated. Due to the great variance 
+of travel time between the districts, this predictor's natural logarithm is used 
+during training. The _bas_ districts show an average travel time nearly twice as 
+high compared to the _adm_ districts (Table \@ref(tab:02-data-trt)). 
+
+```{r 02-data-trt, eval = T}
+predictors %>%
+  filter(var == "TRT") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+
+na_present = "NA's" %in% descr$col_names
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.))) %>%
+  mutate_all(as.character) %>%
+  {if(na_present) mutate(., "NA's" = if_else(is.na(.[[8]]), "-", .[[8]])) else . }
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of travel time to cities $\\geq 50,000$ inhabitants based on different spatial
+               aggregation units. (Unit of measurement: minutes)",
+               caption.short = "Descriptive statistics of travel time to cities $\\geq 50,000$ inhabitants.",
+               style = list(latex_options = c("HOLD_position")))
+
+```
+
+#### Livestock.
+
+Numbers on livestock are used as an indicator for the characteristics of the 
+agricultural sector in a district. A data set containing the global distribution 
+for cattle, buffaloes, horses, sheep, goats, pigs, chicken, and ducks representing 
+the condition in the year 2010 is used [@gilbert2018]. The data set comes at a 
+spatial resolution of 0.08°. There are some missing values for districts in the 
+Sahara desert. The numbers for different species are summed on a pixel basis, and 
+the total sum of livestock heads is calculated for each district. The literature
+review revealed that this indicator has not been used in previous studies on 
+conflict prediction. Due to the great variance of livestock numbers between the 
+districts, the natural logarithm of this predictor is used during training.
+The aggregation of _adm_ and _bas_ districts generally shows an equal distribution
+with _adm_ being characterized by slightly higher livestock counts 
+(Table \@ref(tab:02-data-lvstk)).
+
+```{r 02-data-lvstk, eval = T}
+predictors %>%
+  filter(var == "LVSTK") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+descr$values = round(descr$values)
+na_present = "NA's" %in% descr$col_names
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.))) %>%
+  mutate_all(as.character) %>%
+  {if(na_present) mutate(., "NA's" = if_else(is.na(.[[8]]), "-", .[[8]])) else . }
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of total livestock numbers based on different spatial
+               aggregation units. (Unit of measurement: 2010 heads)", 
+               caption.short = "Descriptive statistics of total livestock numbers.",
+               style = list(latex_options = c("HOLD_position")))
+
+```
+
+#### Population.
+
+The total number of the population is frequently used as a predictor across 
+different conflict studies [@collier2004; @fearon2003; @halkia2020a; @hegre2019].
+A spatially explicit data set produced by the WorldPOP project is used in this study [@worldpop2018]. 
+This data set is produced following the methodology reported in @pezzulo2017. Based on 
+over 6,000 sub-national data records, a spatially continuous high-resolution gridded
+data set of female and male population counts by age cohorts was produced at a
+resolution of 0.008°. The unit of measurement is the total number of persons irrespective 
+of the sex. Per district, the sum of the total population is calculated as a zonal statistic. 
+There is one district for the _bas_ representation with missing data. 
+During training, the population count's natural logarithm was used because the 
+scale of the population counts varies greatly between districts. 
+The values are generally comparable between the _adm_ and _bas_ districts 
+though _adm_ shows a higher average value while _bas_ shows the highest maximum 
+value (Table \@ref(tab:02-data-pop)).
+
+```{r 02-data-pop, eval = T}
+predictors %>%
+  filter(var == "POP") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+descr$values = round(descr$values)
+na_present = "NA's" %in% descr$col_names
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.))) %>%
+  mutate_all(as.character) %>%
+  {if(na_present) mutate(., "NA's" = if_else(is.na(.[[8]]), "-", .[[8]])) else . }
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of total population numbers based on different spatial
+               aggregation units. (Unit of measurement: persons)", 
+               caption.short = "Descriptive statistics of total population numbers.",
+               style = list(latex_options = c("HOLD_position")))
+
+```
+
+
+#### Youth Bulge.
+
+@halkia2020a and @schellens2020 recently used this predictor to characterize 
+the age structure of a country. They define the youth bulge as the percentage of 
+the population aged between 15 and 24 divided by the population older than 25. 
+In this thesis, it is calculated using data from the WorldPop project [@worldpop2018]. 
+For every pixel, the total number of people for the respective age groups is calculated. 
+Then, the sum of persons per age group is extracted for every district to finally 
+calculate the youth bulge percentage. There are no missing values. The distribution 
+of values between _adm_ and _bas_ is relatively similar (Table \@ref(tab:02-data-ybulge)) 
+ranging from 0 % for _bas_ districts and a minimum value of 19% for _adm_ districts 
+to maximum values of 104 % and 115 %, respectively. The average value is comparable
+between the spatial units between 54.7 % to 57 %.
+
+```{r 02-data-ybulge, eval = T}
+predictors %>%
+  filter(var == "YBULGE") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+
+na_present = "NA's" %in% descr$col_names
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.))) %>%
+  mutate_all(as.character) %>%
+  {if(na_present) mutate(., "NA's" = if_else(is.na(.[[8]]), "-", .[[8]])) else . }
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of the youth bulge based on different spatial
+               aggregation units. (Unit of measurement: percent)", 
+               caption.short = "Descriptive statistics of the youth bulge.",
+               style = list(latex_options = c("HOLD_position")))
+
+```
+
+
+#### Dependency Ratio.
+
+This variable describes the ratio between dependents to the working-age persons in a 
+population. It is used as an official indicator by the World Bank, and it was 
+chosen here in addition to the youth bulge predictor to include some information 
+on the elderly of a given population. Dependents are defined as being younger 
+than 15 or older than 64. People between these age classes are considered as 
+the working-age population. The procedure to calculate this variable is the same 
+as for the youth bulge variable, except that different age groups were chosen.
+There are no missing values. The distribution of values between _adm_ and _bas_ 
+is relatively similar (Table \@ref(tab:02-data-dep)) ranging from 0 % for 
+_bas_ districts and 28 % for _adm_ districts to a maximum value of 157 % for _adm_ 
+districts and 150 % for _bas_ districts.
+
+```{r 02-data-dep, eval = T}
+predictors %>%
+  filter(var == "DEP") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+
+na_present = "NA's" %in% descr$col_names
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.))) %>%
+  mutate_all(as.character) %>%
+  {if(na_present) mutate(., "NA's" = if_else(is.na(.[[8]]), "-", .[[8]])) else . }
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of the dependency ratio based on different spatial
+               aggregation units. (Unit of measurement: percent)", 
+               caption.short = "Descriptive statistics of the dependency ratio.",
+               style = list(latex_options = c("HOLD_position")))
+
+```
+
+#### Gross Domestic Product (GDP).
+
+In most studies concerned with conflict prediction, GDP is found as a valuable predictor
+[@collier2004;@halkia2020a;@hegre2019;@muchlinski2016;@rost2009;@schellens2020;@schutte2017;@ward2005a].
+The variable is included in different forms, e.g., the natural logarithm, GDP 
+per capita, or the growth of GDP between time steps.  In this project, a 
+yearly available gridded data set spanning the years 1990 to 2015 at a spatial 
+resolution of 0.08° is used [@kummu2018]. Missing values from 2016 to 2019 are 
+interpolated by a simple linear interpolation on a pixel basis. There are some 
+missing values, mainly for very small districts located at the coastal zones 
+across the whole continent where the raster data set showed no values. The unit
+of measurement is 2011 international US Dollars. The average GDP value is calculated 
+as a zonal statistic. Because the values vary greatly between districts, the 
+natural logarithm of GDP is used as a predictor during training.
+Both _adm_ and _bas_ show very similar descriptive statistics ranging from
+about 280 USD to about 44,800 USD (Table \@ref(tab:02-data-gdp)). 
+
+```{r 02-data-gdp, eval = T}
+predictors %>%
+  filter(var == "GDP") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of the Gross Domestic Product based on different spatial
+               aggregation units. (Unit of measurement: 2011 USD)", 
+               caption.short = "Descriptive statistics of the Gross Domestic Product (GDP).",
+               style = list(latex_options = c("HOLD_position")))
+
+```
+
+#### Land Cover.
+
+In order to include information on the spatial structure of a district, 
+several land cover classes were included as predictors in the training process. 
+Different forms of land cover have been included in prior studies of conflict 
+prediction. @hegre2019 include areal statistics on agriculture, barren land, 
+shrubland, pasture, urban areas, and forest cover in their prediction
+model. @schellens2020 include the percentage of arable land and forest cover in
+their analysis, while @schutte2017 decided to include a remote sensing based
+proxy for green vegetation. In this thesis, several broad classes of land cover are included.
+These are cropland, forest cover, built-up area, grassland, shrubland, barren land, 
+and water bodies. All of these predictors are delineated using the MCD12Q1 product
+generated yearly from the Terra and Aqua MODIS satellites [@friedlmark2019]. The 
+product is delivered with five different land cover classification schemes, 
+of which only two are selected due to the suitability of their classification 
+scheme [@sulla2018]. These are the classifications of the International 
+Geosphere-Biosphere Programme (IGBP) and the University of Maryland (UMD). 
+For a pixel to be assigned one of the target classes listed above, both the IGBP 
+and UMD classification need to correspond to the same class. The data set is 
+processed at a spatial resolution of 0.005°. For each district, the count of 
+pixels for each class is extracted. The percentage of coverage is calculated, 
+with 0 representing a valid value for cases when the respective class is not 
+present. The data is available every year. Missing values occur for districts,
+where neither of the target land cover classes are present.
+Concerning the distribution of values, very low and high coverages are observed 
+(Table \@ref(tab:02-data-lcc)). The average values reveal some differences between
+_adm_ and _bas_ districts, for example, that the coverage with barren land is almost
+three times as high for _bas_ districts compared to _adm_. Also, higher rates
+of cropland coverage are observed with _adm_ districts.
+
+```{r 02-data-lcc, eval = T}
+
+vars <- c("CROP", "BARE", "FOREST", "GRASS", "SHRUB", "URBAN", "WATER")
+predictors %>% 
+  filter(var %in% vars) %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, var, value) %>%
+  filter(!(unit == "states" & id > 847)) %>%
+  group_by(unit, var) %>%
+  summarise("Min." = min(value, na.rm = T),
+            "1st Qu." = quantile(value, 0.25, na.rm = T),
+            "Median" = median(value, na.rm = T),
+            "Mean" = mean(value, na.rm = T),
+            "3rd Qu." = quantile(value, 0.75, na.rm = T),
+            "Max." = max(value, na.rm = T),
+            "NA's" = sum(is.na(value))) %>%
+  ungroup() %>%
+  mutate(unit = if_else(unit == "basins","\\textit{bas}", "\\textit{adm}")) %>%
+  mutate(unit = factor(unit, levels = c("\\textit{adm}", "\\textit{bas}"),
+                       labels = c("\\textit{adm}", "\\textit{bas}"))) %>%
+  arrange(var, unit) %>%
+  dplyr::select(-var) %>%
+  rename("Spatial Unit" = unit) %>%
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of different land cover classes based on different spatial
+               aggregation units. (Unit of measurement: percent)", 
+               caption.short = "Descriptive statistics of different land cover classes.",
+               style = list(latex_options = c("HOLD_position", "repeat_header")),
+               linesep = c("", "\\addlinespace"),
+               longtable = T) %>%
+  group_rows("Barren land", 1, 2) %>%
+  group_rows("Cropland", 3, 4) %>% 
+  group_rows("Forest", 5, 6) %>%
+  group_rows("Grassland", 7, 8) %>%
+  group_rows("Shrubland", 9, 10) %>%
+  group_rows("Built-up", 11, 12) %>%
+  group_rows("Water", 13, 14)
+
+```
+
+
+### Environmental Variables (EV)
+
+#### Precipitation.
+
+A global data set with monthly precipitation amount is provided by the Climate Hazards 
+Group Infrared Precipitation with Station data (CHIRPS) [@funk2015]. 
+Precipitation has been used previously as an indicator for long-term conflict risk [@witmer2017]. 
+The data set does not solely rely on the in-situ measurement of rainfall, instead 
+available station measurements are extrapolated to unknown areas using different sources
+of remotely sensed imagery [@funk2015]. It consists of quasi-global rainfall estimates 
+starting from 1981 to the near-present at a spatial resolution of 0.05° and a 
+temporal resoulution of one month. The unit of measurement is _mm_, and the data is 
+processed at its native resolution. The average rainfall estimate is extracted
+per district. Due to the data set's statistical generation process, there are no 
+missing values for areas on land. Some coastal districts do not align with the 
+raster's spatial extent, resulting in a few missing values. _adm_ districts show 
+higher average and maximum rainfall rates compared to _bas_ districts 
+(Table \@ref(tab:02-data-prec)). Maximum values above 1000 mm within a month are 
+observed for both aggregation units.
+
+```{r 02-data-prec}
+predictors %>%
+  filter(var == "PREC") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of precipitation amounts based on different spatial
+               aggregation units. (Unit of measurement: mm)", 
+               caption.short = "Descriptive statistics of precipitation amounts.",
+               style = list(latex_options = c("HOLD_position")))
+
+```
+
+#### Precipitation Anomalies.
+
+This variable describes the observed anomalies in precipitation in relation
+to a long-term observed monthly average precipitation at a specific location.
+It is calculated using the CHIRPS data set [@funk2015]. Because rainfall estimates 
+are available starting in 1981 (see above), the average rainfall can be calculated 
+on a pixel basis for a 30-year period (1981 - 2010) for every month. This averaged 
+value is then subtracted from each pixel for the period of interest (2001 - 2019). 
+The unit of measurement is _mm_, and the data is processed at its native resolution. 
+As a zonal statistic, the mean of all pixels within a district is extracted.
+Similar to the precipitation variable, for some coastal districts missing data 
+is present. The average anomaly for _adm_ districts is with 1.4 mm more than twice
+as high as for _bas_ districts with 0.6 mm (Table \@ref(tab:02-data-anom)). 
+
+```{r 02-data-anom}
+predictors %>%
+  filter(var == "ANOM") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of precipitation anomalies based on different spatial
+               aggregation units. (Unit of measurement: mm)",
+               caption.short = "Descriptive statistics of precipitation anomalies.",
+               style = list(latex_options = c("HOLD_position")))
+
+```
+
+#### Standardized Precipitation Index (SPI).
+
+This index was developed by @mckee1993 and is widely used in research as an indicator
+for droughts. For its calculation solely data on precipitation is needed. That is why
+it is sometimes referred to as an indicator for meteorological drought [@hayes2011].
+For a time-series of a location, different sets of averaging periods of variable length
+are calculated. For each month in the desired output sequence, a Gamma function
+is fitted on the averaging period to capture the probability of precipitation [@mckee1993].
+This probability is then used to calculate deviation of the observed precipitation
+from the normally distributed probability density. @mckee1993 use arbitrary but 
+regular reference periods of up to 48 months, which they interpret as representing
+short- to long-term precipitation deficits and surpluses. However, because
+increasing the length of the reference period means fewer data points at the
+beginning of the time series, here the SPI is calculated for 1, 3, 6, and 12
+month reference periods only using the R package SPEI [@begueria2017]. The 
+calculation is based on the native resolution of the CHIRPS data set. Even though
+the value of measurement is dimensionless, because it is standardized comparisons 
+across time and spatial districts are possible. The mean of all pixels within 
+a district is extracted for each reference period as a zonal statistic.
+Missing values are increasing from the 1 month to 12 month reference
+period because of the cut-off behavior of the SPI calculation (Table \@ref(tab:02-data-spi)).
+The distribution behaves similar between _adm_ and _bas_ districts, with the 
+lowest values present for SPI1 between -6 and -7. Maximum values are also quite
+similar reaching values between 6 and 8, while the average SPI values are only
+slightly above 0. 
+
+\newpage
+
+```{r 02-data-spi}
+vars <- c("SPI1", "SPI3", "SPI6", "SPI12")
+predictors %>% 
+  filter(var %in% vars) %>%
+  as_tibble() %>%
+  mutate(var = factor(var,
+                      labels = vars,
+                      levels = vars)) %>%
+  dplyr::select(id, unit, var, value) %>%
+  filter(!(unit == "states" & id > 847)) %>%
+  group_by(unit, var) %>%
+  summarise("Min." = round(min(value, na.rm = T),3),
+            "1st Qu." = round(quantile(value, 0.25, na.rm = T),3),
+            "Median" = round(median(value, na.rm = T),3),
+            "Mean" = round(mean(value, na.rm = T),3),
+            "3rd Qu." = round(quantile(value, 0.75, na.rm = T),3),
+            "Max." = round(max(value, na.rm = T),3),
+            "NA's" = round(sum(is.na(value)),3)) %>%
+  ungroup() %>%
+  mutate(unit = if_else(unit == "basins","\\textit{bas}", "\\textit{adm}")) %>%
+  mutate(unit = factor(unit, levels = c("\\textit{adm}", "\\textit{bas}"),
+                       labels = c("\\textit{adm}", "\\textit{bas}"))) %>%
+  arrange(var, unit) %>%
+  dplyr::select(-var) %>%
+  rename("Spatial Unit" = unit) %>%
+  thesis_kable(escape = FALSE,
+        caption = "Descriptive statistics of the Standardized Precipitation Index (SPI) based on different spatial
+               aggregation units. (Unit of measurement: dimensionless)", 
+        caption.short = "Descriptive statistics of the Standardized Precipitation Index (SPI).",
+        linesep = c("", "\\addlinespace"),
+        longtable = T) %>%
+  kable_styling(latex_options = c("HOLD_position", "repeat_header")) %>%
+  group_rows("SPI1", 1, 2) %>%
+  group_rows("SPI3", 3, 4) %>% 
+  group_rows("SPI6", 5, 6) %>%
+  group_rows("SPI12", 7, 8)
+
+```
+
+
+#### Standardized Precipitation Evaporation Index (SPEI).
+
+The SPEI can be understood as an extension of the SPI in the sense that, 
+in addition to precipitation, Potential Evaportranspiration (PET) is included in 
+the calculation. Consequently, changes in the water balance due to varying 
+temperatures, a major issue in the context of global warming, can be accounted for 
+[@vicente2010]. For the calculation, the PET is subtracted from the 
+precipitation values. PET data are obtained using the MxD16A2 products, 
+which provide 8-Day estimates of PET [@runningsteve2017; @runningsteve2017a]. To 
+construct a monthly data set, the 8-day composites are firstly divided by 8 to 
+retrieve a specific value for each day of the year. Then, the daily data is 
+aggregated to a monthly scale by taking
+the sum of daily values. Even though the data comes at a higher spatial resolution, 
+it is processed on the resolution at which precipitation data from CHIRPS 
+is available (i.e., 0.05°). After the subtraction of PET from precipitation, 
+SPEI is calculated for 1, 3, 6, and 12 month reference periods as explained in 
+the section above. PET is not available for large parts of the Sahara 
+because the algorithm used to calculate it is not specified for desert areas. 
+As a zonal statistic, the mean of all pixels within a district is extracted.
+The SPEI distribution between _adm_ and _bas_ districts is very similar, with 
+value ranges between approximately -5 to 6 and mean values slightly above 0 
+(Table \@ref(tab:02-data-spei)). 
+
+
+```{r 02-data-spei}
+vars <- c("SPEI1", "SPEI3", "SPEI6", "SPEI12")
+predictors %>% 
+  filter(var %in% vars) %>%
+  as_tibble() %>%
+  mutate(var = factor(var,
+                      labels = vars,
+                      levels = vars)) %>%
+  dplyr::select(id, unit, var, value) %>%
+  filter(!(unit == "states" & id > 847)) %>%
+  group_by(unit, var) %>%
+  summarise("Min." = round(min(value, na.rm = T),3),
+            "1st Qu." = round(quantile(value, 0.25, na.rm = T),3),
+            "Median" = round(median(value, na.rm = T),3),
+            "Mean" = round(mean(value, na.rm = T),3),
+            "3rd Qu." = round(quantile(value, 0.75, na.rm = T),3),
+            "Max." = round(max(value, na.rm = T),3),
+            "NA's" = round(sum(is.na(value)),3)) %>%
+  ungroup() %>%
+  mutate(unit = if_else(unit == "basins","\\textit{bas}", "\\textit{adm}")) %>%
+  mutate(unit = factor(unit, levels = c("\\textit{adm}", "\\textit{bas}"),
+                       labels = c("\\textit{adm}", "\\textit{bas}"))) %>%
+  arrange(var, unit) %>%
+  dplyr::select(-var) %>%
+  rename("Spatial Unit" = unit) %>%
+  thesis_kable(escape = FALSE,
+        caption = "Descriptive statistics of the Standardized Precipitation-Evapotranspiration Index (SPEI) based on different spatial
+               aggregation units. (Unit of measurement: dimensionless)", 
+        caption.short = "Descriptive statistics of the Standardized Precipitation-Evapotranspiration Index (SPEI).",
+        linesep = c("", "\\addlinespace"),
+        longtable = T) %>%
+  kable_styling(latex_options = c("HOLD_position", "repeat_header")) %>%
+  group_rows("SPEI1", 1, 2) %>%
+  group_rows("SPEI3", 3, 4) %>% 
+  group_rows("SPEI6", 5, 6) %>%
+  group_rows("SPEI12", 7, 8)
+
+```
+
+#### Evapotranspiration (ET).
+
+This variable is extracted from the MxD16A2 product, as explained in the section above. 
+However, in contrast to PET, the data is processed at a resolution of 0.01°.
+Evapotranspiration measures the amount of water that evaporates
+from the soil and plants to the atmosphere and is an essential variable in analyzing 
+plant productivity, water consumption, and drought conditions [@senay2020]. ET is
+not available for large parts of the Sahara because the algorithm used to calculate
+ET is not specified for desert areas. For every pixel, the total sum of 
+ET is calculated per month. The average ET is extracted per district. 
+The unit of measurement is kg/m². _bas_ districts show a lower average ET
+compared to _adm_ districts resulting in a difference of about 100 mm (Table \@ref(tab:02-data-et)). 
+
+```{r 02-data-et}
+predictors %>%
+  filter(var == "ET") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of evapotranspiration (ET) based on different spatial
+               aggregation units. (Unit of measurement: kg/m²)",
+               caption.short = "Descriptive statistics of evapotranspiration (ET).",
+               style = list(latex_options = c("HOLD_position")))
+
+```
+
+#### Land Surface Temperature (LST).
+
+Several studies have analyzed the effect of temperature on conflicts, e.g. for 
+long-term projections [@witmer2017]. Temperature is an essential climatic component
+that substantially influences the interaction between other measurable components
+such as ET and PET [@vicente2010]. LST is obtained by the MxD11CV 
+monthly LST data sets, which provides temperature estimates for land areas 
+during day and nighttime [@wanzhengming2015; @wanzhengming2015a].
+Here, only daytime LST is used as a predictor. The data set is processed at 
+a spatial resolution of 0.05°. It irregularly contains missing data
+concentrated at tropical locations due to persistent cloud coverage within an 
+observation window. The unit of measurement is Kelvin. 
+As a zonal statistic, the mean of all pixels within a district is extracted.
+The distribution between _bas_ and _adm_ districts is quite similar, with _bas_
+districts showing slightly higher daytime LST on average (Table \@ref(tab:02-data-lst)). 
+
+```{r 02-data-lst}
+predictors %>%
+  filter(var == "LST") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of land surface temperature (LST) based on different spatial
+               aggregation units. (Unit of measurement: Kelvin)", 
+               caption.short = "Descriptive statistics of land surface temperature (LST).",
+               style = list(latex_options = c("HOLD_position")))
+```
+
+#### Gross Primary Productivity (GPP).
+
+As a proxy for biomass production, GPP is included in this study. It measures the amount
+of carbon produced within in a grid cell. It is extracted using the MxD17A2H 
+Gross Primary Productivity 8-Day data sets [@runningsteve2015; @runningsteve2015a]. 
+The same procedure to obtain a monthly set as with the ET variable explained
+above is conducted. For GPP, the monthly sum is calculated. Similar 
+to PET and ET, there are missing data in the Sahara region because the production 
+algorithm is not specified to calculate GPP over desert areas. The data is 
+processed at a spatial resolution of 0.01° and is available at a monthly time-scale. 
+The unit of measurement is kg C/m². On average, _adm_ districts are characterized
+with higher GPP compared to _bas_ districts (Table \@ref(tab:02-data-gpp)).
+
+```{r 02-data-gpp}
+predictors %>%
+  filter(var == "GPP") %>%
+  as_tibble() %>%
+  dplyr::select(id, unit, value) %>%
+  group_split(unit) -> dfs
+
+dfs[[1]] %>%
+  pull(value) %>%
+  summary() -> bas_sum
+
+dfs[[2]] %>%
+  filter(id <= 847) %>% # filter ids because we got max 847 features in adm
+  pull(value) %>%
+  summary() -> adm_sum
+
+
+adm_sum = tibble(values = round(adm_sum, 3), col_names = names(adm_sum))
+bas_sum = tibble(values = round(bas_sum, 3), col_names = names(bas_sum))
+
+adm_sum["Spatial unit"] <- "\\textit{adm}"
+bas_sum["Spatial unit"] <- "\\textit{bas}"
+
+descr <- rbind(adm_sum, bas_sum)
+
+descr %<>%
+  pivot_wider(id_cols = "Spatial unit", 
+              values_from = values, names_from = col_names) %>%
+  dplyr::select(c(names(.)[1], names(.)))
+
+descr %>%  
+  thesis_kable(escape = FALSE,
+               caption = "Descriptive statistics of gross primary productivity (GPP) based on different spatial
+               aggregation units. (Unit of measurement: kg C/m²)",
+               caption.short = "Descriptive statistics of gross primary productivity (GPP).",
+               style = list(latex_options = c("HOLD_position")))
+```
+
+#### Interaction Variables.
+
+For environmental variables available at a monthly time scale, interaction
+variables with a binary mask for cropland are created. This interaction is 
+expected to represent better productivity changes in the agricultural sector 
+than the averaged variables for the entire district. Capturing these variables 
+over time might translate into an accurate description of the agricultural sector's 
+development in terms of productivity in- or decreases, crop failure, and 
+drought stress. It should be noted that the cropland mask is relatively coarse in 
+resolution. Small-scale agriculture or agroforestry systems are not likely
+to be captured due to spectral mixture with other land cover classes at these 
+locations. For reasons of brevity, the descriptive statistics of these interaction
+variables are reported in the Appendix (Table \@ref(tab:appendix-agr-table)).
+
+\newpage

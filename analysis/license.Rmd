@@ -1,0 +1,14 @@
+---
+title: "License"
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r read-licence}
+readLines("../LICENSE.md") -> chunk
+```
+
+`r knitr::knit(text = chunk)`

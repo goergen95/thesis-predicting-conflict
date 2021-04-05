@@ -1,0 +1,10 @@
+https://e4ftl01.cr.usgs.gov//DP111/MOLT/MOD17A2HGF.006/2011.12.19/MOD17A2HGF.A2011353.h20v08.006.2019353150740.hdf
+
+
+aria2c https://e4ftl01.cr.usgs.gov//DP111/MOLT/MOD16A2GF.006/2009.02.26/MOD16A2GF.A2009057.h17v07.006.2020003080621.hdf -x 3 --http-use=dagoergen --http-passw=Kl4ss3Nv --retry-wait=2 --continue=true
+
+
+
+aria2c -i URLS_MYD.txt -x32 -s32 -j16 --http-use=dagoergen --http-passw=Kl4ss3Nv --retry-wait=2 --continue=true
+
+
