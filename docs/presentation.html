@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Predicting Violent Conflict in Africa</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Darius A. Görgen" />
+    <meta name="date" content="2021-05-05" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="libs/js-cookie/js.cookie.js"></script>
+    <script src="libs/peerjs/peerjs.min.js"></script>
+    <script src="libs/tiny.toast/toast.min.js"></script>
+    <link href="libs/xaringanExtra-broadcast/broadcast.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-broadcast/broadcast.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/metropolis.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Predicting Violent Conflict in Africa
+## Leveraging Open Geodata and Deep Learning for Spatio-Temporal Event Detection
+### Darius A. Görgen
+### B.Sc. Geography, University of Marburg
+### 2021-05-05
+
+---
+
+
+
+
+# Content
+
+.pull-left[
+
+Introduction
+--
+Methodology
+--
+Main Findings
+--
+Discussion
+--
+Conclusion
+--
+]
+
+.pull-right[
+
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Introduction
+
+---
+
+# Introduction
+
+.pull-left[
+- violent conflicts impede social and economical development and put environmental 
+resources at risk 
+- we observe complex non-linear relationships with natural resources, e.g.
+food production (see Koren, 2018 and Buhaug et al., 2015)
+- research activities on violent conflicts are found between inferential statistics
+and prediction models (see Ward et al, 2010)
+- automated collection of highly disaggregated conflict event data enables analysis
+on very high levels of detail
+- environmental variables as predictors are barley found despite a public focus
+on environmental change and its consequences
+- on the African continent violent conflict seems to be on the rise during the
+21st millennium
+]
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+.pull-right[
+![:scale 90%](../report/thesis_files/figure-latex/01-intro-conflicts-1.svg)
+]
+
+---
+
+class: inverse, center, middle
+
+# Research question
+
+---
+
+# Research question
+
+&lt;br&gt;
+
+*Does a modern deep learning framework and the vast availability
+of open geodata positively impact the task of spatio-temporal conflict detection?*
+
+&lt;br&gt;
+
+--
+
+- **H1**: Environmental predictors increase the performance of deep learning models for the
+conflict prediction task over models based solely on the conflict history and structural
+variables.
+
+--
+
+- **H2**: Aggregating predictor and response variables on the basis of sub-basin watersheds
+delivers better predictive performance than aggregating on sub-national administrative
+districts.
+
+
+---
+
+class: inverse, center, middle
+
+# Methodology
+
+---
+
+# Methodology
+
+## (1) Spatio-Temporal Aggregation
+
+.pull-left[
+- collection of 40 predictors (2001 - 2019) in spatially explicit formats
+
+- spatio-temporal aggregation on two units of analysis (_adm_ and _bas_) and 4 spatial
+buffers (0, 50, 100, 200 km)
+
+- temporal split of training, validation, and testing data sets (2001 - 2016, 2017 - 2018, 2019)
+
+- splitting into 3 predictor sets: Conflict History (CH), Structural Variables (SV), and Environmental Variables (EV)
+
+`\(X_t^L= x_t^1,x_{t+1}^1...,x_{t-N+1}^1,...\ ..., x_t^L,...,x_{t-N+1}^L\)`
+
+]
+
+.pull-right[
+&lt;img src = "../assets/wf.svg", width = 70%, height = 70%, style = "position:absolute; top: 20%; left: 45%;"&gt;&lt;/img&gt;
+]
+
+---
+
+# Methodology
+
+## (2) Response Variable &amp; Bayesian Optimization
+
+.pull-left[
+
+- binary encoding of response variable (3 conflict classes + 1 combined class)
+
+- Bayesian optimization of CNN-LSTM Hyperparameters based on combined conflict class (**cb**) 
+
+- 100 random trials + 100 optimization trials for all combinations of *aggregation units* **per** *predictor sets*
+
+`\(x_{t} = arg \;\underset{x}{max} \, u(x|D_{1:t-1})\)`
+
+
+]
+
+.pull-right[
+&lt;img src = "../assets/wf.svg", width = 70%, height = 70%, style = "position:absolute; top: 20%; left: 45%;"&gt;&lt;/img&gt;
+]
+
+---
+
+# Methodology
+
+## (3) Model training
+
+.pull-left[
+
+- neural networks are initiated with parameters from BO
+
+- simple logistic regression on the most complex predictor set for baseline reference
+
+- training is repeated 10 times for each combination of *aggregation units* **x** *predictor sets* **x** *outcome classes* = 280 models
+
+
+]
+
+.pull-right[
+&lt;img src = "../assets/wf.svg", width = 70%, height = 70%, style = "position:absolute; top: 20%; left: 45%;"&gt;&lt;/img&gt;
+]
+
+---
+
+# Methodology
+
+## (4) Testing
+
+.pull-left[
+
+- performance is logged based on the testing set for each model 
+
+- performance is logged for each month in a 12 month prediction horizon
+
+- Metrics: F2-score, AUC, AUPR, Precision, Sensitivity, Specificity
+
+`\(F_\beta = (1+\beta^2)\frac{Precision*Sensitivity}{\beta^2*Precision+Sensitivity}\)`
+
+- ANOVA: 
+- aggregation unit (*adm*, *bas*)
+- conflict class (**cb**, **sb**, **ns**, **os**)
+- logistic regression + predictor sets (LR, CH, SV, EV)
+
+
+]
+
+.pull-right[
+&lt;img src = "../assets/wf.svg", width = 70%, height = 70%, style = "position:absolute; top: 20%; left: 45%;"&gt;&lt;/img&gt;
+]
+
+---
+
+class: inverse, center, middle
+
+# Results
+
+---
+
+# Results
+
+## Global Performance
+
+.center[
+![](../report/thesis_files/figure-latex/04-results-global-f2-1.svg)
+]
+
+---
+
+# Results
+
+## Temporal Performance
+
+.center[
+![](../report/thesis_files/figure-latex/04-results-time-f2-1.svg)
+]
+
+---
+
+# Results
+
+## Spatial Performance - *adm*
+
+
+
+
+.center[
+
+&lt;img src="presentation_files/figure-html/map-adm-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+# Results
+
+## Spatial Performance - *bas*
+
+.center[
+
+&lt;img src="presentation_files/figure-html/map-bas-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Results
+
+## ANOVA
+
+.pull-left[
+&lt;table class="table table" style="margin-left: auto; margin-right: auto; font-size: 12px; margin-left: auto; margin-right: auto;border-bottom: 0;"&gt;
+&lt;caption style="font-size: initial !important;"&gt;Results of the Welch-James ANOVA.&lt;/caption&gt;
+ &lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;cb&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;sb&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;ns&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;os&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Term &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; p &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sig. &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; p &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sig. &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; p &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sig. &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; p &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sig. &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; unit &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00e+00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; *** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.77e-03 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.65e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2.41e-08 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; *** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; type &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00e+00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; *** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00e+00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; *** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00e+00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; *** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00e+00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; *** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; unit:type &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.77e-05 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; *** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2.70e-03 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.89e-02 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; * &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 6.70e-04 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; *** &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;&lt;tr&gt;&lt;td style="padding: 0; " colspan="100%"&gt;
+&lt;span style="font-style: italic;"&gt;General:&lt;/span&gt; &lt;sup&gt;&lt;/sup&gt; The significance level is indicated according to: *p &amp;lt;= 0.05, **p &amp;lt;= 0.01, ***p &amp;lt;= 0.001&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;
+&lt;/table&gt;
+
+- assumption of equal variance for Fisher's ANOVA is violated
+- Welch's ANOVA does not assume equal variance
+- interaction terms are significant for all outcome variables
+&lt;br&gt;
+&amp;rightarrow; focus on interaction terms
+
+]
+
+.pull-right[
+&lt;img src = "../report/thesis_files/figure-latex/appendix-anova-qq-1.svg", width = 33%, height = 33%, style = "position:absolute; top: 20%; left: 60%;"&gt;&lt;/img&gt;
+&lt;img src = "../report/thesis_files/figure-latex/appendix-anova-resid-1.svg", width = 33%, height = 33%, style = "position:absolute; top: 55%; left: 60%;"&gt;&lt;/img&gt;
+]
+
+
+---
+
+# Results
+
+## ANOVA
+
+- regarding **H1**:
+  - for *adm* districts, no significant difference from CH to EV set is observed for
+  any outcome variable
+
+  - for *bas* districts a significant difference from the CH to the EV theme is 
+  observed for the **cb** outcome variable accounting for 7.2 points in F2-score
+
+  - for *bas* districts and **sb** and  **os** outcome variables, the difference is not
+  significant (p-value ~ 0.1), the estimate is about 4.6 to 4.9 points in F2-score
+
+- regarding **H2**:
+  - *bas* districts consistently show significant higher estimates than *adm* districts
+  except for the **ns** outcome variable in a range between 3.7 to 9.9 points in F2-score 
+
+---
+
+class: inverse, center, middle
+
+# Discussion
+
+---
+
+# Discussion
+
+---
+
+
+class: inverse, center, middle
+
+# Conclusion
+
+---
+
+# Conclusion
+
+
+---
+
+class: inverse, center, middle
+
+# Extra Slides
+
+---
+
+# CNN 
+
+.center[
+![:scale 50%](../report/thesis_files/figure-latex/03-methods-cnn-1.svg)
+
+`\(X^l_\beta = \sigma \Big( \sum\limits^L_{i=1} X^{l-1}_i \cdot k^l_{i\beta} + b^l_{i\beta} \Big)\)`
+
+]
+
+---
+
+# LSTM
+
+.center[
+&lt;figure&gt;
+&lt;img src = "../assets/img/LSTM.png", width = 50%, height = 50%&gt;&lt;/img&gt;
+&lt;figcaption&gt;Source: Yu et al. (2019)&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+$$
+`\begin{split}
+f(t) = \sigma (W_{fh} h_{t-1} + W_{fx}x_t + b_f) \\
+i(t) = \sigma (W_{ih} h_{t-1} + W_{ix}x_t + b_i) \\
+\widetilde{c}(t) = tanh(W_{\widetilde{c}h} h_{t-1} + W_{\widetilde{c}x}x_t + b_{\widetilde{c}}) \\
+c(t) = f(t) \cdot c_{t-1} + i(t) \cdot \widetilde{c}_t \\
+o(t) = \sigma (W_{oh} h_{t-1} + W_{ox}x_t + b_0) \\
+h_t = o_t \cdot tanh(c_t)
+\end{split}`
+$$
+]
+
+---
+
+# Network Structure
+
+&lt;img src = "../report/thesis_files/figure-latex/03-methods-arch-1.svg", width = 75%, height = 75%, style = "position:absolute; top: 15%; left: -10%;"&gt;&lt;/img&gt;
+
+&lt;img src = "../report/thesis_files/figure-latex/03-methods-fc-1.svg", width = 60%, height = 60%, style = "position:absolute; top: 22%; left: 45%;"&gt;&lt;/img&gt;
+
+---
+
+# Predictors
+
+
+
+.pull-left[
+
+&lt;table class="table" style="font-size: 10px; margin-left: auto; margin-right: auto;"&gt;
+&lt;caption style="font-size: initial !important;"&gt;Spatio-temporal properties of predictor variables.&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Name &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Spatial Resolution &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Temporal Resolution &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Unit &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Aggregation &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr grouplength="1"&gt;&lt;td colspan="5" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;Baseline&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Conflict history &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; - &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; binary &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; - &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr grouplength="14"&gt;&lt;td colspan="5" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;Structural&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Terrain Ruggedness Index (log) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0008° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; static &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Travel time (log) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.008° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; static &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; minutes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Livestock (log) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.08° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; static &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2010 heads &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; sum &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Population (log) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.008° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; yearly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; persons &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; sum &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Youth bulge &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.008° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; yearly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; sum &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Dependency ratio &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.008° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; yearly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; GDP (log) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.08° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; yearly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2011 USD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Cropland &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.005° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; yearly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; sum &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Forest cover &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.005° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; yearly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; sum &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Builtup area &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.005° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; yearly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; sum &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Grassland &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.005° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; yearly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; sum &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Shrubland &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.005° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; yearly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; sum &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Barren land &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.005° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; yearly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; sum &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Water bodies &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.005° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; yearly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; sum &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+.pull-right[
+&lt;table class="table" style="font-size: 10px; margin-left: auto; margin-right: auto;border-bottom: 0;"&gt;
+&lt;caption style="font-size: initial !important;"&gt;Spatio-temporal properties of predictor variables. (cont.)&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Name &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Spatial Resolution &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Temporal Resolution &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Unit &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Aggregation &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr grouplength="14"&gt;&lt;td colspan="5" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;Environmental&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Precipitation &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.05° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; mm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Precipitation anomaly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.05° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; mm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; SPI &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.05° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; - &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; SPEI &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.05° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; - &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Land Surface Temperature &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.05° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; K &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Evapotranspiration &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.01° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; kg/m² &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Gross Primary Productivity &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.01° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; kg C/m² &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Precipitatation agr. &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.05° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; mm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Precipitation anonmaly agr. &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.05 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; mm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; SPI agr. &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.05° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; - &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; SPEI agr. &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.05° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; - &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Land Surface Temperature agr. &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.005° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; K &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Evapotranspiration agr. &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.005° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; kg/m² &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Gross Primary Productivity agr. &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.005° &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; monthly &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; kg C/m² &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mean &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;&lt;tr&gt;&lt;td style="padding: 0; " colspan="100%"&gt;
+&lt;span style="font-style: italic;"&gt;General:&lt;/span&gt; &lt;sup&gt;&lt;/sup&gt; Variables denoted with agr. were calculated by a multiplicative interaction with a binary cropland mask.&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;
+&lt;/table&gt;
+]
+
+---
+
+# Bayesian Optimization
+
+&lt;table class="table" style="font-size: 7px; margin-left: auto; margin-right: auto;border-bottom: 0;"&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Conflict History (CH)&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Structural Variables (SV)&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Environmental Variables (EV)&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-style: italic; " colspan="1"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;adm&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-style: italic; " colspan="1"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;bas&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-style: italic; " colspan="1"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;adm&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-style: italic; " colspan="1"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;bas&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-style: italic; " colspan="1"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;adm&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-style: italic; " colspan="1"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;bas&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(double\_cnn\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Yes/Yes/Yes/Yes &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Yes/Yes/Yes/Yes &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Yes/Yes/Yes/Yes &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; No/No/No/No &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Yes/Yes/Yes/Yes &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Yes/Yes/Yes/Yes &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(a_{cnn}\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; softsign/hard_sigmoid/softsign/softmax &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; softsign/hard_sigmoid/sigmoid/softsign &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; softmax/softmax/hard_sigmoid/softmax &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; sigmoid/softplus/softplus/softmax &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; hard_sigmoid/softmax/hard_sigmoid/hard_sigmoid &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; softmax/softmax/hard_sigmoid/softmax &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(k_{cnn}\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 106/125/45/78 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 86/99/39/128 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 95/70/63/42 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 41/102/67/43 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 19/41/94/99 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 92/76/66/42 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(\beta_{cnn}\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 5/10/22/8 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 19/24/24/6 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 10/9/9/16 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 22/12/14/5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 12/6/13/14 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 8/10/10/17 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(pool_1\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(max/max/avg./max\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(avg./max/max/max\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(max/avg./avg./max\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(avg./max/avg./avg.\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(max/avg./max/avg.\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(max/avg./avg./max\)` &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(pool\_size\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 15/23/3/14 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 24/19/10/21 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 12/18/17/18 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 16/6/10/9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 12/16/9/22 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 12/18/17/16 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(pool_2\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(max/max/max/avg.\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(max/max/avg./avg.\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(max/max/max/avg.\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(max/max/avg./max\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(max/max/max/avg.\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(max/max/max/avg.\)` &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(lstm\_layers\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2/2/2/2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3/3/3/3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2/2/2/2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2/2/2/2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3/3/3/3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2/2/2/2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(n_1\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 114/83/114/106 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 97/12/12/78 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 109/128/43/23 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 23/59/38/92 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 88/28/85/122 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 107/127/38/18 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(d_1\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.22/0.08/0.14/0.49 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.23/0.2/0.38/0.25 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.02/0.09/0.07/0.06 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.22/0.14/0.02/0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2/0.1/0.09/0.31 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.02/0.07/0.05/0.06 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(n_2\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 79/53/62/123 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 128/34/84/65 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 83/82/128/21 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 37/114/83/56 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 111/19/13/104 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 76/80/128/21 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(d_2\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.05/0.28/0.37/0.08 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.5/0.24/0.05/0.16 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.34/0.03/0/0.29 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.26/0.12/0.46/0.47 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.23/0.04/0.09/0.49 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.34/0.02/0.01/0.31 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(n_3\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -/-/-/- &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 85/92/96/57 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -/-/-/- &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -/-/-/- &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 54/109/106/13 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -/-/-/- &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(d_3\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -/-/-/- &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.437/0.231/0.255/0.172 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -/-/-/- &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -/-/-/- &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.202/0.477/0.284/0.285 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -/-/-/- &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(a_{dense}\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(softplus\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(elu\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(relu\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(softplus\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(selu\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(relu\)` &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(n_{dense}\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 21 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 97 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 32 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 38 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 95 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 29 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(a_{out}\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(sigmoid\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(sigmoid\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(sigmoid\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(sigmoid\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(sigmoid\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(hard\_sigmoid\)` &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(\pi\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.4529 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.6534 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2404 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.3856 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.5697 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.275 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(\alpha\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.9245 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.7928 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.8056 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.9087 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.722 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.8544 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(\gamma\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 6.2896 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 5.8844 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 7.8011 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.1974 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 4.8053 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 8.1588 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(opti\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(adagrad\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(adam\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(adamax\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(adagrad\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(adamax\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; `\(adamax\)` &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; `\(lr\)` &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0244 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0116 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0246 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0258 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0117 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0226 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;&lt;tr&gt;&lt;td style="padding: 0; " colspan="100%"&gt;
+&lt;span style="font-style: italic;"&gt;General:&lt;/span&gt; &lt;sup&gt;&lt;/sup&gt; Multiple values indicate the results for the input branch of buffer size 0/50/100/200 km, respecitvley.&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;
+&lt;/table&gt;
+
+
+---
+
+# ANOVA
+
+&lt;table class="table" style="font-size: 8px; margin-left: auto; margin-right: auto;border-bottom: 0;"&gt;
+&lt;caption style="font-size: initial !important;"&gt;Results of the Games-Howell test for difference in mean values.&lt;/caption&gt;
+ &lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;cb&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;sb&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;ns&lt;/div&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-weight: bold; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;os&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Contrast &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Est. &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; p &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Est. &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; p &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Est. &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; p &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Est. &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; p &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr grouplength="4"&gt;&lt;td colspan="9" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;EV:LR&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; adm:adm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.29299 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2.4e-10*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.40543 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4.6e-10*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.25543 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7.1e-08*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.28137 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.4e-10*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; adm:bas &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.22865 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.1e-10*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.34574 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7.9e-10*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.22216 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.0e-07*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.22065 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.0e+00*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; bas:adm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.36458 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.9e-12*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.42837 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.4e-10*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.30397 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.7e-10*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.32709 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2.2e-10*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; bas:bas &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.30024 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.4e-11*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.36869 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.9e-10*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.27070 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.1e-10*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.26636 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 5.3e-11*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr grouplength="4"&gt;&lt;td colspan="9" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;EV:CH&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; adm:adm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.02770 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.2e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.04354 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2.1e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.02863 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7.7e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.02135 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2.1e-01 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; adm:bas &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.04619 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4.9e-06*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.04032 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 8.4e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.06320 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 6.6e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00803 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.0e+00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; bas:adm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.09929 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7.8e-06*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.06649 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.6e-02* &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.01991 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 8.6e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.06706 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.6e-05*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; bas:bas &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.02540 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.0e-03** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.06327 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4.1e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.11175 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.1e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.05374 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2.5e-02* &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr grouplength="4"&gt;&lt;td colspan="9" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;EV:SV&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; adm:adm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00130 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.0e+00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.01441 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 8.7e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.04002 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 8.6e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.01428 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7.6e-01 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; adm:bas &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.03179 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 5.5e-04*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.02382 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4.8e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.01401 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.6e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.01023 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.8e-01 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; bas:adm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.07289 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2.0e-11*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.03736 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.9e-02* &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.08856 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.1e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.06000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.4e-04*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; bas:bas &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.03980 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 5.9e-05*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.00087 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.0e+00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.03453 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.0e-02* &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.03549 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.1e-01 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr grouplength="1"&gt;&lt;td colspan="9" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;EV:EV&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; bas:adm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.07159 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.4e-11*** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.02295 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4.0e-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.04854 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4.0e-02* &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.04571 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 8.7e-06*** &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;&lt;tr&gt;&lt;td style="padding: 0; " colspan="100%"&gt;
+&lt;span style="font-style: italic;"&gt;General:&lt;/span&gt; &lt;sup&gt;&lt;/sup&gt; Contrasts are indicated by ":" reading as the left-hand side compared to the right-hand side. Est. indicates the difference in mean, p indicates the p value with significance level according to: *p &amp;lt;= 0.05, **p &amp;lt;= 0.01, ***p &amp;lt;= 0.001&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;
+&lt;/table&gt;
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(60000);
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
