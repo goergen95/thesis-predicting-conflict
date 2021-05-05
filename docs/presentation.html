@@ -66,14 +66,16 @@ class: inverse, center, middle
 .pull-left[
 - violent conflicts impede social and economical development and put environmental 
 resources at risk 
+
 - we observe complex non-linear relationships with natural resources, e.g.
-food production (see Koren, 2018 and Buhaug et al., 2015)
+food production (see [Koren, 2018](https://doi.org/10.1093/ajae/aax106) and [Buhaug et al., 2015](https://doi.org/10.1088/1748-9326/10/12/125015))
+
 - research activities on violent conflicts are found between inferential statistics
-and prediction models (see Ward et al, 2010)
-- automated collection of highly disaggregated conflict event data enables analysis
-on very high levels of detail
+and prediction models (see [Ward et al, 2010](https://doi.org/10.1177/0022343309356491))
+
 - environmental variables as predictors are barley found despite a public focus
 on environmental change and its consequences
+
 - on the African continent violent conflict seems to be on the rise during the
 21st millennium
 ]
@@ -84,6 +86,7 @@ on environmental change and its consequences
 .pull-right[
 ![:scale 90%](../report/thesis_files/figure-latex/01-intro-conflicts-1.svg)
 ]
+
 
 ---
 
@@ -137,7 +140,7 @@ buffers (0, 50, 100, 200 km)
 
 - splitting into 3 predictor sets: Conflict History (CH), Structural Variables (SV), and Environmental Variables (EV)
 
-`\(X_t^L= x_t^1,x_{t+1}^1...,x_{t-N+1}^1,...\ ..., x_t^L,...,x_{t-N+1}^L\)`
+&gt; `\(X_t^L= x_t^1,x_{t+1}^1...,x_{t-N+1}^1,...\ ..., x_t^L,...,x_{t-N+1}^L\)`
 
 ]
 
@@ -159,7 +162,7 @@ buffers (0, 50, 100, 200 km)
 
 - 100 random trials + 100 optimization trials for all combinations of *aggregation units* **per** *predictor sets*
 
-`\(x_{t} = arg \;\underset{x}{max} \, u(x|D_{1:t-1})\)`
+&gt; `\(x_{t} = arg \;\underset{x}{max} \, u(x|D_{1:t-1})\)`
 
 
 ]
@@ -203,12 +206,12 @@ buffers (0, 50, 100, 200 km)
 
 - Metrics: F2-score, AUC, AUPR, Precision, Sensitivity, Specificity
 
-`\(F_\beta = (1+\beta^2)\frac{Precision*Sensitivity}{\beta^2*Precision+Sensitivity}\)`
+&gt; `\(F_\beta = (1+\beta^2)\frac{Precision*Sensitivity}{\beta^2*Precision+Sensitivity}\)`
 
 - ANOVA: 
-- aggregation unit (*adm*, *bas*)
-- conflict class (**cb**, **sb**, **ns**, **os**)
-- logistic regression + predictor sets (LR, CH, SV, EV)
+  - aggregation unit (*adm*, *bas*)
+  - conflict class (**cb**, **sb**, **ns**, **os**)
+  - logistic regression + predictor sets (LR, CH, SV, EV)
 
 
 ]
@@ -383,6 +386,28 @@ class: inverse, center, middle
 
 # Discussion
 
+- subtle balance between a model's precision and sensitivity
+
+&lt;br&gt;
+
+- trade-off between spatial detail and predictive performance
+
+&lt;br&gt;
+
+- unfamiliarity by non-experts with watershed boundaries
+
+&lt;br&gt;
+
+- conflict types and modes currently not fully included
+
+&lt;br&gt;
+
+- focus on predictors available in gridded data sets
+
+&lt;br&gt;
+
+- observed differences might be due to subtle changes in DL architectures
+
 ---
 
 
@@ -394,8 +419,51 @@ class: inverse, center, middle
 
 # Conclusion
 
+- DL and open geodata can contribute to the conflict prediction task
+
+&lt;br&gt;
+
+- environmental variables aggregated on watershed levels seem to increase
+performance
+
+&lt;br&gt;
+
+- availability of data on both sides of the equation is increasing
+
+&lt;br&gt;
+
+- predictive analysis enhances scientific understanding and adds value
+to ongoing conflict prevention efforts
 
 ---
+
+# Main references
+
+.font90[
+- Colaresi &amp; Mahmood 2017. Do the robot: Lessons from machine learning to
+improve conflict forecasting. Journal of Peace Research 54, 193–214. [https://doi.org/10.1177/0022343316682065](https://doi.org/10.1177/0022343316682065)
+- Collier &amp; Hoeffler 1998. On economic causes of civil war. Oxford Economic Papers 50, 563–573. [https://doi.org/10.1093/oep/50.4.563](https://doi.org/10.1093/oep/50.4.563)
+- Fearon &amp; Laitin 2003. Ethnicity, Insurgency, and Civil War. American 
+Political Science Review 97, 75–90. [https://doi.org/10.1017/S0003055403000534](https://doi.org/10.1017/S0003055403000534)
+- Halkia et al. 2020.
+The Global Conflict Risk Index: A quantitative tool for policy support on conflict
+prevention. Progress in Disaster Science 6, 100069. [https://doi.org/10.1016/j.pdisas.2020.100069](https://doi.org/10.1016/j.pdisas.2020.100069)
+- Hegre et al. 2019. ViEWS: A political violence early-warning system. Journal of Peace Research 56,
+155–174. [https://doi.org/10.1177/0022343319823860](https://doi.org/10.1177/0022343319823860)
+- Homer-Dixon 1994. Environmental Scarcities and Violent Conflict: Evidence
+from Cases. International Security 19, 5. [https://doi.org/10.2307/2539147](https://doi.org/10.2307/2539147)
+- Kuzma et al. 2020. Leveraging Water Data in a Machine Learning-Based Model for Forecasting
+Violent Conflict. Technical note. [WWW Document]. URL [https://www.wri.org/publication/leveraging-water-data](https://www.wri.org/publication/leveraging-water-data )
+- Sachs &amp; Warner 1995. Natural Resource Abundance and Economic Growth. 
+National Bureau of Economic Research. [https://doi.org/10.3386/w5398](https://doi.org/10.3386/w5398)
+- Ward et al 2010. The perils of policy by p-value:
+Predicting civil conflicts. Journal of Peace Research 47, 363–375. [https://doi.org/10.1177/0022343309356491](https://doi.org/10.1177/0022343309356491)
+- Yu et al. 2019. A Review of Recurrent Neural Networks: LSTM Cells and Network Architectures. 
+Neural Computation 31, 1235–1270. [https://doi.org/10.1162/neco_a_01199](https://doi.org/10.1162/neco_a_01199)
+]
+
+---
+
 
 class: inverse, center, middle
 
@@ -419,8 +487,11 @@ class: inverse, center, middle
 .center[
 &lt;figure&gt;
 &lt;img src = "../assets/img/LSTM.png", width = 50%, height = 50%&gt;&lt;/img&gt;
+&lt;a href="https://doi.org/10.1162/neco_a_01199"&gt;
 &lt;figcaption&gt;Source: Yu et al. (2019)&lt;/figcaption&gt;
+&lt;/a&gt;
 &lt;/figure&gt;
+
 
 $$
 `\begin{split}
