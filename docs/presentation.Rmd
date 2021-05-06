@@ -140,7 +140,7 @@ on environmental change and its consequences
 <br>
 <br>
 .pull-right[
-![:scale 90%](../report/thesis_files/figure-latex/01-intro-conflicts-1.svg)
+![:scale 90%](../report/_bookdown_files/thesis_files/figure-latex/01-intro-conflicts-1.svg)
 ]
 
 
@@ -289,7 +289,7 @@ class: inverse, center, middle
 ## Global Performance
 
 .center[
-![](../report/thesis_files/figure-latex/04-results-global-f2-1.svg)
+![](../report/_bookdown_files/thesis_files/figure-latex/04-results-global-f2-1.svg)
 ]
 
 ---
@@ -299,7 +299,7 @@ class: inverse, center, middle
 ## Temporal Performance
 
 .center[
-![](../report/thesis_files/figure-latex/04-results-time-f2-1.svg)
+![](../report/_bookdown_files/thesis_files/figure-latex/04-results-time-f2-1.svg)
 ]
 
 ---
@@ -657,8 +657,8 @@ welch_anova %>%
 ]
 
 .pull-right[
-<img src = "../report/thesis_files/figure-latex/appendix-anova-qq-1.svg", width = 33%, height = 33%, style = "position:absolute; top: 20%; left: 60%;"></img>
-<img src = "../report/thesis_files/figure-latex/appendix-anova-resid-1.svg", width = 33%, height = 33%, style = "position:absolute; top: 55%; left: 60%;"></img>
+<img src = "../report/_bookdown_files/thesis_files/figure-latex/appendix-anova-qq-1.svg", width = 33%, height = 33%, style = "position:absolute; top: 20%; left: 60%;"></img>
+<img src = "../report/_bookdown_files/thesis_files/figure-latex/appendix-anova-resid-1.svg", width = 33%, height = 33%, style = "position:absolute; top: 55%; left: 60%;"></img>
 ]
 
 
@@ -780,7 +780,7 @@ class: inverse, center, middle
 # CNN 
 
 .center[
-![:scale 50%](../report/thesis_files/figure-latex/03-methods-cnn-1.svg)
+![:scale 50%](../report/_bookdown_files/thesis_files/figure-latex/03-methods-cnn-1.svg)
 
 $X^l_\beta = \sigma \Big( \sum\limits^L_{i=1} X^{l-1}_i \cdot k^l_{i\beta} + b^l_{i\beta} \Big)$
 
@@ -815,9 +815,9 @@ $$
 
 # Network Structure
 
-<img src = "../report/thesis_files/figure-latex/03-methods-arch-1.svg", width = 75%, height = 75%, style = "position:absolute; top: 15%; left: -10%;"></img>
+<img src = "../report/_bookdown_files/thesis_files/figure-latex/03-methods-arch-1.svg", width = 75%, height = 75%, style = "position:absolute; top: 15%; left: -10%;"></img>
 
-<img src = "../report/thesis_files/figure-latex/03-methods-fc-1.svg", width = 60%, height = 60%, style = "position:absolute; top: 22%; left: 45%;"></img>
+<img src = "../report/_bookdown_files/thesis_files/figure-latex/03-methods-fc-1.svg", width = 60%, height = 60%, style = "position:absolute; top: 22%; left: 45%;"></img>
 
 ---
 

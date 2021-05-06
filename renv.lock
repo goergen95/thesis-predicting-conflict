@@ -4,7 +4,7 @@
     "Repositories": [
       {
         "Name": "CRAN",
-        "URL": "https://cloud.r-project.org"
+        "URL": "https://mran.microsoft.com/snapshot/2020-04-24"
       }
     ]
   },
@@ -184,13 +184,6 @@
       "Repository": "CRAN",
       "Hash": "1c0aa18b97e6aaa17f93b8b866c0ace5"
     },
-    "RefManageR": {
-      "Package": "RefManageR",
-      "Version": "1.3.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "a31abee042741b1fc1bbb546da687f3f"
-    },
     "SPEI": {
       "Package": "SPEI",
       "Version": "1.7",
@@ -267,13 +260,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "543776ae6848fde2f48ff3816d0628bc"
-    },
-    "bibtex": {
-      "Package": "bibtex",
-      "Version": "0.4.2.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "76c015d8a12da5047be8aa6bead07077"
     },
     "bitops": {
       "Package": "bitops",
@@ -365,18 +351,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "f61dbaec772ccd2e17705c1e872e9e7c"
-    },
-    "citr": {
-      "Package": "citr",
-      "Version": "0.3.2",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "citr",
-      "RemoteUsername": "crsh",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "1c5c4c77ce07a9352a1f2abf4973fcf9fce6d6e4",
-      "Hash": "be0e9253b3c7abbafaf45cff7b805218"
     },
     "class": {
       "Package": "class",
@@ -525,13 +499,6 @@
       "Repository": "CRAN",
       "Hash": "714005206038b1dda74cb1de85029a20"
     },
-    "deldir": {
-      "Package": "deldir",
-      "Version": "0.2-10",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "6ba6a411bdd4c1b297bd54e2c5c98385"
-    },
     "desc": {
       "Package": "desc",
       "Version": "1.2.0",
@@ -566,13 +533,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "a0cbe758a531d054b537d16dff4d58a1"
-    },
-    "doParallel": {
-      "Package": "doParallel",
-      "Version": "1.0.16",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "2dc413572eb42475179bfe0afabd2adf"
     },
     "dplyr": {
       "Package": "dplyr",
@@ -918,13 +878,6 @@
       "Repository": "CRAN",
       "Hash": "6154ec2223172bce8162d4153cda21f7"
     },
-    "interp": {
-      "Package": "interp",
-      "Version": "1.0-33",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "d16e746c79a59b317c2ae40676454577"
-    },
     "intervals": {
       "Package": "intervals",
       "Version": "0.15.2",
@@ -1119,13 +1072,6 @@
       "Repository": "CRAN",
       "Hash": "41287f1ac7d28a92f0a286ed507928d3"
     },
-    "manipulateWidget": {
-      "Package": "manipulateWidget",
-      "Version": "0.10.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "0550157e5d6450ea442eaba5a340a9fc"
-    },
     "maptools": {
       "Package": "maptools",
       "Version": "1.0-2",
@@ -1167,13 +1113,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "26fa77e707223e1ce042b2b5d09993dc"
-    },
-    "miniUI": {
-      "Package": "miniUI",
-      "Version": "0.1.1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "fec5f52652d60615fdb3957b3d74324a"
     },
     "minqa": {
       "Package": "minqa",
@@ -1399,20 +1338,6 @@
       "Repository": "CRAN",
       "Hash": "a3ded548110163cf499d63c3932dd499"
     },
-    "rayimage": {
-      "Package": "rayimage",
-      "Version": "0.5.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "60eeb010c7307b3a23ad0b5fc4867497"
-    },
-    "rayshader": {
-      "Package": "rayshader",
-      "Version": "0.19.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "0b4f332e5452d539b7376f4f05753db4"
-    },
     "rcmdcheck": {
       "Package": "rcmdcheck",
       "Version": "1.3.3",
@@ -1465,9 +1390,14 @@
     "renv": {
       "Package": "renv",
       "Version": "0.12.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "b5510c50c7f31d453c385c7b460af2b9"
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "renv",
+      "RemoteUsername": "rstudio",
+      "RemoteRef": "0.12.3",
+      "RemoteSha": "d5e6abad018d3622bda30f5317beff550475a362",
+      "Hash": "8e76c58c015600de5027755046b38b5c"
     },
     "reprex": {
       "Package": "reprex",
@@ -1503,13 +1433,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "402fc3169948d26581d585360825c65c"
-    },
-    "rgl": {
-      "Package": "rgl",
-      "Version": "0.105.22",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "58fcb115fdf03df469f8e39da4d0c476"
     },
     "rio": {
       "Package": "rio",
@@ -1640,13 +1563,6 @@
       "Repository": "CRAN",
       "Hash": "ee4ed72d7a5047d9e73cf922ad66e9c9"
     },
-    "shinyjs": {
-      "Package": "shinyjs",
-      "Version": "2.0.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "9ddfc91d4280eaa34c2103951538976f"
-    },
     "sourcetools": {
       "Package": "sourcetools",
       "Version": "0.1.7",
@@ -1716,13 +1632,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "dc6e900d988101077b89a49cd801ba90"
-    },
-    "terrainmeshr": {
-      "Package": "terrainmeshr",
-      "Version": "0.1.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "f0dc9be31d757b475dbbdaf320703685"
     },
     "testthat": {
       "Package": "testthat",
@@ -1822,6 +1731,13 @@
       "Repository": "CRAN",
       "Hash": "4a5081acfb7b81a572e4384a7aaf2af1"
     },
+    "uuid": {
+      "Package": "uuid",
+      "Version": "0.1-4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e4169eb989a5d03ccb6b628cad1b1b50"
+    },
     "vctrs": {
       "Package": "vctrs",
       "Version": "0.3.6",
@@ -1915,6 +1831,18 @@
       "RemoteRef": "HEAD",
       "RemoteSha": "1cca62540fe20b15a72adace2579f9c53376d36b",
       "Hash": "28b77f104f91948e8b07af8687aefc4f"
+    },
+    "xaringanExtra": {
+      "Package": "xaringanExtra",
+      "Version": "0.4.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "xaringanExtra",
+      "RemoteUsername": "gadenbuie",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "f3ab769ccca2a0aa6ce6abc44e5377e02c8492e8",
+      "Hash": "a6131eb97d074fd19f6611378214c073"
     },
     "xfun": {
       "Package": "xfun",

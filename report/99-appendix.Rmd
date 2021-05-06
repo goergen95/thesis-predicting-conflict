@@ -1141,8 +1141,8 @@ acc_data %>%
                             xlim(0.15,.7) +
                             labs(x="Fitted values", 
                                  y = "Residuals", 
-                                 color = "Aggregation unit", 
-                                 shape = "Predictor set", 
+                                 color = "Predictor set", 
+                                 shape = "Aggregation unit", 
                                  subtitle = var) +
                             scale_color_brewer(palette = "Dark2") +
                             guides(colour = guide_legend(override.aes = list(alpha = 1)),
@@ -1170,8 +1170,8 @@ acc_data %>%
                           ylim(0.05, 0.85) +
                           labs(x="Theoretical quantiles", 
                                y = "Sample quantiles", 
-                               color = "Aggregation unit", 
-                               shape = "Predictor set", 
+                               color = "Predictor set", 
+                               shape = "Aggregation unit", 
                                subtitle = var) +
                           scale_color_brewer(palette = "Dark2") +
                           guides(colour = guide_legend(override.aes = list(alpha = 1)),
