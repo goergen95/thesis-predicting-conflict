@@ -19,6 +19,7 @@ read_lines("../report/03-methods.Rmd") %>%
   str_replace_all("\\\\\\\\textit\\{(.*?)\\}", "\\*\\1\\*") %>%
   str_replace_all("\\\\\\\\textbf\\{(.*?)\\}", "\\*\\*\\1\\*\\*") %>%
   str_replace_all("\\\\\\\\makecell\\[cl\\]\\{(.*?)\\}", "\\1") %>%
+  str_replace_all("../assets/", "./assets/") %>%
   str_replace_all("####", "##") -> chunk
 ```
 

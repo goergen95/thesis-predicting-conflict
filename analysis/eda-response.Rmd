@@ -36,6 +36,8 @@ a certain polygon belongs to. The results should look quite familiar:
 ```{r plot-adm}
 
 adm %<>%
+  st_make_valid() %>%
+  st_cast("MULTIPOLYGON") %>%
   mutate(area = st_area(geom))
 
 adm %>%

@@ -11,7 +11,7 @@ editor_options:
 ```{r echo=FALSE, results='asis'}
 library(stringr)
 lines = readLines("../README.md")
-lines = str_replace_all(lines, "assets/", "../assets/")
+lines = str_replace_all(lines, "../assets/", "assets/")
 lines = str_replace_all(lines, "LICENSE.md", "license.html")
 cat(lines, sep = "\n")
 ```
