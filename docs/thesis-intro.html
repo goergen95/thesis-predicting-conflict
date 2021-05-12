@@ -450,7 +450,7 @@ div.tocify {
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 workflowr
-<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -460,7 +460,7 @@ workflowr
 </li>
 <li>
 <a data-toggle="tab" href="#checks">
-Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </a>
 </li>
 <li>
@@ -470,14 +470,14 @@ Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidde
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-03-24
+<strong>Last updated:</strong> 2021-05-12
 </p>
 <p>
 <strong>Checks:</strong>
 <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-5
+7
 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
-1
+0
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -497,6 +497,22 @@ The <em>Past versions</em> tab lists the development history.
 </div>
 <div id="checks" class="tab-pane fade">
 <div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you
+know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
@@ -582,17 +598,58 @@ makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongnoversioncontrol">
-<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
-<strong>Repository version:</strong> no version control
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomgoergen95thesispredictingconflicttree7fd4ff22f5358a6c33eed1bf33522591c13e5c7ftargetblank7fd4ff2a">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Repository version:</strong> <a href="https://github.com/goergen95/thesis-predicting-conflict/tree/7fd4ff22f5358a6c33eed1bf33522591c13e5c7f" target="_blank">7fd4ff2</a>
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongnoversioncontrol" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomgoergen95thesispredictingconflicttree7fd4ff22f5358a6c33eed1bf33522591c13e5c7ftargetblank7fd4ff2a" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Tracking code development and connecting the code version to the results is
-critical for reproducibility. To start using Git, open the Terminal and type
-<code>git init</code> in your project directory.</p>
+<p>
+Great! You are using Git for version control. Tracking code development and
+connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/goergen95/thesis-predicting-conflict/tree/7fd4ff22f5358a6c33eed1bf33522591c13e5c7f" target="_blank">7fd4ff2</a>.
+See the <em>Past versions</em> tab to see a history of the changes made to the
+R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the
+analysis have been committed to Git prior to generating the results (you can
+use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only
+checks the R Markdown file, but you know if there are other scripts or data
+files that it depends on. Below is the status of the Git repository when the
+results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+    Ignored:    data/DB/
+    Ignored:    data/raster/
+    Ignored:    data/raw/
+    Ignored:    data/vector/
+    Ignored:    docker_command.txt
+    Ignored:    output/acc/
+    Ignored:    output/bayes/
+    Ignored:    output/ffs/
+    Ignored:    output/models/
+    Ignored:    output/plots/
+    Ignored:    output/test-results/
+    Ignored:    renv/library/
+    Ignored:    renv/staging/
+    Ignored:    report/presentation/
+
+Untracked files:
+    Untracked:  analysis/assets/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in
+this status report because it is ok for generated content to have uncommitted
+changes.
+</p>
 </div>
 </div>
 </div>
@@ -600,11 +657,73 @@ critical for reproducibility. To start using Git, open the Terminal and type
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-This project is not being versioned with Git. To obtain the full
-reproducibility benefits of using workflowr, please see
-<code>?wflow_start</code>.
+These are the previous versions of the repository in which changes were made
+to the R Markdown (<code>analysis/thesis-intro.Rmd</code>) and HTML (<code>docs/thesis-intro.html</code>)
+files. If you’ve configured a remote Git repository (see
+<code>?wflow_git_remote</code>), click on the hyperlinks in the table below to
+view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/goergen95/thesis-predicting-conflict/blob/de8ce5ae8f9ee1c78958536bbda6e228c8fac3b1/analysis/thesis-intro.Rmd" target="_blank">de8ce5a</a>
+</td>
+<td>
+Darius Görgen
+</td>
+<td>
+2021-04-05
+</td>
+<td>
+add content
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/goergen95/thesis-predicting-conflict/de8ce5ae8f9ee1c78958536bbda6e228c8fac3b1/docs/thesis-intro.html" target="_blank">de8ce5a</a>
+</td>
+<td>
+Darius Görgen
+</td>
+<td>
+2021-04-05
+</td>
+<td>
+add content
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -690,7 +809,7 @@ ged_africa %&gt;%
 plot_output(plot_out)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:01-intro-conflicts"></span>
 <div id="htmlwidget-ca59a1f98bcc76184ed8" style="width:672px;height:288px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ca59a1f98bcc76184ed8">{"x":{"data":[{"orientation":"v","width":[328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5],"base":[4949,6412,4473,5908,7812,8183,6090,4053,4347,7623,6258,6027,3899,6027,4914,5565,3346,3584,4879,4865,5509,5089,8127,8421,8288,9695,8939,10339,11249,14266,13468],"x":[6940,7305,7670,8035,8401,8766,9131,9496,9862,10227,10592,10957,11323,11688,12053,12418,12784,13149,13514,13879,14245,14610,14975,15340,15706,16071,16436,16801,17167,17532,17897],"y":[875,2674,1806,1974,2702,13419,2415,3157,2618,3661,3003,2205,1519,2779,2604,2450,2387,1932,2072,1960,4270,1162,2898,2737,3241,5726,6216,4375,5565,5418,6552],"text":["year: 1989-01-01<br />total_deaths:   875<br />type_of_violence: one-sided","year: 1990-01-01<br />total_deaths:  2674<br />type_of_violence: one-sided","year: 1991-01-01<br />total_deaths:  1806<br />type_of_violence: one-sided","year: 1992-01-01<br />total_deaths:  1974<br />type_of_violence: one-sided","year: 1993-01-01<br />total_deaths:  2702<br />type_of_violence: one-sided","year: 1994-01-01<br />total_deaths: 13419<br />type_of_violence: one-sided","year: 1995-01-01<br />total_deaths:  2415<br />type_of_violence: one-sided","year: 1996-01-01<br />total_deaths:  3157<br />type_of_violence: one-sided","year: 1997-01-01<br />total_deaths:  2618<br />type_of_violence: one-sided","year: 1998-01-01<br />total_deaths:  3661<br />type_of_violence: one-sided","year: 1999-01-01<br />total_deaths:  3003<br />type_of_violence: one-sided","year: 2000-01-01<br />total_deaths:  2205<br />type_of_violence: one-sided","year: 2001-01-01<br />total_deaths:  1519<br />type_of_violence: one-sided","year: 2002-01-01<br />total_deaths:  2779<br />type_of_violence: one-sided","year: 2003-01-01<br />total_deaths:  2604<br />type_of_violence: one-sided","year: 2004-01-01<br />total_deaths:  2450<br />type_of_violence: one-sided","year: 2005-01-01<br />total_deaths:  2387<br />type_of_violence: one-sided","year: 2006-01-01<br />total_deaths:  1932<br />type_of_violence: one-sided","year: 2007-01-01<br />total_deaths:  2072<br />type_of_violence: one-sided","year: 2008-01-01<br />total_deaths:  1960<br />type_of_violence: one-sided","year: 2009-01-01<br />total_deaths:  4270<br />type_of_violence: one-sided","year: 2010-01-01<br />total_deaths:  1162<br />type_of_violence: one-sided","year: 2011-01-01<br />total_deaths:  2898<br />type_of_violence: one-sided","year: 2012-01-01<br />total_deaths:  2737<br />type_of_violence: one-sided","year: 2013-01-01<br />total_deaths:  3241<br />type_of_violence: one-sided","year: 2014-01-01<br />total_deaths:  5726<br />type_of_violence: one-sided","year: 2015-01-01<br />total_deaths:  6216<br />type_of_violence: one-sided","year: 2016-01-01<br />total_deaths:  4375<br />type_of_violence: one-sided","year: 2017-01-01<br />total_deaths:  5565<br />type_of_violence: one-sided","year: 2018-01-01<br />total_deaths:  5418<br />type_of_violence: one-sided","year: 2019-01-01<br />total_deaths:  6552<br />type_of_violence: one-sided"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(231,41,138,0.6)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"one-sided","legendgroup":"one-sided","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5],"base":[3500,3556,1575,2044,4263,6139,5264,3031,3647,6846,5383,5054,3262,4655,3668,4319,2576,2667,4277,3745,4382,3822,6664,6874,6265,6293,6769,8288,7966,9506,10535],"x":[6940,7305,7670,8035,8401,8766,9131,9496,9862,10227,10592,10957,11323,11688,12053,12418,12784,13149,13514,13879,14245,14610,14975,15340,15706,16071,16436,16801,17167,17532,17897],"y":[1449,2856,2898,3864,3549,2044,826,1022,700,777,875,973,637,1372,1246,1246,770,917,602,1120,1127,1267,1463,1547,2023,3402,2170,2051,3283,4760,2933],"text":["year: 1989-01-01<br />total_deaths:  1449<br />type_of_violence: non-state","year: 1990-01-01<br />total_deaths:  2856<br />type_of_violence: non-state","year: 1991-01-01<br />total_deaths:  2898<br />type_of_violence: non-state","year: 1992-01-01<br />total_deaths:  3864<br />type_of_violence: non-state","year: 1993-01-01<br />total_deaths:  3549<br />type_of_violence: non-state","year: 1994-01-01<br />total_deaths:  2044<br />type_of_violence: non-state","year: 1995-01-01<br />total_deaths:   826<br />type_of_violence: non-state","year: 1996-01-01<br />total_deaths:  1022<br />type_of_violence: non-state","year: 1997-01-01<br />total_deaths:   700<br />type_of_violence: non-state","year: 1998-01-01<br />total_deaths:   777<br />type_of_violence: non-state","year: 1999-01-01<br />total_deaths:   875<br />type_of_violence: non-state","year: 2000-01-01<br />total_deaths:   973<br />type_of_violence: non-state","year: 2001-01-01<br />total_deaths:   637<br />type_of_violence: non-state","year: 2002-01-01<br />total_deaths:  1372<br />type_of_violence: non-state","year: 2003-01-01<br />total_deaths:  1246<br />type_of_violence: non-state","year: 2004-01-01<br />total_deaths:  1246<br />type_of_violence: non-state","year: 2005-01-01<br />total_deaths:   770<br />type_of_violence: non-state","year: 2006-01-01<br />total_deaths:   917<br />type_of_violence: non-state","year: 2007-01-01<br />total_deaths:   602<br />type_of_violence: non-state","year: 2008-01-01<br />total_deaths:  1120<br />type_of_violence: non-state","year: 2009-01-01<br />total_deaths:  1127<br />type_of_violence: non-state","year: 2010-01-01<br />total_deaths:  1267<br />type_of_violence: non-state","year: 2011-01-01<br />total_deaths:  1463<br />type_of_violence: non-state","year: 2012-01-01<br />total_deaths:  1547<br />type_of_violence: non-state","year: 2013-01-01<br />total_deaths:  2023<br />type_of_violence: non-state","year: 2014-01-01<br />total_deaths:  3402<br />type_of_violence: non-state","year: 2015-01-01<br />total_deaths:  2170<br />type_of_violence: non-state","year: 2016-01-01<br />total_deaths:  2051<br />type_of_violence: non-state","year: 2017-01-01<br />total_deaths:  3283<br />type_of_violence: non-state","year: 2018-01-01<br />total_deaths:  4760<br />type_of_violence: non-state","year: 2019-01-01<br />total_deaths:  2933<br />type_of_violence: non-state"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(117,112,179,0.6)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"non-state","legendgroup":"non-state","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[6940,7305,7670,8035,8401,8766,9131,9496,9862,10227,10592,10957,11323,11688,12053,12418,12784,13149,13514,13879,14245,14610,14975,15340,15706,16071,16436,16801,17167,17532,17897],"y":[3500,3556,1575,2044,4263,6139,5264,3031,3647,6846,5383,5054,3262,4655,3668,4319,2576,2667,4277,3745,4382,3822,6664,6874,6265,6293,6769,8288,7966,9506,10535],"text":["year: 1989-01-01<br />total_deaths:  3500<br />type_of_violence: state-based","year: 1990-01-01<br />total_deaths:  3556<br />type_of_violence: state-based","year: 1991-01-01<br />total_deaths:  1575<br />type_of_violence: state-based","year: 1992-01-01<br />total_deaths:  2044<br />type_of_violence: state-based","year: 1993-01-01<br />total_deaths:  4263<br />type_of_violence: state-based","year: 1994-01-01<br />total_deaths:  6139<br />type_of_violence: state-based","year: 1995-01-01<br />total_deaths:  5264<br />type_of_violence: state-based","year: 1996-01-01<br />total_deaths:  3031<br />type_of_violence: state-based","year: 1997-01-01<br />total_deaths:  3647<br />type_of_violence: state-based","year: 1998-01-01<br />total_deaths:  6846<br />type_of_violence: state-based","year: 1999-01-01<br />total_deaths:  5383<br />type_of_violence: state-based","year: 2000-01-01<br />total_deaths:  5054<br />type_of_violence: state-based","year: 2001-01-01<br />total_deaths:  3262<br />type_of_violence: state-based","year: 2002-01-01<br />total_deaths:  4655<br />type_of_violence: state-based","year: 2003-01-01<br />total_deaths:  3668<br />type_of_violence: state-based","year: 2004-01-01<br />total_deaths:  4319<br />type_of_violence: state-based","year: 2005-01-01<br />total_deaths:  2576<br />type_of_violence: state-based","year: 2006-01-01<br />total_deaths:  2667<br />type_of_violence: state-based","year: 2007-01-01<br />total_deaths:  4277<br />type_of_violence: state-based","year: 2008-01-01<br />total_deaths:  3745<br />type_of_violence: state-based","year: 2009-01-01<br />total_deaths:  4382<br />type_of_violence: state-based","year: 2010-01-01<br />total_deaths:  3822<br />type_of_violence: state-based","year: 2011-01-01<br />total_deaths:  6664<br />type_of_violence: state-based","year: 2012-01-01<br />total_deaths:  6874<br />type_of_violence: state-based","year: 2013-01-01<br />total_deaths:  6265<br />type_of_violence: state-based","year: 2014-01-01<br />total_deaths:  6293<br />type_of_violence: state-based","year: 2015-01-01<br />total_deaths:  6769<br />type_of_violence: state-based","year: 2016-01-01<br />total_deaths:  8288<br />type_of_violence: state-based","year: 2017-01-01<br />total_deaths:  7966<br />type_of_violence: state-based","year: 2018-01-01<br />total_deaths:  9506<br />type_of_violence: state-based","year: 2019-01-01<br />total_deaths: 10535<br />type_of_violence: state-based"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(217,95,2,0.6)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"state-based","legendgroup":"state-based","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6940,7078.69620253165,7217.39240506329,7356.08860759494,7494.78481012658,7633.48101265823,7772.17721518987,7910.87341772152,8049.56962025316,8188.26582278481,8326.96202531646,8465.6582278481,8604.35443037975,8743.05063291139,8881.74683544304,9020.44303797468,9159.13924050633,9297.83544303797,9436.53164556962,9575.22784810127,9713.92405063291,9852.62025316456,9991.3164556962,10130.0126582278,10268.7088607595,10407.4050632911,10546.1012658228,10684.7974683544,10823.4936708861,10962.1898734177,11100.8860759494,11239.582278481,11378.2784810127,11516.9746835443,11655.6708860759,11794.3670886076,11933.0632911392,12071.7594936709,12210.4556962025,12349.1518987342,12487.8481012658,12626.5443037975,12765.2405063291,12903.9367088608,13042.6329113924,13181.3291139241,13320.0253164557,13458.7215189873,13597.417721519,13736.1139240506,13874.8101265823,14013.5063291139,14152.2025316456,14290.8987341772,14429.5949367089,14568.2911392405,14706.9873417722,14845.6835443038,14984.3797468354,15123.0759493671,15261.7721518987,15400.4683544304,15539.164556962,15677.8607594937,15816.5569620253,15955.253164557,16093.9493670886,16232.6455696203,16371.3417721519,16510.0379746835,16648.7341772152,16787.4303797468,16926.1265822785,17064.8227848101,17203.5189873418,17342.2151898734,17480.9113924051,17619.6075949367,17758.3037974684,17897],"y":[2180.50057009615,2212.13030781529,2243.76004553443,2275.38978325357,2307.01952097271,2338.64925869185,2370.27899641099,2401.90873413013,2433.53847184927,2465.16820956841,2496.79794728755,2528.42768500669,2560.05742272583,2591.68716044497,2623.31689816411,2654.94663588325,2686.57637360239,2718.20611132153,2749.83584904067,2781.46558675981,2813.09532447895,2844.72506219809,2876.35479991723,2907.98453763637,2939.61427535551,2971.24401307465,3002.87375079379,3034.50348851293,3066.13322623207,3097.76296395121,3129.39270167035,3161.02243938949,3192.65217710863,3224.28191482777,3255.91165254692,3287.54139026606,3319.1711279852,3350.80086570434,3382.43060342348,3414.06034114262,3445.69007886176,3477.3198165809,3508.94955430004,3540.57929201918,3572.20902973832,3603.83876745746,3635.4685051766,3667.09824289574,3698.72798061488,3730.35771833402,3761.98745605316,3793.6171937723,3825.24693149144,3856.87666921058,3888.50640692972,3920.13614464886,3951.765882368,3983.39562008714,4015.02535780628,4046.65509552542,4078.28483324456,4109.9145709637,4141.54430868284,4173.17404640198,4204.80378412112,4236.43352184026,4268.06325955941,4299.69299727855,4331.32273499769,4362.95247271683,4394.58221043597,4426.21194815511,4457.84168587425,4489.47142359339,4521.10116131253,4552.73089903167,4584.36063675081,4615.99037446995,4647.62011218909,4679.24984990823],"text":["year:  6940.000<br />total_deaths: 2180.501","year:  7078.696<br />total_deaths: 2212.130","year:  7217.392<br />total_deaths: 2243.760","year:  7356.089<br />total_deaths: 2275.390","year:  7494.785<br />total_deaths: 2307.020","year:  7633.481<br />total_deaths: 2338.649","year:  7772.177<br />total_deaths: 2370.279","year:  7910.873<br />total_deaths: 2401.909","year:  8049.570<br />total_deaths: 2433.538","year:  8188.266<br />total_deaths: 2465.168","year:  8326.962<br />total_deaths: 2496.798","year:  8465.658<br />total_deaths: 2528.428","year:  8604.354<br />total_deaths: 2560.057","year:  8743.051<br />total_deaths: 2591.687","year:  8881.747<br />total_deaths: 2623.317","year:  9020.443<br />total_deaths: 2654.947","year:  9159.139<br />total_deaths: 2686.576","year:  9297.835<br />total_deaths: 2718.206","year:  9436.532<br />total_deaths: 2749.836","year:  9575.228<br />total_deaths: 2781.466","year:  9713.924<br />total_deaths: 2813.095","year:  9852.620<br />total_deaths: 2844.725","year:  9991.316<br />total_deaths: 2876.355","year: 10130.013<br />total_deaths: 2907.985","year: 10268.709<br />total_deaths: 2939.614","year: 10407.405<br />total_deaths: 2971.244","year: 10546.101<br />total_deaths: 3002.874","year: 10684.797<br />total_deaths: 3034.503","year: 10823.494<br />total_deaths: 3066.133","year: 10962.190<br />total_deaths: 3097.763","year: 11100.886<br />total_deaths: 3129.393","year: 11239.582<br />total_deaths: 3161.022","year: 11378.278<br />total_deaths: 3192.652","year: 11516.975<br />total_deaths: 3224.282","year: 11655.671<br />total_deaths: 3255.912","year: 11794.367<br />total_deaths: 3287.541","year: 11933.063<br />total_deaths: 3319.171","year: 12071.759<br />total_deaths: 3350.801","year: 12210.456<br />total_deaths: 3382.431","year: 12349.152<br />total_deaths: 3414.060","year: 12487.848<br />total_deaths: 3445.690","year: 12626.544<br />total_deaths: 3477.320","year: 12765.241<br />total_deaths: 3508.950","year: 12903.937<br />total_deaths: 3540.579","year: 13042.633<br />total_deaths: 3572.209","year: 13181.329<br />total_deaths: 3603.839","year: 13320.025<br />total_deaths: 3635.469","year: 13458.722<br />total_deaths: 3667.098","year: 13597.418<br />total_deaths: 3698.728","year: 13736.114<br />total_deaths: 3730.358","year: 13874.810<br />total_deaths: 3761.987","year: 14013.506<br />total_deaths: 3793.617","year: 14152.203<br />total_deaths: 3825.247","year: 14290.899<br />total_deaths: 3856.877","year: 14429.595<br />total_deaths: 3888.506","year: 14568.291<br />total_deaths: 3920.136","year: 14706.987<br />total_deaths: 3951.766","year: 14845.684<br />total_deaths: 3983.396","year: 14984.380<br />total_deaths: 4015.025","year: 15123.076<br />total_deaths: 4046.655","year: 15261.772<br />total_deaths: 4078.285","year: 15400.468<br />total_deaths: 4109.915","year: 15539.165<br />total_deaths: 4141.544","year: 15677.861<br />total_deaths: 4173.174","year: 15816.557<br />total_deaths: 4204.804","year: 15955.253<br />total_deaths: 4236.434","year: 16093.949<br />total_deaths: 4268.063","year: 16232.646<br />total_deaths: 4299.693","year: 16371.342<br />total_deaths: 4331.323","year: 16510.038<br />total_deaths: 4362.952","year: 16648.734<br />total_deaths: 4394.582","year: 16787.430<br />total_deaths: 4426.212","year: 16926.127<br />total_deaths: 4457.842","year: 17064.823<br />total_deaths: 4489.471","year: 17203.519<br />total_deaths: 4521.101","year: 17342.215<br />total_deaths: 4552.731","year: 17480.911<br />total_deaths: 4584.361","year: 17619.608<br />total_deaths: 4615.990","year: 17758.304<br />total_deaths: 4647.620","year: 17897.000<br />total_deaths: 4679.250"],"type":"scatter","mode":"lines","name":"fitted values","line":{"width":3.77952755905512,"color":"rgba(27,158,119,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":33.0471841704718,"r":7.30593607305936,"b":43.2821364328214,"l":52.1378165213782},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[6211.475,18625.525],"tickmode":"array","ticktext":["1989","2000","2010","2019"],"tickvals":[6940,10957,14610,17897],"categoryorder":"array","categoryarray":["1989","2000","2010","2019"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":9.29846409298464},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":13.2835201328352}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1080.1,22682.1],"tickmode":"array","ticktext":["0","5,000","10,000","15,000","20,000"],"tickvals":[0,5000,10000,15000,20000],"categoryorder":"array","categoryarray":["0","5,000","10,000","15,000","20,000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":9.29846409298464},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Number of deaths","font":{"color":"rgba(0,0,0,1)","family":"","size":13.2835201328352}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.9551681195517},"y":-0.1,"orientation":"h","xanchor":"center","x":0.5},"annotations":[{"text":"Type of violence","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":13.2835201328352},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"da2733f3ac":{"x":{},"y":{},"fill":{},"type":"bar"},"da50c139ee":{"x":{},"y":{}}},"cur_data":"da2733f3ac","visdat":{"da2733f3ac":["function (y) ","x"],"da50c139ee":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-ca59a1f98bcc76184ed8">{"x":{"data":[{"orientation":"v","width":[328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5],"base":[4949,6412,4473,5908,7812,8183,6090,4053,4347,7623,6258,6027,3899,6027,4914,5565,3346,3584,4879,4865,5509,5089,8127,8421,8288,9695,8939,10339,11249,14266,13468],"x":[6940,7305,7670,8035,8401,8766,9131,9496,9862,10227,10592,10957,11323,11688,12053,12418,12784,13149,13514,13879,14245,14610,14975,15340,15706,16071,16436,16801,17167,17532,17897],"y":[875,2674,1806,1974,2702,13419,2415,3157,2618,3661,3003,2205,1519,2779,2604,2450,2387,1932,2072,1960,4270,1162,2898,2737,3241,5726,6216,4375,5565,5418,6552],"text":["year: 1989-01-01<br />total_deaths:   875<br />type_of_violence: one-sided","year: 1990-01-01<br />total_deaths:  2674<br />type_of_violence: one-sided","year: 1991-01-01<br />total_deaths:  1806<br />type_of_violence: one-sided","year: 1992-01-01<br />total_deaths:  1974<br />type_of_violence: one-sided","year: 1993-01-01<br />total_deaths:  2702<br />type_of_violence: one-sided","year: 1994-01-01<br />total_deaths: 13419<br />type_of_violence: one-sided","year: 1995-01-01<br />total_deaths:  2415<br />type_of_violence: one-sided","year: 1996-01-01<br />total_deaths:  3157<br />type_of_violence: one-sided","year: 1997-01-01<br />total_deaths:  2618<br />type_of_violence: one-sided","year: 1998-01-01<br />total_deaths:  3661<br />type_of_violence: one-sided","year: 1999-01-01<br />total_deaths:  3003<br />type_of_violence: one-sided","year: 2000-01-01<br />total_deaths:  2205<br />type_of_violence: one-sided","year: 2001-01-01<br />total_deaths:  1519<br />type_of_violence: one-sided","year: 2002-01-01<br />total_deaths:  2779<br />type_of_violence: one-sided","year: 2003-01-01<br />total_deaths:  2604<br />type_of_violence: one-sided","year: 2004-01-01<br />total_deaths:  2450<br />type_of_violence: one-sided","year: 2005-01-01<br />total_deaths:  2387<br />type_of_violence: one-sided","year: 2006-01-01<br />total_deaths:  1932<br />type_of_violence: one-sided","year: 2007-01-01<br />total_deaths:  2072<br />type_of_violence: one-sided","year: 2008-01-01<br />total_deaths:  1960<br />type_of_violence: one-sided","year: 2009-01-01<br />total_deaths:  4270<br />type_of_violence: one-sided","year: 2010-01-01<br />total_deaths:  1162<br />type_of_violence: one-sided","year: 2011-01-01<br />total_deaths:  2898<br />type_of_violence: one-sided","year: 2012-01-01<br />total_deaths:  2737<br />type_of_violence: one-sided","year: 2013-01-01<br />total_deaths:  3241<br />type_of_violence: one-sided","year: 2014-01-01<br />total_deaths:  5726<br />type_of_violence: one-sided","year: 2015-01-01<br />total_deaths:  6216<br />type_of_violence: one-sided","year: 2016-01-01<br />total_deaths:  4375<br />type_of_violence: one-sided","year: 2017-01-01<br />total_deaths:  5565<br />type_of_violence: one-sided","year: 2018-01-01<br />total_deaths:  5418<br />type_of_violence: one-sided","year: 2019-01-01<br />total_deaths:  6552<br />type_of_violence: one-sided"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(231,41,138,0.6)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"one-sided","legendgroup":"one-sided","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5],"base":[3500,3556,1575,2044,4263,6139,5264,3031,3647,6846,5383,5054,3262,4655,3668,4319,2576,2667,4277,3745,4382,3822,6664,6874,6265,6293,6769,8288,7966,9506,10535],"x":[6940,7305,7670,8035,8401,8766,9131,9496,9862,10227,10592,10957,11323,11688,12053,12418,12784,13149,13514,13879,14245,14610,14975,15340,15706,16071,16436,16801,17167,17532,17897],"y":[1449,2856,2898,3864,3549,2044,826,1022,700,777,875,973,637,1372,1246,1246,770,917,602,1120,1127,1267,1463,1547,2023,3402,2170,2051,3283,4760,2933],"text":["year: 1989-01-01<br />total_deaths:  1449<br />type_of_violence: non-state","year: 1990-01-01<br />total_deaths:  2856<br />type_of_violence: non-state","year: 1991-01-01<br />total_deaths:  2898<br />type_of_violence: non-state","year: 1992-01-01<br />total_deaths:  3864<br />type_of_violence: non-state","year: 1993-01-01<br />total_deaths:  3549<br />type_of_violence: non-state","year: 1994-01-01<br />total_deaths:  2044<br />type_of_violence: non-state","year: 1995-01-01<br />total_deaths:   826<br />type_of_violence: non-state","year: 1996-01-01<br />total_deaths:  1022<br />type_of_violence: non-state","year: 1997-01-01<br />total_deaths:   700<br />type_of_violence: non-state","year: 1998-01-01<br />total_deaths:   777<br />type_of_violence: non-state","year: 1999-01-01<br />total_deaths:   875<br />type_of_violence: non-state","year: 2000-01-01<br />total_deaths:   973<br />type_of_violence: non-state","year: 2001-01-01<br />total_deaths:   637<br />type_of_violence: non-state","year: 2002-01-01<br />total_deaths:  1372<br />type_of_violence: non-state","year: 2003-01-01<br />total_deaths:  1246<br />type_of_violence: non-state","year: 2004-01-01<br />total_deaths:  1246<br />type_of_violence: non-state","year: 2005-01-01<br />total_deaths:   770<br />type_of_violence: non-state","year: 2006-01-01<br />total_deaths:   917<br />type_of_violence: non-state","year: 2007-01-01<br />total_deaths:   602<br />type_of_violence: non-state","year: 2008-01-01<br />total_deaths:  1120<br />type_of_violence: non-state","year: 2009-01-01<br />total_deaths:  1127<br />type_of_violence: non-state","year: 2010-01-01<br />total_deaths:  1267<br />type_of_violence: non-state","year: 2011-01-01<br />total_deaths:  1463<br />type_of_violence: non-state","year: 2012-01-01<br />total_deaths:  1547<br />type_of_violence: non-state","year: 2013-01-01<br />total_deaths:  2023<br />type_of_violence: non-state","year: 2014-01-01<br />total_deaths:  3402<br />type_of_violence: non-state","year: 2015-01-01<br />total_deaths:  2170<br />type_of_violence: non-state","year: 2016-01-01<br />total_deaths:  2051<br />type_of_violence: non-state","year: 2017-01-01<br />total_deaths:  3283<br />type_of_violence: non-state","year: 2018-01-01<br />total_deaths:  4760<br />type_of_violence: non-state","year: 2019-01-01<br />total_deaths:  2933<br />type_of_violence: non-state"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(117,112,179,0.6)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"non-state","legendgroup":"non-state","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5,328.5],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[6940,7305,7670,8035,8401,8766,9131,9496,9862,10227,10592,10957,11323,11688,12053,12418,12784,13149,13514,13879,14245,14610,14975,15340,15706,16071,16436,16801,17167,17532,17897],"y":[3500,3556,1575,2044,4263,6139,5264,3031,3647,6846,5383,5054,3262,4655,3668,4319,2576,2667,4277,3745,4382,3822,6664,6874,6265,6293,6769,8288,7966,9506,10535],"text":["year: 1989-01-01<br />total_deaths:  3500<br />type_of_violence: state-based","year: 1990-01-01<br />total_deaths:  3556<br />type_of_violence: state-based","year: 1991-01-01<br />total_deaths:  1575<br />type_of_violence: state-based","year: 1992-01-01<br />total_deaths:  2044<br />type_of_violence: state-based","year: 1993-01-01<br />total_deaths:  4263<br />type_of_violence: state-based","year: 1994-01-01<br />total_deaths:  6139<br />type_of_violence: state-based","year: 1995-01-01<br />total_deaths:  5264<br />type_of_violence: state-based","year: 1996-01-01<br />total_deaths:  3031<br />type_of_violence: state-based","year: 1997-01-01<br />total_deaths:  3647<br />type_of_violence: state-based","year: 1998-01-01<br />total_deaths:  6846<br />type_of_violence: state-based","year: 1999-01-01<br />total_deaths:  5383<br />type_of_violence: state-based","year: 2000-01-01<br />total_deaths:  5054<br />type_of_violence: state-based","year: 2001-01-01<br />total_deaths:  3262<br />type_of_violence: state-based","year: 2002-01-01<br />total_deaths:  4655<br />type_of_violence: state-based","year: 2003-01-01<br />total_deaths:  3668<br />type_of_violence: state-based","year: 2004-01-01<br />total_deaths:  4319<br />type_of_violence: state-based","year: 2005-01-01<br />total_deaths:  2576<br />type_of_violence: state-based","year: 2006-01-01<br />total_deaths:  2667<br />type_of_violence: state-based","year: 2007-01-01<br />total_deaths:  4277<br />type_of_violence: state-based","year: 2008-01-01<br />total_deaths:  3745<br />type_of_violence: state-based","year: 2009-01-01<br />total_deaths:  4382<br />type_of_violence: state-based","year: 2010-01-01<br />total_deaths:  3822<br />type_of_violence: state-based","year: 2011-01-01<br />total_deaths:  6664<br />type_of_violence: state-based","year: 2012-01-01<br />total_deaths:  6874<br />type_of_violence: state-based","year: 2013-01-01<br />total_deaths:  6265<br />type_of_violence: state-based","year: 2014-01-01<br />total_deaths:  6293<br />type_of_violence: state-based","year: 2015-01-01<br />total_deaths:  6769<br />type_of_violence: state-based","year: 2016-01-01<br />total_deaths:  8288<br />type_of_violence: state-based","year: 2017-01-01<br />total_deaths:  7966<br />type_of_violence: state-based","year: 2018-01-01<br />total_deaths:  9506<br />type_of_violence: state-based","year: 2019-01-01<br />total_deaths: 10535<br />type_of_violence: state-based"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(217,95,2,0.6)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"state-based","legendgroup":"state-based","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6940,7078.69620253165,7217.39240506329,7356.08860759494,7494.78481012658,7633.48101265823,7772.17721518987,7910.87341772152,8049.56962025316,8188.26582278481,8326.96202531646,8465.6582278481,8604.35443037975,8743.05063291139,8881.74683544304,9020.44303797468,9159.13924050633,9297.83544303797,9436.53164556962,9575.22784810127,9713.92405063291,9852.62025316456,9991.3164556962,10130.0126582278,10268.7088607595,10407.4050632911,10546.1012658228,10684.7974683544,10823.4936708861,10962.1898734177,11100.8860759494,11239.582278481,11378.2784810127,11516.9746835443,11655.6708860759,11794.3670886076,11933.0632911392,12071.7594936709,12210.4556962025,12349.1518987342,12487.8481012658,12626.5443037975,12765.2405063291,12903.9367088608,13042.6329113924,13181.3291139241,13320.0253164557,13458.7215189873,13597.417721519,13736.1139240506,13874.8101265823,14013.5063291139,14152.2025316456,14290.8987341772,14429.5949367089,14568.2911392405,14706.9873417722,14845.6835443038,14984.3797468354,15123.0759493671,15261.7721518987,15400.4683544304,15539.164556962,15677.8607594937,15816.5569620253,15955.253164557,16093.9493670886,16232.6455696203,16371.3417721519,16510.0379746835,16648.7341772152,16787.4303797468,16926.1265822785,17064.8227848101,17203.5189873418,17342.2151898734,17480.9113924051,17619.6075949367,17758.3037974684,17897],"y":[2180.50057009615,2212.13030781529,2243.76004553443,2275.38978325357,2307.01952097271,2338.64925869185,2370.27899641099,2401.90873413013,2433.53847184927,2465.16820956841,2496.79794728755,2528.42768500669,2560.05742272583,2591.68716044497,2623.31689816411,2654.94663588325,2686.57637360239,2718.20611132153,2749.83584904067,2781.46558675981,2813.09532447895,2844.72506219809,2876.35479991723,2907.98453763637,2939.61427535551,2971.24401307465,3002.87375079379,3034.50348851293,3066.13322623207,3097.76296395121,3129.39270167035,3161.02243938949,3192.65217710863,3224.28191482777,3255.91165254692,3287.54139026606,3319.1711279852,3350.80086570434,3382.43060342348,3414.06034114262,3445.69007886176,3477.3198165809,3508.94955430004,3540.57929201918,3572.20902973832,3603.83876745746,3635.4685051766,3667.09824289574,3698.72798061488,3730.35771833402,3761.98745605316,3793.6171937723,3825.24693149144,3856.87666921058,3888.50640692972,3920.13614464886,3951.765882368,3983.39562008714,4015.02535780628,4046.65509552542,4078.28483324456,4109.9145709637,4141.54430868284,4173.17404640198,4204.80378412112,4236.43352184026,4268.06325955941,4299.69299727855,4331.32273499769,4362.95247271683,4394.58221043597,4426.21194815511,4457.84168587425,4489.47142359339,4521.10116131253,4552.73089903167,4584.36063675081,4615.99037446995,4647.62011218909,4679.24984990823],"text":["year:  6940.000<br />total_deaths: 2180.501","year:  7078.696<br />total_deaths: 2212.130","year:  7217.392<br />total_deaths: 2243.760","year:  7356.089<br />total_deaths: 2275.390","year:  7494.785<br />total_deaths: 2307.020","year:  7633.481<br />total_deaths: 2338.649","year:  7772.177<br />total_deaths: 2370.279","year:  7910.873<br />total_deaths: 2401.909","year:  8049.570<br />total_deaths: 2433.538","year:  8188.266<br />total_deaths: 2465.168","year:  8326.962<br />total_deaths: 2496.798","year:  8465.658<br />total_deaths: 2528.428","year:  8604.354<br />total_deaths: 2560.057","year:  8743.051<br />total_deaths: 2591.687","year:  8881.747<br />total_deaths: 2623.317","year:  9020.443<br />total_deaths: 2654.947","year:  9159.139<br />total_deaths: 2686.576","year:  9297.835<br />total_deaths: 2718.206","year:  9436.532<br />total_deaths: 2749.836","year:  9575.228<br />total_deaths: 2781.466","year:  9713.924<br />total_deaths: 2813.095","year:  9852.620<br />total_deaths: 2844.725","year:  9991.316<br />total_deaths: 2876.355","year: 10130.013<br />total_deaths: 2907.985","year: 10268.709<br />total_deaths: 2939.614","year: 10407.405<br />total_deaths: 2971.244","year: 10546.101<br />total_deaths: 3002.874","year: 10684.797<br />total_deaths: 3034.503","year: 10823.494<br />total_deaths: 3066.133","year: 10962.190<br />total_deaths: 3097.763","year: 11100.886<br />total_deaths: 3129.393","year: 11239.582<br />total_deaths: 3161.022","year: 11378.278<br />total_deaths: 3192.652","year: 11516.975<br />total_deaths: 3224.282","year: 11655.671<br />total_deaths: 3255.912","year: 11794.367<br />total_deaths: 3287.541","year: 11933.063<br />total_deaths: 3319.171","year: 12071.759<br />total_deaths: 3350.801","year: 12210.456<br />total_deaths: 3382.431","year: 12349.152<br />total_deaths: 3414.060","year: 12487.848<br />total_deaths: 3445.690","year: 12626.544<br />total_deaths: 3477.320","year: 12765.241<br />total_deaths: 3508.950","year: 12903.937<br />total_deaths: 3540.579","year: 13042.633<br />total_deaths: 3572.209","year: 13181.329<br />total_deaths: 3603.839","year: 13320.025<br />total_deaths: 3635.469","year: 13458.722<br />total_deaths: 3667.098","year: 13597.418<br />total_deaths: 3698.728","year: 13736.114<br />total_deaths: 3730.358","year: 13874.810<br />total_deaths: 3761.987","year: 14013.506<br />total_deaths: 3793.617","year: 14152.203<br />total_deaths: 3825.247","year: 14290.899<br />total_deaths: 3856.877","year: 14429.595<br />total_deaths: 3888.506","year: 14568.291<br />total_deaths: 3920.136","year: 14706.987<br />total_deaths: 3951.766","year: 14845.684<br />total_deaths: 3983.396","year: 14984.380<br />total_deaths: 4015.025","year: 15123.076<br />total_deaths: 4046.655","year: 15261.772<br />total_deaths: 4078.285","year: 15400.468<br />total_deaths: 4109.915","year: 15539.165<br />total_deaths: 4141.544","year: 15677.861<br />total_deaths: 4173.174","year: 15816.557<br />total_deaths: 4204.804","year: 15955.253<br />total_deaths: 4236.434","year: 16093.949<br />total_deaths: 4268.063","year: 16232.646<br />total_deaths: 4299.693","year: 16371.342<br />total_deaths: 4331.323","year: 16510.038<br />total_deaths: 4362.952","year: 16648.734<br />total_deaths: 4394.582","year: 16787.430<br />total_deaths: 4426.212","year: 16926.127<br />total_deaths: 4457.842","year: 17064.823<br />total_deaths: 4489.471","year: 17203.519<br />total_deaths: 4521.101","year: 17342.215<br />total_deaths: 4552.731","year: 17480.911<br />total_deaths: 4584.361","year: 17619.608<br />total_deaths: 4615.990","year: 17758.304<br />total_deaths: 4647.620","year: 17897.000<br />total_deaths: 4679.250"],"type":"scatter","mode":"lines","name":"fitted values","line":{"width":3.77952755905512,"color":"rgba(27,158,119,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":33.0471841704718,"r":7.30593607305936,"b":43.2821364328214,"l":52.1378165213782},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[6211.475,18625.525],"tickmode":"array","ticktext":["1989","2000","2010","2019"],"tickvals":[6940,10957,14610,17897],"categoryorder":"array","categoryarray":["1989","2000","2010","2019"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":9.29846409298464},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":13.2835201328352}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1080.1,22682.1],"tickmode":"array","ticktext":["0","5,000","10,000","15,000","20,000"],"tickvals":[0,5000,10000,15000,20000],"categoryorder":"array","categoryarray":["0","5,000","10,000","15,000","20,000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":9.29846409298464},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Number of deaths","font":{"color":"rgba(0,0,0,1)","family":"","size":13.2835201328352}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.9551681195517},"y":-0.1,"orientation":"h","xanchor":"center","x":0.5},"annotations":[{"text":"Type of violence","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":13.2835201328352},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"47071aab53d":{"x":{},"y":{},"fill":{},"type":"bar"},"4707f142392":{"x":{},"y":{}}},"cur_data":"47071aab53d","visdat":{"47071aab53d":["function (y) ","x"],"4707f142392":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figure 1.1: Total number of conflict casualties in Africa 1989-2019. The green line indicates the linear trend for the conflict classes combined.
 </p>
@@ -1099,21 +1218,22 @@ loaded via a namespace (and not attached):
  [52] cli_2.3.0          generics_0.1.0     broom_0.7.2       
  [55] evaluate_0.14      yaml_2.2.1         processx_3.4.5    
  [58] leafsync_0.1.0     fs_1.5.0           zip_2.1.1         
- [61] nlme_3.1-150       xml2_1.3.2         compiler_3.6.3    
- [64] rstudioapi_0.13    curl_4.3           png_0.1-7         
- [67] e1071_1.7-4        testthat_3.0.1     ggsignif_0.6.0    
- [70] reprex_0.3.0       statmod_1.4.35     stringi_1.5.3     
- [73] ps_1.5.0           desc_1.2.0         lattice_0.20-41   
- [76] Matrix_1.2-18      nloptr_1.2.2.2     classInt_0.4-3    
- [79] vctrs_0.3.6        pillar_1.4.7       lifecycle_0.2.0   
- [82] data.table_1.13.2  httpuv_1.5.5       R6_2.5.0          
- [85] promises_1.1.1     KernSmooth_2.23-18 rio_0.5.16        
- [88] sessioninfo_1.1.1  codetools_0.2-16   dichromat_2.0-0   
- [91] boot_1.3-25        MASS_7.3-53        assertthat_0.2.1  
- [94] pkgload_1.1.0      rprojroot_2.0.2    withr_2.4.1       
- [97] mgcv_1.8-33        parallel_3.6.3     hms_1.0.0         
-[100] grid_3.6.3         minqa_1.2.4        class_7.3-17      
-[103] carData_3.0-4      git2r_0.27.1       base64enc_0.1-3   </code></pre>
+ [61] nlme_3.1-150       whisker_0.4        xml2_1.3.2        
+ [64] compiler_3.6.3     rstudioapi_0.13    curl_4.3          
+ [67] png_0.1-7          e1071_1.7-4        testthat_3.0.1    
+ [70] ggsignif_0.6.0     reprex_0.3.0       statmod_1.4.35    
+ [73] stringi_1.5.3      ps_1.5.0           desc_1.2.0        
+ [76] lattice_0.20-41    Matrix_1.2-18      nloptr_1.2.2.2    
+ [79] classInt_0.4-3     vctrs_0.3.6        pillar_1.4.7      
+ [82] lifecycle_0.2.0    data.table_1.13.2  httpuv_1.5.5      
+ [85] R6_2.5.0           promises_1.1.1     KernSmooth_2.23-18
+ [88] rio_0.5.16         sessioninfo_1.1.1  codetools_0.2-16  
+ [91] dichromat_2.0-0    boot_1.3-25        MASS_7.3-53       
+ [94] assertthat_0.2.1   pkgload_1.1.0      rprojroot_2.0.2   
+ [97] withr_2.4.1        mgcv_1.8-33        parallel_3.6.3    
+[100] hms_1.0.0          grid_3.6.3         minqa_1.2.4       
+[103] class_7.3-17       carData_3.0-4      git2r_0.27.1      
+[106] base64enc_0.1-3   </code></pre>
 </div>
 </div>
 

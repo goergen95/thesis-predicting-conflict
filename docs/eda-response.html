@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Response Variable</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">masterthesis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    EDA
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="eda-response.html">Response Variable</a>
+    </li>
+    <li>
+      <a href="eda-anom.html">Precipitation Anomalies</a>
+    </li>
+    <li>
+      <a href="eda-dep.html">Dependency Ratio</a>
+    </li>
+    <li>
+      <a href="eda-et.html">Evapotranspiration</a>
+    </li>
+    <li>
+      <a href="eda-gdp.html">Gross Domestic Product</a>
+    </li>
+    <li>
+      <a href="eda-gpp.html">Gross Primary Productivity</a>
+    </li>
+    <li>
+      <a href="eda-lst.html">Land Surface Temperature</a>
+    </li>
+    <li>
+      <a href="eda-lvstk.html">Livestock</a>
+    </li>
+    <li>
+      <a href="eda-pop.html">Population</a>
+    </li>
+    <li>
+      <a href="eda-prec.html">Precipitation</a>
+    </li>
+    <li>
+      <a href="eda-spi.html">Standardized Precipitation Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-spei.html">Standardized Precipitation-Evapotranspiration Index (SPI)</a>
+    </li>
+    <li>
+      <a href="eda-tri.html">Terrain Roudgeddness Index (TRI)</a>
+    </li>
+    <li>
+      <a href="eda-trt.html">Travel Time</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Thesis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="thesis-intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="thesis-data.html">Data</a>
+    </li>
+    <li>
+      <a href="thesis-methods.html">Methods</a>
+    </li>
+    <li>
+      <a href="thesis-results.html">Results</a>
+    </li>
+    <li>
+      <a href="thesis-discussion.html">Discussion</a>
+    </li>
+    <li>
+      <a href="thesis-conclusion.html">Conclusion</a>
+    </li>
+    <li>
+      <a href="thesis-appendix.html">Appendix</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Response Variable</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks">
+Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-05-12
+</p>
+<p>
+<strong>Checks:</strong>
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+7
+<span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+0
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>thesis/analysis/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version
+1.6.2). The <em>Checks</em> tab describes the
+reproducibility checks that were applied when the results were created.
+The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you
+know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Environment:</strong> empty
+</a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global
+environment can affect the analysis in your R Markdown file in unknown ways.
+For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210321code">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Seed:</strong> <code>set.seed(20210321)</code>
+</a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210321code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210321)</code> was run prior to running the code in the R Markdown file.
+Setting a seed ensures that any results that rely on randomness,
+e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Session information:</strong> recorded
+</a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is
+critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Cache:</strong> none
+</a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident
+that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>File paths:</strong> relative
+</a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project
+makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomgoergen95thesispredictingconflicttree7fd4ff22f5358a6c33eed1bf33522591c13e5c7ftargetblank7fd4ff2a">
+<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<strong>Repository version:</strong> <a href="https://github.com/goergen95/thesis-predicting-conflict/tree/7fd4ff22f5358a6c33eed1bf33522591c13e5c7f" target="_blank">7fd4ff2</a>
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomgoergen95thesispredictingconflicttree7fd4ff22f5358a6c33eed1bf33522591c13e5c7ftargetblank7fd4ff2a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and
+connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/goergen95/thesis-predicting-conflict/tree/7fd4ff22f5358a6c33eed1bf33522591c13e5c7f" target="_blank">7fd4ff2</a>.
+See the <em>Past versions</em> tab to see a history of the changes made to the
+R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the
+analysis have been committed to Git prior to generating the results (you can
+use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only
+checks the R Markdown file, but you know if there are other scripts or data
+files that it depends on. Below is the status of the Git repository when the
+results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+    Ignored:    data/DB/
+    Ignored:    data/raster/
+    Ignored:    data/raw/
+    Ignored:    data/vector/
+    Ignored:    docker_command.txt
+    Ignored:    output/acc/
+    Ignored:    output/bayes/
+    Ignored:    output/ffs/
+    Ignored:    output/models/
+    Ignored:    output/plots/
+    Ignored:    output/test-results/
+    Ignored:    renv/library/
+    Ignored:    renv/staging/
+    Ignored:    report/presentation/
+
+Untracked files:
+    Untracked:  analysis/assets/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in
+this status report because it is ok for generated content to have uncommitted
+changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made
+to the R Markdown (<code>analysis/eda-response.Rmd</code>) and HTML (<code>docs/eda-response.html</code>)
+files. If you’ve configured a remote Git repository (see
+<code>?wflow_git_remote</code>), click on the hyperlinks in the table below to
+view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/goergen95/thesis-predicting-conflict/blob/7fd4ff22f5358a6c33eed1bf33522591c13e5c7f/analysis/eda-response.Rmd" target="_blank">7fd4ff2</a>
+</td>
+<td>
+Darius Görgen
+</td>
+<td>
+2021-05-12
+</td>
+<td>
+workflowr::wflow_publish(files = list.files(“.”, “Rmd$”))
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/goergen95/thesis-predicting-conflict/blob/de8ce5ae8f9ee1c78958536bbda6e228c8fac3b1/analysis/eda-response.Rmd" target="_blank">de8ce5a</a>
+</td>
+<td>
+Darius Görgen
+</td>
+<td>
+2021-04-05
+</td>
+<td>
+add content
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="units-of-analysis" class="section level1">
+<h1><span class="header-section-number">1</span> Units of analysis</h1>
+<p>Two different units of analysis are tested against their capability
+to capture environmental processes contributing to the occurrences of
+violent conflict. The first unit of analysis represents NUTS-3 Level
+of administrative units over the African continent.</p>
+<pre class="r"><code>adm = st_read(&quot;../data/vector/states_mask.gpkg&quot;, quiet = T)
+adm = adm[,c(&quot;adm1_code&quot;, &quot;adm1_code&quot;, &quot;name&quot;, &quot;name_de&quot;, &quot;name_en&quot;, &quot;type_en&quot;,
+             &quot;latitude&quot;, &quot;longitude&quot;, &quot;sov_a3&quot;, &quot;adm0_a3&quot;, &quot;geonunit&quot;)]
+adm</code></pre>
+<pre><code>Simple feature collection with 847 features and 11 fields
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: -17.52892 ymin: -34.82195 xmax: 51.41681 ymax: 37.3452
+CRS:            4326
+First 10 features:
+   adm1_code adm1_code.1                                        name
+1   ETH-3129    ETH-3129 Southern Nations, Nationalities and Peoples
+2    SDS-892     SDS-892                           Eastern Equatoria
+3   ETH-3134    ETH-3134                                      Somali
+4   SOM-2413    SOM-2413                                      Nugaal
+5   SOM-2412    SOM-2412                                       Mudug
+6   SOM-2408    SOM-2408                                   Galguduud
+7   SOM-2409    SOM-2409                                     Hiiraan
+8   SOM-2312    SOM-2312                                      Bakool
+9   SOM-2314    SOM-2314                                        Gedo
+10   KEN-890     KEN-890                                 Rift Valley
+                         name_de              name_en              type_en
+1  Region der südlichen Nationen     Southern Nations Administrative State
+2              Eastern Equatoria    Eastern Equatoria                State
+3                         Somali        Somali Region Administrative State
+4                         Nugaal                Nugal               Region
+5                          Mudug                Mudug               Region
+6                      Galguduud            Galguduud               Region
+7                        Hiiraan                Hiran               Region
+8                         Bakool               Bakool               Region
+9                           Gedo                 Gedo               Region
+10                   Rift Valley Rift Valley Province             Province
+   latitude longitude sov_a3 adm0_a3    geonunit                           geom
+1   6.21467   36.4494    ETH     ETH    Ethiopia MULTIPOLYGON (((35.32077 5....
+2   4.79636   33.5351    SDS     SDS South Sudan MULTIPOLYGON (((34.96796 6....
+3   7.09365   43.5345    ETH     ETH    Ethiopia MULTIPOLYGON (((47.97917 7....
+4   8.46102   48.8490    SOM     SOM    Puntland MULTIPOLYGON (((47.53239 7....
+5   5.51036   48.1009    SOM     SOM     Somalia MULTIPOLYGON (((46.46696 6....
+6   5.09616   46.6795    SOM     SOM     Somalia MULTIPOLYGON (((45.51848 5....
+7   4.36813   45.4984    SOM     SOM     Somalia MULTIPOLYGON (((44.59681 4....
+8   4.40611   43.8350    SOM     SOM     Somalia MULTIPOLYGON (((42.87019 4....
+9   3.05384   42.0524    SOM     SOM     Somalia MULTIPOLYGON (((41.88502 3....
+10  1.15655   36.0169    KEN     KEN       Kenya MULTIPOLYGON (((33.97708 4....</code></pre>
+<p>As we can see from above output, we end up with 847 features in total covering
+the African continent. Let’s plot a map which’s color is based on the country
+a certain polygon belongs to. The results should look quite familiar:</p>
+<pre class="r"><code>adm %&lt;&gt;%
+  st_make_valid() %&gt;%
+  st_cast(&quot;MULTIPOLYGON&quot;) %&gt;%
+  mutate(area = st_area(geom))
+
+adm %&gt;%
+  group_by(sov_a3) %&gt;%
+  summarise(geom = st_union(geom), area = sum(area)) %&gt;%
+  st_centroid() -&gt; adm_point
+
+tmap_options(max.categories = 50)
+
+tm_shape(adm) +
+  tm_polygons(&quot;sov_a3&quot;, border.col = &quot;white&quot;, lwd = .5) +
+  tm_shape(adm_point) +
+  tm_text(&quot;sov_a3&quot;, size = &quot;area&quot;) +
+  tm_legend(show = FALSE)</code></pre>
+<p><img src="figure/eda-response.Rmd/plot-adm-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>In comparison to administrative units we test the capability of sub-basin watersheds
+to capture the pattern of violent conflicts. The selection of the appropriate
+level was mainly driven to obtain a comparable number of units in order to not
+include a bias by diverging sizes. Thus the fifth level of the Hydrosheds datasets
+was chosen.</p>
+<pre class="r"><code>bas = st_read(&quot;../data/vector/basins_mask.gpkg&quot;, quiet = TRUE)
+bas</code></pre>
+<pre><code>Simple feature collection with 1013 features and 13 fields
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: -17.52892 ymin: -34.82195 xmax: 51.41681 ymax: 37.3452
+CRS:            4326
+First 10 features:
+     HYBAS_ID NEXT_DOWN  NEXT_SINK   MAIN_BAS DIST_SINK DIST_MAIN SUB_AREA
+1  1050000010         0 1050000010 1050000010         0         0  45567.0
+2  1050001370         0 1050001370 1050001370         0         0  11678.4
+3  1050001380         0 1050001380 1050001380         0         0   5524.6
+4  1050001510         0 1050001510 1050001510         0         0  42400.5
+5  1050001520         0 1050001520 1050001520         0         0  16198.5
+6  1050002290         0 1050002290 1050002290         0         0   4584.0
+7  1050002300         0 1050002300 1050002300         0         0  11221.8
+8  1050002760         0 1050002760 1050002760         0         0  63986.6
+9  1050002770         0 1050002770 1050002770         0         0  35181.7
+10 1050003990         0 1050003990 1050003990         0         0  62992.8
+   UP_AREA PFAF_ID ENDO COAST ORDER SORT                           geom
+1  45567.0   11101    0     1     0    1 MULTIPOLYGON (((32.275 30.1...
+2  11678.5   11102    0     0     1    2 MULTIPOLYGON (((35.14167 22...
+3   5524.6   11103    0     1     0    3 MULTIPOLYGON (((35.92083 22...
+4  42400.5   11104    0     0     1    4 MULTIPOLYGON (((35.24167 21...
+5  16198.5   11105    0     1     0    5 MULTIPOLYGON (((37.16129 21...
+6   4584.0   11106    0     0     1    6 MULTIPOLYGON (((36.6 18.787...
+7  11221.8   11107    0     1     0    7 MULTIPOLYGON (((37.00417 18...
+8  63986.6   11108    0     0     1    8 MULTIPOLYGON (((38.4625 16....
+9  35181.7   11109    0     1     0    9 MULTIPOLYGON (((38.64583 15...
+10 62992.8   11211    0     1     0   10 MULTIPOLYGON (((42.94285 10...</code></pre>
+<p>The total number of units is 1013 which is roughly comparable to the number of
+administrative units. On a map we get a less familiar pattern of the African
+continent, however, we can distinguish between the main watersheds.</p>
+<pre class="r"><code>bas_group = st_read(&quot;../data/raw/hydrosheds/hybas_af_lev03_v1c.shp&quot;, quiet = TRUE)
+bas_group %&lt;&gt;% 
+  mutate(HYBAS_ID = as.factor(HYBAS_ID))
+
+bas %&lt;&gt;%
+  mutate(area = st_area(geom))
+
+tm_shape(bas_group) +
+  tm_polygons(&quot;HYBAS_ID&quot;, lwd = 0) +
+  tm_shape(bas) +
+  tm_borders(&quot;white&quot;, lwd = .3) +
+  tm_legend(show = FALSE)</code></pre>
+<p><img src="figure/eda-response.Rmd/plot-bas-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The next plot shows a comparison of the distribution of area size between the
+two different units of analysis. The average area size of the sub-basin watersheds
+is slightly higher compared to the administrative units. However, for both
+types of units the majority of individuals lie in a comparable range. For administrative
+units there are both more small as well as very large units. Overall, the size
+of the units remains comparable between the two.</p>
+<pre class="r"><code>data = data.frame(group = c(rep(&quot;ADM&quot;, nrow(adm)), rep(&quot;BAS&quot;, nrow(bas))), 
+                  area = c(as.numeric(adm$area / 1000000), as.numeric(bas$area / 1000000)))
+
+ggplot(data) +
+  geom_boxplot(aes(y=area, group=group, fill=group)) +
+  labs(fill = &quot;unit of analysis&quot;, y=&quot;Area [km²]&quot;) +
+  theme_classic() +
+  scale_y_continuous(labels = scales::comma) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())</code></pre>
+<p><img src="figure/eda-response.Rmd/comp-area-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="conflict-data" class="section level1">
+<h1><span class="header-section-number">2</span> Conflict data</h1>
+<p>We use data from the Upsala conflict data program to retrieve the response variable
+for this project. The database is an event database, meaning that every reported
+violent conflict with at least one death is included as an single event associated
+with information on involved actors, time and location as well as estimated deaths
+by party involved. Since the data is mainly collected automatically sometimes
+inaccuracies concerning the exact location or the number of deaths are introduced.
+However, the data creators include information on the accuracy and thus the reliablity
+for each logged event.
+We downloaded the database for the African continent and filtered it to events
+occurring between 2000 and 2019 and additionally only included events for which
+the quality of the geographic localization was at least accurate on the sub-national
+level and the accuracy of the time was at least on a monthly scale.
+Additionally, the data is provided with three different classes of conflict which
+were extracted as well. These are state-based violence, non-state violence and
+one-sided violence.</p>
+<pre class="r"><code>load(&quot;../data/raw/ged/ged201.RData&quot;)
+ged201$date_start = as.Date(ged201$date_start, &quot;%Y/%m/%d&quot;)
+ged201 = st_as_sf(ged201, coords =  c(&quot;longitude&quot;, &quot;latitude&quot;), crs = &quot;EPSG:4326&quot;)
+ged201 = ged201[which(st_intersects(st_union(adm), ged201, sparse = FALSE)), ]
+
+ged201 %&gt;%
+  as_tibble() %&gt;%
+  mutate(date_start =  as.Date(date_start, &quot;%Y/%m/%d&quot;)) %&gt;%
+  filter(date_start &gt; as.Date(&quot;1999-12-31&quot;), 
+         where_prec %in% c(1,2,3),
+         date_prec != 5) %&gt;%
+  select(type_of_violence, date_start, starts_with(&quot;deaths_&quot;), country, geometry) -&gt; response_raw
+response_raw</code></pre>
+<pre><code># A tibble: 25,652 x 8
+   type_of_violence date_start deaths_a deaths_b deaths_civilians deaths_unknown
+              &lt;dbl&gt; &lt;date&gt;        &lt;dbl&gt;    &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;
+ 1                1 2000-03-14        1        0                0              0
+ 2                1 2000-05-05        0       14                0              0
+ 3                1 2000-12-24        1        0                0              1
+ 4                1 2001-01-21        0        4                0              0
+ 5                1 2001-02-08       13        0                0              0
+ 6                1 2001-02-19        0       18                0              0
+ 7                1 2001-02-23        0       19                0              0
+ 8                1 2001-02-23        0        8                0              0
+ 9                1 2001-04-06        1        0                0              0
+10                1 2001-10-21        0        8                0              0
+# … with 25,642 more rows, and 2 more variables: country &lt;chr&gt;, geometry &lt;POINT
+#   [°]&gt;</code></pre>
+<p>In total we obtained 86,377 distinct events coupled with the filtering explained above.
+The diagram below indicates the distribution of these events over the time period
+on a monthly scale.</p>
+<pre class="r"><code>response_raw %&gt;%
+  mutate(month = zoo::as.yearmon(date_start),
+         type_of_violence = factor(type_of_violence, labels = c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;))) %&gt;%
+  group_by(month, type_of_violence) %&gt;%
+  summarise(count = n()) %&gt;%
+  complete(month, type_of_violence, fill = list(count = 0)) -&gt; data 
+
+ggplot(data) +
+  geom_bar(aes(y=count, x=month, fill = type_of_violence), stat = &quot;identity&quot;) +
+  theme_classic() +
+  labs(y=&quot;Number of events&quot;, x=&quot;Time&quot;, fill=&quot;Type of violence&quot;) +
+  theme(legend.position=&quot;bottom&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/response-dist-1.png" width="672" style="display: block; margin: auto;" />
+We can assume an increasing trend in the number of events over the time period. Also,
+the percentage of non-state violence increases over time, mainly to the cost of one-sided
+violence. We also can observe some kind of seasonal cycle in the number of conflicts.
+In order to verify these assumptions we can conduct a decomposition of the time-series.
+We firstly do so for the total number of events and then we conduct the same analysis
+by type.</p>
+<pre class="r"><code>response_raw %&gt;%
+  mutate(month = zoo::as.yearmon(date_start),
+         type_of_violence = factor(type_of_violence, labels = c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;))) %&gt;%
+  group_by(month) %&gt;%
+  summarise(count = n())  -&gt; ts_data
+ts_data = ts(ts_data$count, start = c(2000,1), frequency = 12)
+dec = decompose(ts_data)
+
+data = data.frame(obsv = as.numeric(dec$x),
+                  seasonal = as.numeric(dec$seasonal),
+                  trend =  as.numeric(dec$trend),
+                  random = as.numeric(dec$random),
+                  date = seq(as.Date(&quot;2000-01-01&quot;), as.Date(&quot;2019-12-31&quot;), by = &quot;month&quot;))
+
+data %&gt;%
+  as_tibble() %&gt;%
+  gather(component, value, -date) %&gt;%
+  mutate(component = factor(component, levels = c(&quot;obsv&quot;, &quot;trend&quot;, &quot;seasonal&quot;, &quot;random&quot;))) %&gt;%
+  ggplot() +
+  geom_line(aes(x=date, y=value), color = &quot;royalblue3&quot;) +
+  facet_wrap(~component, nrow = 4, scales = &quot;free_y&quot;) +
+  theme_classic() +
+  labs(y = &quot;Value&quot;, x = &quot;Time&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/dec-all-1.png" width="672" style="display: block; margin: auto;" />
+Concerning the decomposition of all types of violence combined we observe an
+unsteady trend pattern from 2000 to 2010, but a substantial increase afterwards.
+In 2014 the trend stabilizes at a high level. The seasonality of the data is quite
+strong, with a peak in January and a period with low occurrences between August
+and December.</p>
+<pre class="r"><code>response_raw %&gt;%
+  mutate(month = zoo::as.yearmon(date_start),
+         type_of_violence = factor(type_of_violence, labels = c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;))) %&gt;%
+  group_by(month, type_of_violence) %&gt;%
+  summarise(count = n()) %&gt;%
+  complete(month, type_of_violence, fill = list(count = 0))-&gt; ts_data2
+
+dec_types = lapply(c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;), function(x){
+  ts_data2 %&gt;%
+    filter(type_of_violence == x) %&gt;%
+    pull(count) %&gt;%
+    ts(start = c(2000,1), frequency = 12) %&gt;%
+    decompose() 
+})
+
+names(dec_types) = c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;)
+
+plt_data = lapply(c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;), function(x){
+  tmp  = dec_types[[x]]
+  tmp = data.frame(type = x,
+                   obsv = as.numeric(tmp$x),
+                   seasonal = as.numeric(tmp$seasonal),
+                   trend =  as.numeric(tmp$trend),
+                   random = as.numeric(tmp$random),
+                   date = seq(as.Date(&quot;2000-01-01&quot;), as.Date(&quot;2019-12-31&quot;), by = &quot;month&quot;))
+  tmp
+})
+
+plt_data = do.call(rbind, plt_data)
+
+plt_data %&gt;%
+  as_tibble() %&gt;%
+  gather(component, value, -type, -date) %&gt;%
+  mutate(component = factor(component, levels = c(&quot;obsv&quot;, &quot;trend&quot;, &quot;seasonal&quot;, &quot;random&quot;)),
+         type = factor(type, levels = c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;))) %&gt;%
+  ggplot() +
+  geom_line(aes(x=date, y=value, color=type)) +
+  facet_wrap(~component, nrow = 4, scales = &quot;free_y&quot;) +
+  theme_classic() +
+  labs(y = &quot;Value&quot;, x = &quot;Time&quot;, color = &quot;Type of violence&quot;) +
+  theme(legend.position=&quot;bottom&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/dec-type-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>When we analyse the decomposition based on types of conflicts, we see that state-based
+violence is dominating the overall pattern. By far the most conflicts belong to that
+class and the seasonal and trend pattern of all classes combined mainly mirrors
+the dynamic found for state-based violence.
+The patterns for non-state and one-sided violence are quite distinct from the
+former class, however, the two are very much alike. The seasonal pattern shows
+that the lowest number of conflicts are found from September through December while
+the peak number of conflicts is found in January. Concerning the trend, one-sided
+violence overall is rather stable over the time period. After 2005 there is a steady
+increase in non-state violence which increases substantially in slope with the year 2017.</p>
+<p>Aside from the count of events, we can analyze the number of casualties which were
+suffered when the events occurred. As pointed out before, the casualties are ordered
+by participating groups and additionally deaths of civilians and unknown deaths are
+included in the database. Here we will focus on the total number of deaths, irrespective
+of the group affiliation.</p>
+<pre class="r"><code>response_raw %&gt;%
+  mutate(month = zoo::as.yearmon(date_start),
+         type_of_violence = factor(type_of_violence, labels = c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;))) %&gt;%
+  group_by(month, type_of_violence) %&gt;%
+  summarise(deaths = sum(deaths_civilians, deaths_a, deaths_b, deaths_unknown)) %&gt;%
+  complete(month, type_of_violence, fill = list(deaths = 0))-&gt; deaths_dat
+
+deaths_dat %&gt;%
+  group_by(month) %&gt;%
+  #summarise(deaths = sum(deaths)) %&gt;%
+  ggplot() +
+  geom_histogram(aes(x=deaths, group = type_of_violence, color = type_of_violence, fill = type_of_violence), 
+                 alpha=0.5, position=&quot;stack&quot;, binwidth = 50)+
+  theme_classic() +
+  labs(y=&quot;Count&quot;, x=&quot;Number of casualties&quot;, color = &quot;Type of violence&quot;, fill = &quot;Type of violence&quot;) +
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/deaths-hist-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The histogram of the number of casualties reveals that one-sided and state-based
+violence generally are associated with numbers of casualties
+below 1000. State-based violence on the other hand clearly is the most frequent
+violence class with casualties higher 1000.</p>
+<pre class="r"><code>deaths_dat %&gt;%
+  ggplot() +
+  geom_bar(aes(y=deaths, x=month, fill = type_of_violence), stat = &quot;identity&quot;) +
+  theme_classic() +
+  labs(y=&quot;Number of casulties&quot;, x=&quot;Time&quot;, fill=&quot;Type of violence&quot;) +
+  theme(legend.position=&quot;bottom&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/deaths-ts-1.png" width="672" style="display: block; margin: auto;" />
+Concerning the dynamic of casualties over time, we can observe relatively high
+numbers of casualties at the beginning of the time series with a low episode around
+from 2005 to 2010. Starting with 2011, the casualties seem to increase and the
+number of casualties reaches its highest level of the complete time series between
+2014 and 2015. There is a small decrease towards the year 2018.</p>
+<pre class="r"><code>deaths_dat %&gt;%
+  group_by(month) %&gt;%
+  summarise(deaths = sum(deaths)) %&gt;%
+  pull(deaths) %&gt;%
+  ts(start = c(2000,1), frequency = 12) %&gt;%
+  decompose() -&gt; dec
+
+data = data.frame(obsv = as.numeric(dec$x),
+                  seasonal = as.numeric(dec$seasonal),
+                  trend =  as.numeric(dec$trend),
+                  random = as.numeric(dec$random),
+                  date = seq(as.Date(&quot;2000-01-01&quot;), as.Date(&quot;2019-12-31&quot;), by = &quot;month&quot;))
+
+data %&gt;%
+  as_tibble() %&gt;%
+  gather(component, value, -date) %&gt;%
+  mutate(component = factor(component, levels = c(&quot;obsv&quot;, &quot;trend&quot;, &quot;seasonal&quot;, &quot;random&quot;))) %&gt;%
+  ggplot() +
+  geom_line(aes(x=date, y=value), color = &quot;royalblue3&quot;) +
+  facet_wrap(~component, nrow = 4, scales = &quot;free_y&quot;) +
+  theme_classic() +
+  labs(y = &quot;Value&quot;, x = &quot;Time&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/deaths-dec-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The general trend irrespective of the violent type shows a flat dynamic from
+2005 to 2010. After that year the slope of the frend increases substantially resulting
+in the highest peak between 2014 and 2015 which remains on a relativly high level
+even towards 2018. The seasonality of casualties is quite similar to the total number of
+events, namely with a bimodal peak in March and May. The month with the lowest
+numbers of casualties is November.</p>
+<pre class="r"><code>deaths_dec = lapply(c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;), function(x){
+  deaths_dat %&gt;%
+    filter(type_of_violence == x) %&gt;%
+    pull(deaths) %&gt;%
+    ts(start = c(2000,1), frequency = 12) %&gt;%
+    decompose() 
+})
+
+names(deaths_dec) = c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;)
+
+plt_data = lapply(c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;), function(x){
+  tmp  = deaths_dec[[x]]
+  tmp = data.frame(type = x,
+                   obsv = as.numeric(tmp$x),
+                   seasonal = as.numeric(tmp$seasonal),
+                   trend =  as.numeric(tmp$trend),
+                   random = as.numeric(tmp$random),
+                   date = seq(as.Date(&quot;2000-01-01&quot;), as.Date(&quot;2019-12-31&quot;), by = &quot;month&quot;))
+  tmp
+})
+
+plt_data = do.call(rbind, plt_data)
+
+plt_data %&gt;%
+  as_tibble() %&gt;%
+  gather(component, value, -type, -date) %&gt;%
+  mutate(component = factor(component, levels = c(&quot;obsv&quot;, &quot;trend&quot;, &quot;seasonal&quot;, &quot;random&quot;)),
+         type = factor(type, levels = c(&quot;state-based&quot;, &quot;non-state&quot;, &quot;one-sided&quot;))) %&gt;%
+  ggplot() +
+  geom_line(aes(x=date, y=value, color=type)) +
+  facet_wrap(~component, nrow = 4, scales = &quot;free_y&quot;) +
+  theme_classic() +
+  labs(y = &quot;Value&quot;, x = &quot;Time&quot;, color = &quot;Type of violence&quot;) +
+  theme(legend.position=&quot;bottom&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/deaths-dec-type-1.png" width="672" style="display: block; margin: auto;" />
+Unsurprisingly, the general time-series is dominated by the signal of state-based violence
+as well.
+However, the seasonality of casualties for the different types of violence are more
+alike than compared to the total number of events. The local peak during the years
+2008 to 2009 is not observed in non-state and one-sided violence. The same is true
+for non-state violence where there is no substantial increase in casualties in 2014.
+The increase is observed with one-sided violence, however, the trend flips shortly
+after 2015 showing a greater stability than compared with state-based violence.</p>
+</div>
+<div id="combining-response-with-units-of-analysis" class="section level1">
+<h1><span class="header-section-number">3</span> Combining response with units of analysis</h1>
+<p>Until now the analysis of violent conflict took a perspective on the African
+continent as a whole. Since the overall aim of this project is to establish a
+machine learning model to predict violent conflict for smaller spatial units,
+a spatio-temporal aggregation of the conflict data is needed.
+To achieve this, in the first step we declare a spatio-temporal objects based
+on the spatial information of the units of analysis. We will need the package
+<code>spacetime</code> for this.</p>
+<pre class="r"><code>library(spacetime)
+date_vec = seq(as.Date(&quot;2000-01-01&quot;), as.Date(&quot;2019-12-31&quot;), by = &quot;month&quot;)
+
+adm_st = STF(as_Spatial(adm), date_vec)
+bas_st = STF(as_Spatial(bas), date_vec)
+str(bas_st@time)</code></pre>
+<pre><code>An &#39;xts&#39; object on 2000-01-01/2019-12-01 containing:
+  Data: int [1:240, 1] 1 2 3 4 5 6 7 8 9 10 ...
+ - attr(*, &quot;dimnames&quot;)=List of 2
+  ..$ : NULL
+  ..$ : chr &quot;timeIndex&quot;
+  Indexed by objects of class: [Date] TZ: UTC
+  xts Attributes:  
+ NULL</code></pre>
+<p>As evident from the above output these objects now contain a time slot where
+the information on the time dimension is stored. We specified a monthly resolution
+from January 2000 to December 2019.
+The next step is to aggregate the conflict data based on their location in space
+and time and add the data to the objects declared above. Note, that we are aggregating
+the total sum of deaths irrespective of the classification but we want to keep
+information on the type of violence. Therefor the raw data is in need for some
+restructuring.</p>
+<pre class="r"><code>response_raw %&gt;% 
+  mutate(deaths = deaths_civilians + deaths_a + deaths_b + deaths_unknown) %&gt;%
+  select(type_of_violence, date_start, deaths, geometry) -&gt; agg_data 
+classes = c(&quot;sb&quot;, &quot;ns&quot;, &quot;os&quot;, &quot;all&quot;)
+
+for(i in 1:4){ # loop through types of conflict + all types
+  print(i)
+  if(i != 4){ # filter if appropriate
+    points = as_Spatial(st_as_sf(agg_data[agg_data$type_of_violence == i, ]))
+  } else { # else take all conflicts
+    points = as_Spatial(st_as_sf(agg_data)) 
+  }
+  # declaration of a space-time data frame
+  points_st = STIDF(points, points$date_start, data = data.frame(casualties = points$deaths))
+  # aggregate the sum of deahts
+  res_adm = aggregate(points_st, adm_st, sum, na.rm = T)
+  saveRDS(res_adm, paste0(&quot;../data/vector/ged/st_adm_&quot;, classes[i],&quot;.rds&quot;))
+  rm(res_adm)
+  gc()
+  print(&quot;Done with ADM.&quot;)
+  res_bas = aggregate(points_st, bas_st, sum, na.rm = T)
+  saveRDS(res_bas, paste0(&quot;../data/vector/ged/st_bas_&quot;, classes[i],&quot;.rds&quot;))
+  rm(res_bas)
+  gc()
+  print(&quot;Done with BAS.&quot;)
+}</code></pre>
+<div id="read-and-write-to-gpkg." class="section level2">
+<h2><span class="header-section-number">3.1</span> Read and write to GPKG.</h2>
+<pre class="r"><code>bas_data = list.files(&quot;../data/vector/ged/&quot;, pattern =&quot;bas&quot;, full.names = T)
+adm_data = list.files(&quot;../data/vector/ged/&quot;, pattern =&quot;adm&quot;, full.names = T)
+
+for(x in bas_data){
+  object = readRDS(x)
+  object@data[is.na(object@data)] = 0 # set NA to 0 for no conflict
+  object = as(object, &quot;Spatial&quot;)
+  object = st_as_sf(object)
+  st_crs(object) = st_crs(4326)
+  type = str_remove(str_split(basename(x), &quot;_&quot;)[[1]][3], &quot;.rds&quot;)
+  names(object)[1:(ncol(object)-1)] = format(as.Date(names(object)[1:(ncol(object)-1)]), &quot;%b-%Y&quot;)
+  st_write(object, paste0(&quot;../data/vector/response_&quot;, type, &quot;_basins.gpkg&quot;), delete_dsn = T)
+}
+
+for(x in adm_data){
+  object = readRDS(x)
+  object@data[is.na(object@data)] = 0 # set NA to 0 for no conflict
+  object = as(object, &quot;Spatial&quot;)
+  object = st_as_sf(object)
+  st_crs(object) = st_crs(4326)
+  type = str_remove(str_split(basename(x), &quot;_&quot;)[[1]][3], &quot;.rds&quot;)
+  names(object)[1:(ncol(object)-1)] = format(as.Date(names(object)[1:(ncol(object)-1)]), &quot;%b-%Y&quot;)
+  st_write(object, paste0(&quot;../data/vector/response_&quot;, type, &quot;_states.gpkg&quot;), delete_dsn = T)
+}</code></pre>
+<pre class="r"><code>files = list.files(&quot;../data/vector/&quot;, pattern = &quot;response&quot;, full.names = T)
+
+results = list()
+for(i in c(&quot;basins&quot;, &quot;states&quot;)){
+  tmp_files  = files[grep(i, files)]
+  levels = sapply(tmp_files, function(x) str_split(basename(x), &quot;_&quot;)[[1]][2], USE.NAMES = F)
+  data = do.call(rbind, lapply(1:length(tmp_files), function(x){
+    tmp_files[x] %&gt;%
+      st_read(quiet=T) %&gt;%
+      st_drop_geometry %&gt;%
+      mutate(id = 1:n()) %&gt;%
+      gather(&quot;time&quot;, &quot;value&quot;, -id) %&gt;%
+      mutate(type = levels[x])
+  })
+  )
+  results[[i]] = data
+}</code></pre>
+</div>
+<div id="unbalanced-data-set" class="section level2">
+<h2><span class="header-section-number">3.2</span> Unbalanced Data set</h2>
+<pre class="r"><code>results$basins %&gt;%
+  as_tibble() %&gt;%
+  mutate(conflict = if_else(value&gt;0, &quot;yes&quot;, &quot;no&quot;)) %&gt;%
+  count(conflict) -&gt; n_bas
+
+results$states %&gt;%
+  as_tibble() %&gt;%
+  mutate(conflict = if_else(value&gt;0, &quot;yes&quot;, &quot;no&quot;)) %&gt;%
+  count(conflict) -&gt; n_adm
+
+dat = data.frame(unit = c(&quot;states&quot;, &quot;basins&quot;), perc = c(n_adm$n[n_adm$conflict==&quot;yes&quot;]/n_adm$n[n_adm$conflict==&quot;no&quot;]*100,
+                                                        n_bas$n[n_bas$conflict==&quot;yes&quot;]/n_bas$n[n_bas$conflict==&quot;no&quot;]*100))
+
+ggplot(dat) +
+  geom_bar(aes(x=unit, y=perc, fill=unit), color = &quot;white&quot;, stat=&quot;identity&quot;, width = .5) +
+  theme_classic() +
+  labs(x=&quot;&quot;, y=&quot;Percentage of conflict district-months&quot;, fill=&quot;Unit of analysis&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>results$basins$unit = &quot;basin&quot;
+results$states$unit = &quot;states&quot;
+
+data = as_tibble(do.call(rbind, results))
+
+data %&gt;%
+  #filter(type == &quot;all&quot;) %&gt;%
+  mutate(conflict = if_else(value&gt;0, &quot;yes&quot;, &quot;no&quot;)) %&gt;%
+  group_by(id, unit, type) %&gt;%
+  summarise(conflict = sum(conflict == &quot;yes&quot;), deaths = sum(value)) %&gt;%
+  ggplot() +
+  geom_point(aes(x=conflict, y=deaths, color=unit), alpha=.4) +
+  facet_wrap(~type) +
+  theme_classic() +
+  labs(y=&quot;Number of casualties&quot;, x=&quot;Number of district-months with conflict&quot;,
+       color=&quot;Unit of analysis&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>data %&gt;%
+  #filter(type == &quot;all&quot;) %&gt;%
+  mutate(conflict = if_else(value&gt;0, &quot;yes&quot;, &quot;no&quot;)) %&gt;%
+  group_by(unit, type, time) %&gt;%
+  summarise(conflict = sum(conflict == &quot;yes&quot;), deaths = sum(value)) %&gt;%
+  ggplot() +
+  geom_line(aes(x=time, y=conflict, color=unit, group=unit), alpha=.6) +
+  facet_wrap(~type) +
+  theme_classic() +
+  labs(y=&quot;Number of districts with conflict&quot;, x=&quot;Time&quot;,
+       color=&quot;Unit of analysis&quot;) +
+  theme(axis.ticks.x=element_blank(),
+        axis.text.x=element_blank())</code></pre>
+<p><img src="figure/eda-response.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="spatial-pattern" class="section level1">
+<h1><span class="header-section-number">4</span> Spatial Pattern</h1>
+<pre class="r"><code>data %&gt;%
+  #filter(type == &quot;all&quot;) %&gt;%
+  mutate(conflict = if_else(value&gt;0, &quot;yes&quot;, &quot;no&quot;)) %&gt;%
+  group_by(id, unit, type) %&gt;%
+  summarise(conflict = sum(conflict == &quot;yes&quot;), deaths = sum(value)) %&gt;%
+  ungroup() %&gt;%
+  group_split(unit) -&gt; g_data
+names(g_data) = c(&quot;basin&quot;, &quot;states&quot;)
+
+adm$id = 1:nrow(adm)
+bas$id = 1:nrow(bas)
+
+adm = left_join(adm, g_data$states)
+bas = left_join(bas, g_data$basin)</code></pre>
+<pre class="r"><code>tm_shape(adm) +
+  tm_polygons(col = &quot;deaths&quot;, palette = &quot;-RdYlBu&quot;, breaks = c(0,10,50,100,500,1000,2000,4000,6000,8000,10000,+Inf), border.col = &quot;gray&quot;, lwd = .5) +
+  tm_facets(&quot;type&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/map-adm-deaths-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>tm_shape(adm) +
+  tm_polygons(col = &quot;conflict&quot;, palette = &quot;-RdYlBu&quot;, breaks = c(0,5,10,25,50,75,100,150,+Inf), border.col = &quot;gray&quot;, lwd = .5) +
+  tm_facets(&quot;type&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/map-adm-conficts-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>tm_shape(bas) +
+  tm_polygons(col = &quot;deaths&quot;, palette = &quot;-RdYlBu&quot;, breaks = c(0,10,50,100,500,1000,2000,4000,6000,8000,10000,+Inf), border.col = &quot;gray&quot;, lwd = .5) +
+  tm_facets(&quot;type&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/map-bas-deaths-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>tm_shape(bas) +
+  tm_polygons(col = &quot;conflict&quot;, palette = &quot;-RdYlBu&quot;, breaks = c(0,5,10,25,50,75,100,150,+Inf), border.col = &quot;gray&quot;, lwd = .5) +
+  tm_facets(&quot;type&quot;)</code></pre>
+<p><img src="figure/eda-response.Rmd/map-bas-conficts-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="refs">
+
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.3 (2020-02-29)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Debian GNU/Linux 10 (buster)
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.3.5.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] spacetime_1.2-3    lubridate_1.7.9.2  rgdal_1.5-18       countrycode_1.2.0 
+ [5] welchADF_0.3.2     rstatix_0.6.0      ggpubr_0.4.0       scales_1.1.1      
+ [9] RColorBrewer_1.1-2 latex2exp_0.4.0    cubelyr_1.0.0      gridExtra_2.3     
+[13] ggtext_0.1.1       magrittr_2.0.1     tmap_3.2           sf_0.9-7          
+[17] raster_3.4-5       sp_1.4-4           forcats_0.5.0      stringr_1.4.0     
+[21] purrr_0.3.4        readr_1.4.0        tidyr_1.1.2        tibble_3.0.6      
+[25] tidyverse_1.3.0    huwiwidown_0.0.1   kableExtra_1.3.1   knitr_1.31        
+[29] rmarkdown_2.7.3    bookdown_0.21      ggplot2_3.3.3      dplyr_1.0.2       
+[33] devtools_2.3.2     usethis_2.0.0     
+
+loaded via a namespace (and not attached):
+  [1] readxl_1.3.1       backports_1.2.0    workflowr_1.6.2   
+  [4] lwgeom_0.2-5       splines_3.6.3      crosstalk_1.1.0.1 
+  [7] leaflet_2.0.3      digest_0.6.27      htmltools_0.5.1.1 
+ [10] fansi_0.4.2        memoise_1.1.0      openxlsx_4.2.3    
+ [13] remotes_2.2.0      modelr_0.1.8       xts_0.12.1        
+ [16] prettyunits_1.1.1  colorspace_2.0-0   rvest_0.3.6       
+ [19] haven_2.3.1        xfun_0.21          leafem_0.1.3      
+ [22] callr_3.5.1        crayon_1.4.0       jsonlite_1.7.2    
+ [25] lme4_1.1-26        zoo_1.8-8          glue_1.4.2        
+ [28] stars_0.4-3        gtable_0.3.0       webshot_0.5.2     
+ [31] car_3.0-10         pkgbuild_1.2.0     abind_1.4-5       
+ [34] DBI_1.1.0          Rcpp_1.0.5         viridisLite_0.3.0 
+ [37] gridtext_0.1.4     units_0.6-7        foreign_0.8-71    
+ [40] intervals_0.15.2   htmlwidgets_1.5.3  httr_1.4.2        
+ [43] ellipsis_0.3.1     farver_2.0.3       pkgconfig_2.0.3   
+ [46] XML_3.99-0.3       dbplyr_2.0.0       utf8_1.1.4        
+ [49] labeling_0.4.2     tidyselect_1.1.0   rlang_0.4.10      
+ [52] later_1.1.0.1      tmaptools_3.1      munsell_0.5.0     
+ [55] cellranger_1.1.0   tools_3.6.3        cli_2.3.0         
+ [58] generics_0.1.0     broom_0.7.2        evaluate_0.14     
+ [61] yaml_2.2.1         processx_3.4.5     leafsync_0.1.0    
+ [64] fs_1.5.0           zip_2.1.1          nlme_3.1-150      
+ [67] whisker_0.4        xml2_1.3.2         compiler_3.6.3    
+ [70] rstudioapi_0.13    curl_4.3           png_0.1-7         
+ [73] e1071_1.7-4        testthat_3.0.1     ggsignif_0.6.0    
+ [76] reprex_0.3.0       statmod_1.4.35     stringi_1.5.3     
+ [79] highr_0.8          ps_1.5.0           desc_1.2.0        
+ [82] lattice_0.20-41    Matrix_1.2-18      nloptr_1.2.2.2    
+ [85] classInt_0.4-3     vctrs_0.3.6        pillar_1.4.7      
+ [88] lifecycle_0.2.0    data.table_1.13.2  httpuv_1.5.5      
+ [91] R6_2.5.0           promises_1.1.1     KernSmooth_2.23-18
+ [94] rio_0.5.16         sessioninfo_1.1.1  codetools_0.2-16  
+ [97] dichromat_2.0-0    boot_1.3-25        MASS_7.3-53       
+[100] assertthat_0.2.1   pkgload_1.1.0      rprojroot_2.0.2   
+[103] withr_2.4.1        parallel_3.6.3     hms_1.0.0         
+[106] grid_3.6.3         minqa_1.2.4        class_7.3-17      
+[109] carData_3.0-4      git2r_0.27.1       base64enc_0.1-3   </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
