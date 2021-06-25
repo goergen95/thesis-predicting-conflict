@@ -8,6 +8,24 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r meta-tags, include=FALSE, results='asis'}
+library(metathis)
+
+meta() %>%
+  meta_social(
+    title = "Predicting Violent Conflict in Africa",
+    description = "Leveraging Open Geodata and Deep Learning for Spatio-Temporal Event Detection.",
+    url = "https://goergen95.github.io/thesis-predicting-conflict/index.html",
+    image = "https://github.com/goergen95/thesis-predicting-conflict/blob/b7129814af0a13ebafddc19e177572990ef84858/docs/presentation_files/figure-html/conflict-map-1.png",
+    image_alt = "Conflicts aggregated on administrative units and sub-basin watersheds",
+    og_type = "website",
+    og_author = "Darius Görgen",
+    twitter_card_type = "summary_large_image"
+  )
+
+```
+
+
 ```{r echo=FALSE, results='asis'}
 library(stringr)
 lines = readLines("../README.md")
