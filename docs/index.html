@@ -13,6 +13,7 @@
 
 <title>Home</title>
 
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -35,6 +36,20 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<meta name="twitter:title" content="Predicting Violent Conflict in Africa"/>
+<meta name="twitter:description" content="Leveraging Open Geodata and Deep Learning for Spatio-Temporal Event Detection."/>
+<meta name="twitter:url" content="https://goergen95.github.io/thesis-predicting-conflict/index.html"/>
+<meta name="twitter:image:src" content="https://github.com/goergen95/thesis-predicting-conflict/blob/b7129814af0a13ebafddc19e177572990ef84858/docs/presentation_files/figure-html/conflict-map-1.png"/>
+<meta name="twitter:image:alt" content="Conflicts aggregated on administrative units and sub-basin watersheds"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta property="og:title" content="Predicting Violent Conflict in Africa"/>
+<meta property="og:description" content="Leveraging Open Geodata and Deep Learning for Spatio-Temporal Event Detection."/>
+<meta property="og:url" content="https://goergen95.github.io/thesis-predicting-conflict/index.html"/>
+<meta property="og:image" content="https://github.com/goergen95/thesis-predicting-conflict/blob/b7129814af0a13ebafddc19e177572990ef84858/docs/presentation_files/figure-html/conflict-map-1.png"/>
+<meta property="og:image:alt" content="Conflicts aggregated on administrative units and sub-basin watersheds"/>
+<meta property="og:type" content="website"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="article:author" content="Darius Görgen"/>
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -43,6 +58,8 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -306,12 +323,12 @@ div.tocify {
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row">
-<div class="col-sm-12 col-md-4 col-lg-3">
+<div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
 </div>
 
-<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -464,7 +481,7 @@ Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></sp
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-05-12
+<strong>Last updated:</strong> 2021-06-25
 </p>
 <p>
 <strong>Checks:</strong>
@@ -475,7 +492,7 @@ Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></sp
 </p>
 <p>
 <strong>Knit directory:</strong>
-<code>thesis/analysis/</code>
+<code>thesis-predicting-conflict/analysis/</code>
 <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed.">
 </span>
 </p>
@@ -536,8 +553,8 @@ For reproduciblity it’s best to always run the code in an empty environment.</
 <div id="strongSeedstrongcodesetseed20210321code" class="panel-collapse collapse">
 <div class="panel-body">
 <p>The command <code>set.seed(20210321)</code> was run prior to running the code in the R Markdown file.
-Setting a seed ensures that any results that rely on randomness,
-e.g. subsampling or permutations, are reproducible.</p>
+Setting a seed ensures that any results that rely on randomness, e.g.
+subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -592,20 +609,20 @@ makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomgoergen95thesispredictingconflicttree7fd4ff22f5358a6c33eed1bf33522591c13e5c7ftargetblank7fd4ff2a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomgoergen95thesispredictingconflicttreeb1528ac6ee80468147bccb664ff0b4505e4db971targetblankb1528aca">
 <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-<strong>Repository version:</strong> <a href="https://github.com/goergen95/thesis-predicting-conflict/tree/7fd4ff22f5358a6c33eed1bf33522591c13e5c7f" target="_blank">7fd4ff2</a>
+<strong>Repository version:</strong> <a href="https://github.com/goergen95/thesis-predicting-conflict/tree/b1528ac6ee80468147bccb664ff0b4505e4db971" target="_blank">b1528ac</a>
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomgoergen95thesispredictingconflicttree7fd4ff22f5358a6c33eed1bf33522591c13e5c7ftargetblank7fd4ff2a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomgoergen95thesispredictingconflicttreeb1528ac6ee80468147bccb664ff0b4505e4db971targetblankb1528aca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and
 connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/goergen95/thesis-predicting-conflict/tree/7fd4ff22f5358a6c33eed1bf33522591c13e5c7f" target="_blank">7fd4ff2</a>.
+The results in this page were generated with repository version <a href="https://github.com/goergen95/thesis-predicting-conflict/tree/b1528ac6ee80468147bccb664ff0b4505e4db971" target="_blank">b1528ac</a>.
 See the <em>Past versions</em> tab to see a history of the changes made to the
 R Markdown and HTML files.
 </p>
@@ -634,9 +651,6 @@ Ignored files:
     Ignored:    renv/library/
     Ignored:    renv/staging/
     Ignored:    report/presentation/
-
-Untracked files:
-    Untracked:  analysis/assets/
 
 </code></pre>
 <p>
@@ -686,6 +700,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/goergen95/thesis-predicting-conflict/blob/b1528ac6ee80468147bccb664ff0b4505e4db971/analysis/index.Rmd" target="_blank">b1528ac</a>
+</td>
+<td>
+Darius Görgen
+</td>
+<td>
+2021-06-25
+</td>
+<td>
+wflow_publish(“analysis/index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/goergen95/thesis-predicting-conflict/c7a27c2e0986b3c3e5ac2f7dcc7ee927c55dee9d/docs/index.html" target="_blank">c7a27c2</a>
+</td>
+<td>
+Darius Görgen
+</td>
+<td>
+2021-05-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/goergen95/thesis-predicting-conflict/blob/7fd4ff22f5358a6c33eed1bf33522591c13e5c7f/analysis/index.Rmd" target="_blank">7fd4ff2</a>
 </td>
 <td>
@@ -696,6 +744,40 @@ Darius Görgen
 </td>
 <td>
 workflowr::wflow_publish(files = list.files(“.”, “Rmd$”))
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/goergen95/thesis-predicting-conflict/blob/3cc16e8ec97c9059a829cfa65f1258c2a72db1b0/analysis/index.Rmd" target="_blank">3cc16e8</a>
+</td>
+<td>
+Darius Görgen
+</td>
+<td>
+2021-05-06
+</td>
+<td>
+wflow_publish(files = rmds, dry_run = F)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/goergen95/thesis-predicting-conflict/blob/641d9284fba29a0ea1c6418ae4e45de199f842d6/analysis/index.Rmd" target="_blank">641d928</a>
+</td>
+<td>
+Darius Görgen
+</td>
+<td>
+2021-05-06
+</td>
+<td>
+wflow_publish(files = rmds, dry_run = F)
 </td>
 </tr>
 <tr>
@@ -739,9 +821,9 @@ add content
 </div>
 </div>
 </div>
-<div id="predicting-violent-conflict-in-africa---leveraging-open-geodata-and-deep-learning-for-spatiotemporal-event-detection" class="section level1">
+<div id="predicting-violent-conflict-in-africa---leveraging-open-geodata-and-deep-learning-for-spatiotemporal-event-detection" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> <strong>Predicting violent conflict in Africa - Leveraging open geodata and deep learning for spatiotemporal event detection</strong></h1>
-<div id="abstract" class="section level2">
+<div id="abstract" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Abstract</h2>
 <p>Violent conflicts endanger human lives, the social cohesion of societies
 and the natural environment. While the number of intensive international conflicts
@@ -764,14 +846,14 @@ It is argued that in order to fulfill the requirements of effective conflict
 prevention efforts, prediction research will have to fully integrate modern deep
 learning frameworks and constant data streams on different earth processes in the future.</p>
 </div>
-<div id="graphical-abstract" class="section level2">
+<div id="graphical-abstract" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> Graphical Abstract</h2>
 <p><img src="assets/wf.svg" /></p>
 </div>
-<div id="disclaimer" class="section level2">
+<div id="disclaimer" class="section level2" number="1.3">
 <h2><span class="header-section-number">1.3</span> Disclaimer</h2>
 <p>This thesis was submitted to the Department of Geography, University of Marburg, in partial fulfillment of the requirements for the degree of M.Sc. Phyisical Geography. It was written by customizing the {<a href="https://github.com/phister/huwiwidown">huwiwidown</a>} template of the Berlin School of Buisness and Economics, HU Berlin. The online version of the thesis just wraps the original R Markdown files which were written to produce LaTex and builds a <a href="https://jdblischak.github.io/workflowr/">workflowr</a> project out of it. By the conversion to html some outputs my render not totally as expected. However, you can download the original pdf version from <a href="https://github.com/goergen95/thesis-predicting-conflict/blob/master/report/thesis-output/2021-03-24-thesis.pdf">here</a>. All code available in this repository is licensed under <a href="license.html">GPL-3</a>.</p>
-<div id="assets" class="section level3">
+<div id="assets" class="section level3" number="1.3.1">
 <h3><span class="header-section-number">1.3.1</span> Assets</h3>
 <ul>
 <li><p>An online version of the thesis powered by {<a href="https://github.com/jdblischak/workflowr">workflowr</a>} can be found <a href="https://goergen95.github.io/thesis-predicting-conflict/index.html">here</a></p></li>
@@ -787,36 +869,36 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.6.3 (2020-02-29)
+<pre><code>R version 4.1.0 (2021-05-18)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Debian GNU/Linux 10 (buster)
+Running under: Ubuntu 20.04.2 LTS
 
 Matrix products: default
-BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.3.5.so
+BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0
+LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
- [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
- [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [3] LC_TIME=de_DE.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=de_DE.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=de_DE.UTF-8       LC_NAME=C                 
  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+[11] LC_MEASUREMENT=de_DE.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] stringr_1.4.0
+[1] stringr_1.4.0  metathis_1.0.3
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.5        whisker_0.4       knitr_1.31        magrittr_2.0.1   
- [5] workflowr_1.6.2   R6_2.5.0          rlang_0.4.10      tools_3.6.3      
- [9] xfun_0.21         git2r_0.27.1      htmltools_0.5.1.1 ellipsis_0.3.1   
-[13] yaml_2.2.1        digest_0.6.27     rprojroot_2.0.2   tibble_3.0.6     
-[17] lifecycle_0.2.0   crayon_1.4.0      bookdown_0.21     later_1.1.0.1    
-[21] vctrs_0.3.6       fs_1.5.0          promises_1.1.1    glue_1.4.2       
-[25] evaluate_0.14     rmarkdown_2.7.3   stringi_1.5.3     compiler_3.6.3   
-[29] pillar_1.4.7      httpuv_1.5.5      pkgconfig_2.0.3  </code></pre>
+ [1] bookdown_0.22     workflowr_1.6.2   Rcpp_1.0.6        rprojroot_2.0.2  
+ [5] digest_0.6.27     later_1.2.0       R6_2.5.0          git2r_0.28.0     
+ [9] magrittr_2.0.1    evaluate_0.14     stringi_1.6.2     rlang_0.4.11     
+[13] fs_1.5.0          promises_1.2.0.1  whisker_0.4       rmarkdown_2.9    
+[17] tools_4.1.0       glue_1.4.2        purrr_0.3.4       httpuv_1.6.1     
+[21] xfun_0.24         yaml_2.2.1        compiler_4.1.0    htmltools_0.5.1.1
+[25] knitr_1.33       </code></pre>
 </div>
 </div>
 </div>
@@ -834,6 +916,8 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
+
 
 
 </div>
@@ -877,6 +961,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
